@@ -39,9 +39,11 @@ SECRET_KEY = get_secret("SECRET_KEY")
 
 USER_SALT = get_secret('USER_SALT')
 
+
 ALLOWED_HOSTS = []
 
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,7 +52,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,6 +67,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+
 
 TEMPLATES = [
     {
@@ -80,10 +85,12 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
