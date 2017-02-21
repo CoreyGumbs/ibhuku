@@ -39,3 +39,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 		else:
 			return self.first_name
 
+	def __unicode__(self):
+		if self.last_name:
+			return '{0}{1}'.format(self.first_name[:1], self.last_name)
+		else:
+			return self.first_name
+
+	def __str__(self):
+		if self.last_name:
+			return '{0}{1}'.format(self.first_name[:1], self.last_name)
+		else:
+			return self.first_name
+
+
