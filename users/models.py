@@ -1,10 +1,16 @@
+from __future__ import unicode_literals
+
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 
+
 from users.managers import UserManager
+
 
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
@@ -50,5 +56,24 @@ class User(AbstractBaseUser, PermissionsMixin):
 			return '{0}{1}'.format(self.first_name[:1], self.last_name)
 		else:
 			return self.first_name
+
+class Profile(models.Model):
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='usr_profile')
+
+	class Meta:
+
+		db_table = 'user_profiles'
+		verbose_name = _('profile')
+		verbose_name_plural = _('profiles')
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 

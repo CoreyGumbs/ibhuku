@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import factory
 
+from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.hashers import make_password
 
 
-from users.models import User
+from users.models import User, Profile
 
 class UserFactory(factory.django.DjangoModelFactory):
 	class Meta:
@@ -26,3 +27,11 @@ class RandomUserFactory(factory.django.DjangoModelFactory):
 	username = factory.LazyAttribute(lambda n: '{0}{1}'.format(n.first_name, n.last_name[:3]))
 	email = factory.LazyAttribute(lambda n: '{0}@testing.com'.format(n.first_name))
 	password = 'testpassword'
+
+
+@factory.django.mute_signals(pre_save, post_save)
+class UserProfileFactory(factory.django.DjangoModelFactory):
+	class Meta:
+		model = Profile
+
+	user = factory.SubFactory(UserFactory)
