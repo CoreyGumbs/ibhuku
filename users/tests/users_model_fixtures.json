@@ -1,14 +1,25 @@
 [
 	{
-		"model":,
+		"model": "Users",
 		"pk": 1,
-		"first_name":,
-		"last_name":,
-		"username":,
-		"email":,
-		"password":,
-		"is_active":,
-		"is_staff":,
+		"first_name": "McTest",
+		"last_name": "McTesty",
+		"username": "McTesty007",
+		"email": "McTesty@testing.com",
+		"password":"test",
+		"is_active": "False",
+		"is_staff": "False",
+	},
+	{
+		"model": "Users",
+		"pk": 2,
+		"first_name": "John",
+		"last_name": "Doe",
+		"username": "PillsburtDoeBoy",
+		"email": "JDoey@testing.com",
+		"password":"test",
+		"is_active": "False",
+		"is_staff": "False",
+	},
 
-	}
 ]
