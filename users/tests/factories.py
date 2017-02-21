@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 import factory
 
+from django.conf import settings
 from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.hashers import make_password
 
 
 from users.models import User, Profile
+from users.models import create_user_profile
 
+@factory.django.mute_signals(pre_save, post_save)
 class UserFactory(factory.django.DjangoModelFactory):
 	class Meta:
 		model = User
@@ -29,9 +32,14 @@ class RandomUserFactory(factory.django.DjangoModelFactory):
 	password = 'testpassword'
 
 
-@factory.django.mute_signals(pre_save, post_save)
+
 class UserProfileFactory(factory.django.DjangoModelFactory):
 	class Meta:
 		model = Profile
 
 	user = factory.SubFactory(UserFactory)
+
+
+def make_chain():
+	with factory.django.mute_signals(pre_save, post_save):
+		return UserProfileFactory()

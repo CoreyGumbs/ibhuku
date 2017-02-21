@@ -65,18 +65,29 @@ class TestUserModel:
         assert self.user1.__str__() == 'TMcTesty', 'Should return formatted name if last name provided by user.'
         assert self.user2.__str__() == 'John', 'Should return first name if no last name provided by user.'
 
+    def test_user_model_saves(self):
+        """
+        Test user model saves/updates user changed/new data.
+        """
+        self.user1.password = 'testpassword12345'
+        self.user1.is_active = True
+        self.user1.save()
+        assert self.user1.password == 'testpassword12345'
+        assert self.user1.is_active == True
 
-@factory.django.mute_signals(pre_save, post_save)
+
 @pytest.mark.django_db
 class TestProfileModel:
     """
     Test Profile Model.
     """
 
-    def test_print(self):
-        print_test = "it's working"
-        print(print_test)
-        assert print_test == "it's working"
+    def setup(self):
+        self.profile = UserProfileFactory()
+        self.users = Profile.objects.all()
+
+    def test_user_profile_instance_created(self):
+        assert len(self.users) == 1, 'Should return count of profiles created by user instance.'
 
 
 

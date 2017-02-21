@@ -58,7 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 			return self.first_name
 
 class Profile(models.Model):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user')
 
 	class Meta:
 
