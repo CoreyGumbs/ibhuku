@@ -4,6 +4,8 @@ cffi==1.9.1
 coverage==4.3.4
 Django==1.10.5
 django-crispy-forms==1.6.1
+factory-boy==2.8.1
+Faker==0.7.7
 olefile==0.44
 packaging==16.8
 Pillow==4.0.0
@@ -14,6 +16,7 @@ pyparsing==2.1.10
 pytest==3.0.6
 pytest-django==3.1.2
 pytest-sugar==0.8.0
+python-dateutil==2.6.0
 pytz==2016.10
 selenium==3.0.2
 six==1.10.0
