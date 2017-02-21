@@ -26,3 +26,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 		db_table = 'users'
 		verbose_name = _('user')
 		verbose_name_plural = _('users') 
+
+	def get_full_name(self):
+		if self.last_name:
+			return '{0}{1}'.format(self.first_name[:1], self.last_name)
+		else:
+			return self.first_name
+
+	def get_short_name(self):
+		if self.last_name:
+			return '{0}{1}'.format(self.first_name[:1], self.last_name)
+		else:
+			return self.first_name
+
