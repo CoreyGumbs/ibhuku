@@ -15,7 +15,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 	last_name = 'McTesty'
 	username = factory.LazyAttribute(lambda n: '{0}{1}'.format(n.first_name, n.last_name[:3]))
 	email = factory.LazyAttribute(lambda n: '{0}@testing.com'.format(n.first_name))
-	password = 'testpassword'
+	password = factory.Sequence(lambda n: 'testpassword{:04d}'.format(n))
 
 
 class RandomUserFactory(factory.django.DjangoModelFactory):

@@ -17,7 +17,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	first_name = models.CharField(_('first name'), max_length=100, blank=False)
 	last_name = models.CharField(_('last name'),max_length=100, blank = True)
 	username = models.CharField(_('username'), max_length=50, unique=True, blank=True)
-	email =  models.EmailField(_('email'),max_length=255, unique=True)
+	email =  models.EmailField(_('email'),max_length=255, unique=True, blank=False)
 	date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
 	last_login = models.DateTimeField(_('last login'), auto_now=True)
 	is_active =  models.BooleanField(_('active'), default=False)
@@ -58,11 +58,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 			return self.first_name
 
 class Profile(models.Model):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='usr_profile')
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 	class Meta:
 
-		db_table = 'user_profiles'
+		db_table = 'profiles'
 		verbose_name = _('profile')
 		verbose_name_plural = _('profiles')
 
@@ -72,8 +72,8 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 
