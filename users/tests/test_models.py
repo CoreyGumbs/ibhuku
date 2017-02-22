@@ -97,7 +97,8 @@ class TestProfileModel:
         """
         Test profile __unicode__() method returns.
         """
-        assert self.profile.__unicode__() == 'TMcTesty'
+        assert self.profile.__unicode__() == 'TMcTesty16', 'Should return user get_full_name method'
+
 
 
 

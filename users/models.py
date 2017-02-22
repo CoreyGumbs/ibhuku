@@ -66,6 +66,9 @@ class Profile(models.Model):
 		verbose_name = _('profile')
 		verbose_name_plural = _('profiles')
 
+	def __unicode__(self):
+		return self.user.get_full_name()
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
