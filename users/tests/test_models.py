@@ -79,7 +79,7 @@ class TestUserModel:
 
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 class TestProfileModel:
     """
     Test Profile Model.
@@ -106,21 +106,34 @@ class TestProfileModel:
         Test user profile created instance.
         """
         assert self.profile.user.get_full_name() == 'TMcTesty16'
-        assert self.profile.gender == 'O'
-     
+        assert self.profile2.user.get_full_name() == 'TMcTesty17'
+
+    def test_user_profile_gender_field(self):
+        """
+        Test user profile gender choice field selection.
+        """ 
+        assert self.profile.gender == 'F'
+        assert self.profile2.gender == 'O'
+
+    def test_user_profile_education_field(self):
+        """
+        Test user profile education choice field selection.
+        """
+        assert self.profile.education == 'AD'
+        assert self.profile2.education == 'NA'
 
     #Test of Profile Model methods
     def test_user_profile_model_unicode_method(self):
         """
         Test profile __unicode__() method returns user instance.
         """
-        assert self.profile.__unicode__() == 'TMcTesty18', 'Should return user get_full_name method.'
+        assert self.profile.__unicode__() == 'TMcTesty20', 'Should return user get_full_name method.'
 
     def test_user_profile_model_str_method(self):
         """
         Test profile __str__() method returns user instance.
         """
-        assert self.profile.__str__()  == 'TMcTesty20', 'Should return user get_full_name method.'
+        assert self.profile.__str__()  == 'TMcTesty22', 'Should return user get_full_name method.'
 
 
 

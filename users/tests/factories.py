@@ -47,6 +47,19 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
 			return 'F'
 		elif n % 3 == 2:
 			return 'O'
+		else:
+			return 'N'
+
+	@factory.sequence
+	def education(n):
+	 	if n % 3 == 0:
+	 		return 'AD'
+	 	elif n % 3 == 'BD':
+	 		return 'HS'
+	 	elif n % 3 == 2:
+	 		return 'MD'
+	 	else:
+	 		return 'NA'
 
 
 def make_chain():
