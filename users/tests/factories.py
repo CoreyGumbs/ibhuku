@@ -39,6 +39,15 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
 
 	user = factory.SubFactory(UserFactory)
 
+	@factory.sequence
+	def gender(n):
+		if n % 3 == 0:
+			return 'M'
+		elif n % 3 == 1:
+			return 'F'
+		elif n % 3 == 2:
+			return 'O'
+
 
 def make_chain():
 	with factory.django.mute_signals(pre_save, post_save):

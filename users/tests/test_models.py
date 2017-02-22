@@ -105,7 +105,9 @@ class TestProfileModel:
         """
         Test user profile created instance.
         """
-        pass
+        assert self.profile.user.get_full_name() == 'TMcTesty16'
+        assert self.profile.gender == 'O'
+     
 
     #Test of Profile Model methods
     def test_user_profile_model_unicode_method(self):
