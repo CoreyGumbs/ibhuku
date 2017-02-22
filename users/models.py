@@ -62,7 +62,10 @@ class Profile(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	verfied = models.BooleanField(_('verfied'), default=False)
 	gender = models.CharField(_('gender'), max_length=1, choices=GENDER_CHOICES, default='N')
-	education = models.CharField(_('education'), max_length=2, choices=EDUCATION_CHOICES, default='NA')
+	degree = models.CharField(_('education level'), max_length=2, choices=EDUCATION_CHOICES, default='NA')
+	bio = models.CharField(_('bio'), max_length=500, blank=True, null=True, default='Enter bio.')
+	occupation = models.CharField(_('occupation'), max_length=150, blank=True, null=True, default='Enter occupation.')
+	education = models.CharField(_('school'), max_length=150, blank=True, null=True, default='Enter school.')
 
 	class Meta:
 

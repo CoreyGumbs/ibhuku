@@ -51,7 +51,7 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
 			return 'N'
 
 	@factory.sequence
-	def education(n):
+	def degree(n):
 	 	if n % 3 == 0:
 	 		return 'AD'
 	 	elif n % 3 == 1:

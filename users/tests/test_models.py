@@ -115,12 +115,12 @@ class TestProfileModel:
         assert self.profile.gender == 'F'
         assert self.profile2.gender == 'O'
 
-    def test_user_profile_education_field(self):
+    def test_user_profile_degree_field(self):
         """
-        Test user profile education choice field selection.
+        Test user profile degree choice field selection.
         """
-        assert self.profile.education == 'AD'
-        assert self.profile2.education == 'BD'
+        assert self.profile.degree == 'AD'
+        assert self.profile2.degree == 'BD'
 
     #Test of Profile Model methods
     def test_user_profile_model_unicode_method(self):
