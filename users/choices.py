@@ -11,8 +11,8 @@ GENDER_CHOICES = (
 EDUCATION_CHOICES = (
         ('NA', 'N/A'),
         ('HS', 'Diploma'),
-        ('AA', 'Associates'),
-        ('BS', 'Bachelors'),
-        ('MS', 'Masters'),
-        ('DR', 'Doctorate'),
+        ('AD', 'Associates'),
+        ('BD', 'Bachelors'),
+        ('MD', 'Masters'),
+        ('PH', 'Doctorate'),
     )
