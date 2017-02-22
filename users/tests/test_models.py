@@ -23,6 +23,7 @@ class TestUserModel:
         self.user2 = UserFactory(first_name='John', last_name='', email='DoeBoy123@testing.com')
         self.users = User.objects.all()
 
+    #Test of User Model created instances
     def test_user1_instance_created(self):
         """
         Test for creation of a user instance in the database.
@@ -51,6 +52,17 @@ class TestUserModel:
         assert self.user1.get_short_name() == 'TMcTesty6', 'Should return formatted name if last name provided by user.'
         assert self.user2.get_short_name() ==  'John', 'Should return first name if no last name provided by user.'
 
+    def test_user_model_saves(self):
+        """
+        Test user model saves/updates user changed/new data.
+        """
+        self.user1.password = 'testpassword12345'
+        self.user1.is_active = True
+        self.user1.save()
+        assert self.user1.password == 'testpassword12345'
+        assert self.user1.is_active == True
+
+    #Test of User Model methods
     def test_user_model_unicode_method(self):
         """
         Test the user model's __unicode__() method.
@@ -65,15 +77,6 @@ class TestUserModel:
         assert self.user1.__str__() == 'TMcTesty10', 'Should return formatted name if last name provided by user.'
         assert self.user2.__str__() == 'John', 'Should return first name if no last name provided by user.'
 
-    def test_user_model_saves(self):
-        """
-        Test user model saves/updates user changed/new data.
-        """
-        self.user1.password = 'testpassword12345'
-        self.user1.is_active = True
-        self.user1.save()
-        assert self.user1.password == 'testpassword12345'
-        assert self.user1.is_active == True
 
 
 @pytest.mark.django_db
@@ -83,21 +86,39 @@ class TestProfileModel:
     """
 
     def setup(self):
+        """
+        Sets up test fixtures using Factory Boy instances. See factories.py module
+        for more info.
+        """
         self.profile = UserProfileFactory()
         self.profile2 = UserProfileFactory()
         self.users = Profile.objects.all()
-
-    def test_user_profile_instance_created(self):
+        
+    #Test of Profile Model created instances
+    def test_user_profile_instance_saved_in_database(self):
         """
-        Test profile instance created on user instance creation.
+        Test profile instances created in database.
         """
         assert len(self.users) == 2, 'Should return count of profiles created by user instance.'
 
+    def test_user_profile_instance_created(self):
+        """
+        Test user profile created instance.
+        """
+        pass
+
+    #Test of Profile Model methods
     def test_user_profile_model_unicode_method(self):
         """
-        Test profile __unicode__() method returns.
+        Test profile __unicode__() method returns user instance.
         """
-        assert self.profile.__unicode__() == 'TMcTesty16', 'Should return user get_full_name method'
+        assert self.profile.__unicode__() == 'TMcTesty16', 'Should return user get_full_name method.'
+
+    def test_user_profile_model_str_method(self):
+        """
+        Test profile __str__() method returns user instance.
+        """
+        assert self.profile.__str__()  == 'TMcTesty18', 'Should return user get_full_name method.'
 
 
 

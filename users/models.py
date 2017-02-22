@@ -69,6 +69,9 @@ class Profile(models.Model):
 	def __unicode__(self):
 		return self.user.get_full_name()
 
+	def __str__(self):
+		return self.user.get_full_name()
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
