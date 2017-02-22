@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 from users.managers import UserManager
+from users.choices import GENDER_CHOICES, EDUCATION_CHOICES
 
 
 # Create your models here.
@@ -58,7 +59,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 			return self.first_name
 
 class Profile(models.Model):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user')
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	verfied = models.BooleanField(_('verfied'), default=False)
+	gender = models.CharField(_('gender'), max_length=1, choices=GENDER_CHOICES, default='N')
+	education = models.CharField(_('education'), max_length=2, choices=EDUCATION_CHOICES, default='NA')
 
 	class Meta:
 
