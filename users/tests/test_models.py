@@ -8,7 +8,7 @@ from django.db.models.signals import pre_save, post_save
 from users.models import User, Profile
 from users.tests.factories import UserFactory, RandomUserFactory, UserProfileFactory
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 class TestUserModel:
     """
     Test for the Users Model.
@@ -67,14 +67,14 @@ class TestUserModel:
         """
         Test the user model's __unicode__() method.
         """
-        assert self.user1.__unicode__() == 'TMcTesty8', 'Should return formatted name if last name provided by user.'
+        assert self.user1.__unicode__() == 'TMcTesty10', 'Should return formatted name if last name provided by user.'
         assert self.user2.__unicode__() == 'John', 'Should return first name if no last name provided by user.'
 
     def test_user_model_str_method(self):
         """
         Test the user model's __str__() method.
         """
-        assert self.user1.__str__() == 'TMcTesty10', 'Should return formatted name if last name provided by user.'
+        assert self.user1.__str__() == 'TMcTesty12', 'Should return formatted name if last name provided by user.'
         assert self.user2.__str__() == 'John', 'Should return first name if no last name provided by user.'
 
 
@@ -93,7 +93,7 @@ class TestProfileModel:
         self.profile = UserProfileFactory()
         self.profile2 = UserProfileFactory()
         self.users = Profile.objects.all()
-        
+
     #Test of Profile Model created instances
     def test_user_profile_instance_saved_in_database(self):
         """
@@ -112,13 +112,13 @@ class TestProfileModel:
         """
         Test profile __unicode__() method returns user instance.
         """
-        assert self.profile.__unicode__() == 'TMcTesty16', 'Should return user get_full_name method.'
+        assert self.profile.__unicode__() == 'TMcTesty18', 'Should return user get_full_name method.'
 
     def test_user_profile_model_str_method(self):
         """
         Test profile __str__() method returns user instance.
         """
-        assert self.profile.__str__()  == 'TMcTesty18', 'Should return user get_full_name method.'
+        assert self.profile.__str__()  == 'TMcTesty20', 'Should return user get_full_name method.'
 
 
 
