@@ -54,8 +54,8 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
 	def education(n):
 	 	if n % 3 == 0:
 	 		return 'AD'
-	 	elif n % 3 == 'BD':
-	 		return 'HS'
+	 	elif n % 3 == 1:
+	 		return 'BD'
 	 	elif n % 3 == 2:
 	 		return 'MD'
 	 	else:
