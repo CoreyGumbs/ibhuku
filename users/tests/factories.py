@@ -10,10 +10,11 @@ from django.contrib.auth.hashers import make_password
 from users.models import User, Profile
 from users.models import create_user_profile
 
-#produces 'fake' data that is consistent 
-#every time test is run.
-#Test will fail when new names added to test class.
-#Just update new names to test and should pass.
+
+#produces 'fake' data that is consistent every time test runs.
+#any changes to factory will intiate new fake instances and fail tests.
+#just make necessary changes for test to pass.
+
 fake = Faker()
 fake.seed(4321)
 
@@ -22,11 +23,11 @@ class UserFactory(factory.django.DjangoModelFactory):
 	class Meta:
 		model = User
 
-	first_name = factory.LazyAttribute(lambda n: fake.first_name())
-	last_name = factory.LazyAttribute(lambda n: fake.last_name())
+	first_name = factory.Sequence(lambda n: 'Testy{0}'.format(n))
+	last_name = factory.Sequence(lambda n: 'McTesty{0}'.format(n))
 	username = factory.LazyAttribute(lambda n: '{0}{1}'.format(n.first_name, n.last_name[:3]))
 	email = factory.LazyAttribute(lambda n: '{0}@testing.com'.format(n.first_name))
-	password = factory.LazyAttribute(lambda n: '{0}'.format(fake.password()))
+	password = factory.Sequence(lambda n: 'testpassword{:04d}'.format(n))
 
 
 class UserProfileFactory(factory.django.DjangoModelFactory):

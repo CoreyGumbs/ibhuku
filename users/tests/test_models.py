@@ -28,9 +28,9 @@ class TestUserModel:
         """
         Test for creation of a user instance in the database.
         """
-        assert self.user1.first_name == 'Jonathan', 'Should return user first name.'
-        assert self.user1.email == 'Jonathan@testing.com', 'Should return user email.'
-        assert self.user1.password == '@2U&oPeldh', 'Should return user password.'
+        assert self.user1.first_name == 'Testy0', 'Should return user first name.'
+        assert self.user1.email == 'Testy0@testing.com', 'Should return user email.'
+        assert self.user1.password == 'testpassword0000', 'Should return user password.'
 
     def test_multiple_users_saved_in_database(self):
         """
@@ -42,14 +42,14 @@ class TestUserModel:
         """
         Test the user model's get_full_name() method.
         """
-        assert self.user1.get_full_name() == 'RKirk', 'Should return formatted name if last name provided by user.'
+        assert self.user1.get_full_name() == 'TMcTesty4', 'Should return formatted name if last name provided by user.'
         assert self.user2.get_full_name() == 'John', 'Should return first name if no last name provided by user.'
 
     def test_user_get_short_name_method(self):
         """
         Test the user model's get_short_name() method.
         """
-        assert self.user1.get_short_name() == 'VMorales', 'Should return formatted name if last name provided by user.'
+        assert self.user1.get_short_name() == 'TMcTesty6', 'Should return formatted name if last name provided by user.'
         assert self.user2.get_short_name() ==  'John', 'Should return first name if no last name provided by user.'
 
     def test_user_model_saves(self):
@@ -67,14 +67,14 @@ class TestUserModel:
         """
         Test the user model's __unicode__() method.
         """
-        assert self.user1.__unicode__() == 'TJackson', 'Should return formatted name if last name provided by user.'
+        assert self.user1.__unicode__() == 'TMcTesty10', 'Should return formatted name if last name provided by user.'
         assert self.user2.__unicode__() == 'John', 'Should return first name if no last name provided by user.'
 
     def test_user_model_str_method(self):
         """
         Test the user model's __str__() method.
         """
-        assert self.user1.__str__() == 'FDavis', 'Should return formatted name if last name provided by user.'
+        assert self.user1.__str__() == 'TMcTesty12', 'Should return formatted name if last name provided by user.'
         assert self.user2.__str__() == 'John', 'Should return first name if no last name provided by user.'
 
 
@@ -105,8 +105,8 @@ class TestProfileModel:
         """
         Test user foreign key reverse relation.
         """
-        assert self.profile.user.get_full_name() == 'KGeorge', 'Should call get_full_name method from user model.'
-        assert self.profile2.user.get_full_name() == 'PLopez', 'Should call get_full_name method from user model.'
+        assert self.profile.user.get_full_name() == 'TMcTesty16', 'Should call get_full_name method from user model.'
+        assert self.profile2.user.get_full_name() == 'TMcTesty17', 'Should call get_full_name method from user model.'
 
     def test_user_profile_gender_field(self):
         """
@@ -123,8 +123,8 @@ class TestProfileModel:
         assert self.profile2.degree == 'MD'
 
     def test_user_profile_bio_field(self):
-        assert self.profile.bio == 'Voluptates ex soluta itaque aperiam.'
-        assert self.profile2.bio == 'Consequuntur esse ad sequi est.'
+        assert self.profile.bio == 'Non optio distinctio quisquam voluptatem.'
+        assert self.profile2.bio == 'Quisquam consectetur ipsam consequuntur quam.'
 
 
     #Test of Profile Model methods
@@ -132,13 +132,13 @@ class TestProfileModel:
         """
         Test profile __unicode__() method returns user instance.
         """
-        assert self.profile.__unicode__() == 'SCollins', 'Should return user get_full_name method.'
+        assert self.profile.__unicode__() == 'TMcTesty24', 'Should return user get_full_name method.'
 
     def test_user_profile_model_str_method(self):
         """
         Test profile __str__() method returns user instance.
         """
-        assert self.profile.__str__()  == 'TShields', 'Should return user get_full_name method.'
+        assert self.profile.__str__()  == 'TMcTesty26', 'Should return user get_full_name method.'
 
 
 
