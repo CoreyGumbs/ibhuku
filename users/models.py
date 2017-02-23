@@ -67,7 +67,7 @@ class Profile(models.Model):
 	degree = models.CharField(_('education level'), max_length=2, choices=EDUCATION_CHOICES, default='NA')
 	bio = models.CharField(_('bio'), max_length=500, blank=True, null=True, default='Enter bio.')
 	occupation = models.CharField(_('occupation'), max_length=150, blank=True, null=True)
-	organization = models.CharField(_('school'), max_length=150, blank=True, null=True)
+	school = models.CharField(_('school'), max_length=150, blank=True, null=True)
 
 	class Meta:
 
