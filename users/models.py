@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 from users.managers import UserManager
-from users.choices import GENDER_CHOICES, EDUCATION_CHOICES
+from users.choices import GENDER_CHOICES, EDUCATION_CHOICES, ACCOUNT_TYPE
 
 
 # Create your models here.
@@ -19,6 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	last_name = models.CharField(_('last name'),max_length=100, blank = True)
 	username = models.CharField(_('username'), max_length=50, unique=True, blank=True)
 	email =  models.EmailField(_('email'),max_length=255, unique=True, blank=False)
+	acct_type = models.CharField(_('type'), max_length=3, default='IND')
 	date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
 	last_login = models.DateTimeField(_('last login'), auto_now=True)
 	is_active =  models.BooleanField(_('active'), default=False)
@@ -58,14 +59,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 		else:
 			return self.first_name
 
+
 class Profile(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	verfied = models.BooleanField(_('verfied'), default=False)
+	email_verfied = models.BooleanField(_('verfied'), default=False)
 	gender = models.CharField(_('gender'), max_length=1, choices=GENDER_CHOICES, default='N')
 	degree = models.CharField(_('education level'), max_length=2, choices=EDUCATION_CHOICES, default='NA')
 	bio = models.CharField(_('bio'), max_length=500, blank=True, null=True, default='Enter bio.')
 	occupation = models.CharField(_('occupation'), max_length=150, blank=True, null=True, default='Enter occupation.')
-	education = models.CharField(_('school'), max_length=150, blank=True, null=True, default='Enter school.')
+	organization = models.CharField(_('organization'), max_length=150, blank=True, null=True, default='Enter school.')
 
 	class Meta:
 

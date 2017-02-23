@@ -36,6 +36,7 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
 
 	user = factory.SubFactory(UserFactory)
 	bio = factory.LazyAttribute(lambda n: fake.text(max_nb_chars=50))
+	occupation = 'Professor'
 
 	@factory.sequence
 	def gender(n):

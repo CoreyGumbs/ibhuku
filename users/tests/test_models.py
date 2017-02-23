@@ -58,9 +58,11 @@ class TestUserModel:
         """
         self.user1.password = 'testpassword12345'
         self.user1.is_active = True
+        self.user1.acct_type = 'EDU'
         self.user1.save()
         assert self.user1.password == 'testpassword12345'
         assert self.user1.is_active == True
+        assert self.user1.acct_type == 'EDU'
 
     #Test of User Model methods
     def test_user_model_unicode_method(self):
@@ -76,7 +78,6 @@ class TestUserModel:
         """
         assert self.user1.__str__() == 'TMcTesty12', 'Should return formatted name if last name provided by user.'
         assert self.user2.__str__() == 'John', 'Should return first name if no last name provided by user.'
-
 
 
 @pytest.mark.django_db
@@ -126,19 +127,31 @@ class TestProfileModel:
         assert self.profile.bio == 'Non optio distinctio quisquam voluptatem.'
         assert self.profile2.bio == 'Quisquam consectetur ipsam consequuntur quam.'
 
+    def test_user_profile_saves(self):
+        """
+        Test profile model saves/updates new/changed data.
+        """
+        assert self.profile.occupation == 'Professor'
+        
+        self.profile.occupation = 'Teacher'
+        self.profile.organization = 'Full Sail University'
+        self.profile.save()
+
+        assert self.profile.occupation == 'Teacher'
+        assert self.profile.organization == 'Full Sail University'
 
     #Test of Profile Model methods
     def test_user_profile_model_unicode_method(self):
         """
         Test profile __unicode__() method returns user instance.
         """
-        assert self.profile.__unicode__() == 'TMcTesty24', 'Should return user get_full_name method.'
+        assert self.profile.__unicode__() == 'TMcTesty26', 'Should return user get_full_name method.'
 
     def test_user_profile_model_str_method(self):
         """
         Test profile __str__() method returns user instance.
         """
-        assert self.profile.__str__()  == 'TMcTesty26', 'Should return user get_full_name method.'
+        assert self.profile.__str__()  == 'TMcTesty28', 'Should return user get_full_name method.'
 
 
 
