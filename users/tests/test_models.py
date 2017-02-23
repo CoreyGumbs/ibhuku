@@ -134,11 +134,11 @@ class TestProfileModel:
         assert self.profile.occupation == 'Professor'
         
         self.profile.occupation = 'Teacher'
-        self.profile.organization = 'Full Sail University'
+        self.profile.school = 'Full Sail University'
         self.profile.save()
 
         assert self.profile.occupation == 'Teacher'
-        assert self.profile.organization == 'Full Sail University'
+        assert self.profile.school == 'Full Sail University'
 
     #Test of Profile Model methods
     def test_user_profile_model_unicode_method(self):
