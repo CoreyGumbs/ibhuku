@@ -28,3 +28,10 @@ class TestCreateAccountView():
         response = client.get('/accounts/register/')
         assert response.status_code == 200, 'Should return 200.'
         assert response.resolver_match.func.__name__ == 'CreateUserAccountView', 'Should return name of view.'
+
+    def test_create_user_account_view_template(self, client):
+        """
+        Test CreateUserAccountView template.
+        """
+        response = client.get('/accounts/register/')
+        assert response == 'users/registration.html'
