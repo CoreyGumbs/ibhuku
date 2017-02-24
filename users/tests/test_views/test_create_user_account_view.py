@@ -5,14 +5,25 @@ import factory.django
 
 from django.test import TestCase
 
+from users.tests.factories import UserFactory
 from users.models import User
 from users.views import CreateUserAccountView
 
-
+@pytest.mark.django_db
 class TestCreateAccountView:
     """
     Test of CreateUserAccountView
     """
+
+    def setup(self):
+        """
+        Sets up test fixtures using Factory Boy instances. See factories.py module
+        for more information.
+        """
+        self.user = UserFactory()
+
+    def test_user_exist(self):
+        assert len(User.objects.all()) == 1
 
     def test_accounts_index_redirects_to_registration_view(self, client):
         """
@@ -41,3 +52,6 @@ class TestCreateAccountView:
         """
         response = client.get('/accounts/register/')
         assert '<title>Ibhuku | Register</title>' in response.content.decode('utf8')
+
+    def test_create_user_account_view_template_context(self, client):
+        pass
