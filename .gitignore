@@ -9,3 +9,6 @@ media
 .coverage
 htmlcov
 *.log
+.cache/
+pytest.ini
+migrations
