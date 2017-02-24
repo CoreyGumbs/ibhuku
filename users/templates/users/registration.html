@@ -5,5 +5,8 @@
 {%block user_title%}Ibhuku | Register{%endblock user_title%}
 
 {%block user_content%}
-	{{form.as_p}}
+	<form>	
+		{{form.as_p}}
+		<button class='btn btn-success' value='submit'>Submit</button>
+	</form>
 {%endblock user_content%}

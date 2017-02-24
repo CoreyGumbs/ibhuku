@@ -3,10 +3,24 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>{%block user_title%}Ibhuku | Welcome {% endblock user_title%}</title>
+	<title>
+		{%block user_title%}Ibhuku | Welcome {% endblock user_title%}
+	</title>
+	{%block stylesheets%}
+		{%include 'bootstrap_css/bootstrap3.html'%}
+	{%endblock stylesheets%}
 </head>
 <body>
-	{%block user_content%}
-	{%endblock user_content%}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				{%block user_content%}{%endblock user_content%}
+			</div>
+		</div>
+	</div>
 </body>
+{%block global_javascript%}
+	{%include 'javascript/global_javascript.html'%}
+	{%block javascript%}{%endblock javascript%}
+{%endblock global_javascript%}
 </html>

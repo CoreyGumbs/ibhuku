@@ -55,4 +55,7 @@ class TestUserRegisrationForm:
         response = client.get('/accounts/register/')
         assert '<p>' in response.content.decode('utf8')
 
+    def test_user_registration_form_errors(self, client):
+        response =  client.post('/accounts/register/', {'first_name':'', 'last_name': ''})
+        
 
