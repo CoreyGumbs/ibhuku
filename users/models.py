@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 from users.managers import UserManager
-from users.choices import GENDER_CHOICES, EDUCATION_CHOICES, ACCOUNT_TYPE
+from users.choices import ACCOUNT_TYPE
 
 
 # Create your models here.
