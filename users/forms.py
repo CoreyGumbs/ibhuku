@@ -8,8 +8,8 @@ from django.contrib.auth.hashers import make_password
 from users.models import User
 
 class UserRegistrationForm(ModelForm):
-	
+
 	class Meta:
 		model = User
 		fields = ('first_name', 'last_name', 'email', 'password', 'acct_type', 'toc')
-		#fields_required = ('first_name', 'last_name', 'email')
+		fields_required = ('first_name', 'last_name', 'email', 'password','acct_type', 'toc',)
