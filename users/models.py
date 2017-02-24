@@ -18,7 +18,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	last_name = models.CharField(_('last name'),max_length=100, blank = True)
 	username = models.CharField(_('username'), max_length=50, unique=True, blank=True)
 	email =  models.EmailField(_('email'),max_length=255, unique=True, blank=False)
-	acct_type = models.CharField(_('type'), max_length=3, choices=ACCOUNT_TYPE, default='IND')
+	acct_type = models.CharField(_('account type'), max_length=3, choices=ACCOUNT_TYPE, default='IND')
 	toc = models.BooleanField(_('terms of conditions'), blank=False, default=False)
 	date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
 	last_login = models.DateTimeField(_('last login'), auto_now=True)
