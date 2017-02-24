@@ -3,8 +3,6 @@ import pytest
 import factory
 import factory.django
 
-from django.test import TestCase
-
 from users.tests.factories import UserFactory
 from users.models import User
 from users.views import CreateUserAccountView
@@ -44,14 +42,18 @@ class TestCreateAccountView:
 
     def test_create_user_account_view_template(self, client):
         response = client.get('/accounts/register/')
-        assert response.templates[0].name == 'users/registration.html'
+        assert response.templates[0].name == 'users/registration.html', 'Should return rendered template path.'
 
     def test_create_user_account_view_template_content(self, client):
         """
         Test CreateUserAccountView template.
         """
         response = client.get('/accounts/register/')
-        assert '<title>Ibhuku | Register</title>' in response.content.decode('utf8')
+        assert '<title>Ibhuku | Register</title>' in response.content.decode('utf8'), 'Should return current title data.'
 
     def test_create_user_account_view_template_context(self, client):
-        pass
+        """
+        Test template context rendering.
+        """
+        response = client.get('/accounts/register/')
+        assert 'test' in response.context
