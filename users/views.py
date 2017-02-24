@@ -4,4 +4,4 @@ from django.urls import reverse_lazy
 
 # Create your views here.
 def CreateUserAccountView(request):
-	return render(request, 'users/registration.html')
+	return render(request, 'users/registration.html', context={'test': 'test'})
