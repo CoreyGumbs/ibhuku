@@ -53,6 +53,6 @@ class TestUserRegisrationForm:
 
     def test_user_registration_form_html_render(self, client):
         response = client.get('/accounts/register/')
-        assert 'input' in response.content.decode('utf8')
+        assert '<p>' in response.content.decode('utf8')
 
 
