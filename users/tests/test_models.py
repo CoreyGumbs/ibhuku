@@ -5,8 +5,8 @@ import factory.django
 
 from django.db.models.signals import pre_save, post_save
 
-from users.models import User, Profile
-from users.tests.factories import UserFactory, UserProfileFactory
+from users.models import User
+from users.tests.factories import UserFactory
 
 @pytest.mark.django_db
 class TestUserModel:
@@ -80,78 +80,6 @@ class TestUserModel:
         assert self.user2.__str__() == 'John', 'Should return first name if no last name provided by user.'
 
 
-@pytest.mark.django_db
-class TestProfileModel:
-    """
-    Test Profile Model.
-    """
-
-    def setup(self):
-        """
-        Sets up test fixtures using Factory Boy instances. See factories.py module
-        for more info.
-        """
-        self.profile = UserProfileFactory()
-        self.profile2 = UserProfileFactory()
-        self.users = Profile.objects.all()
-
-    #Test of Profile Model created instances
-    def test_user_profile_instance_saved_in_database(self):
-        """
-        Test profile instances created in database.
-        """
-        assert len(self.users) == 2, 'Should return count of profiles created by user instance.'
-
-    def test_user_profile_instance_created(self):
-        """
-        Test user foreign key reverse relation.
-        """
-        assert self.profile.user.get_full_name() == 'TMcTesty16', 'Should call get_full_name method from user model.'
-        assert self.profile2.user.get_full_name() == 'TMcTesty17', 'Should call get_full_name method from user model.'
-
-    def test_user_profile_gender_field(self):
-        """
-        Test user profile gender choice field selection.
-        """ 
-        assert self.profile.gender == 'M', 'Should select M gender from choices.'
-        assert self.profile2.gender == 'F', 'Should select F gender from choices.'
-
-    def test_user_profile_degree_field(self):
-        """
-        Test user profile degree choice field selection.
-        """
-        assert self.profile.degree == 'BD'
-        assert self.profile2.degree == 'MD'
-
-    def test_user_profile_bio_field(self):
-        assert self.profile.bio == 'Non optio distinctio quisquam voluptatem.'
-        assert self.profile2.bio == 'Quisquam consectetur ipsam consequuntur quam.'
-
-    def test_user_profile_saves(self):
-        """
-        Test profile model saves/updates new/changed data.
-        """
-        assert self.profile.occupation == 'Professor'
-        
-        self.profile.occupation = 'Teacher'
-        self.profile.school = 'Full Sail University'
-        self.profile.save()
-
-        assert self.profile.occupation == 'Teacher'
-        assert self.profile.school == 'Full Sail University'
-
-    #Test of Profile Model methods
-    def test_user_profile_model_unicode_method(self):
-        """
-        Test profile __unicode__() method returns user instance.
-        """
-        assert self.profile.__unicode__() == 'TMcTesty26', 'Should return user get_full_name method.'
-
-    def test_user_profile_model_str_method(self):
-        """
-        Test profile __str__() method returns user instance.
-        """
-        assert self.profile.__str__()  == 'TMcTesty28', 'Should return user get_full_name method.'
 
 
 

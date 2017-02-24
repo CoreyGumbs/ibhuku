@@ -2,8 +2,6 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
-from django.db.models.signals import pre_save, post_save
-from django.dispatch import receiver
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
@@ -15,11 +13,13 @@ from users.choices import GENDER_CHOICES, EDUCATION_CHOICES, ACCOUNT_TYPE
 
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
+
 	first_name = models.CharField(_('first name'), max_length=100, blank=False)
 	last_name = models.CharField(_('last name'),max_length=100, blank = True)
 	username = models.CharField(_('username'), max_length=50, unique=True, blank=True)
 	email =  models.EmailField(_('email'),max_length=255, unique=True, blank=False)
-	acct_type = models.CharField(_('type'), max_length=3, default='IND')
+	acct_type = models.CharField(_('type'), max_length=3, choices=ACCOUNT_TYPE, default='IND')
+	toc = models.BooleanField(_('terms of conditions'), blank=False, default=False)
 	date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
 	last_login = models.DateTimeField(_('last login'), auto_now=True)
 	is_active =  models.BooleanField(_('active'), default=False)
@@ -60,35 +60,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 			return self.first_name
 
 
-class Profile(models.Model):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	email_verfied = models.BooleanField(_('verfied'), default=False)
-	gender = models.CharField(_('gender'), max_length=1, choices=GENDER_CHOICES, default='N')
-	degree = models.CharField(_('education level'), max_length=2, choices=EDUCATION_CHOICES, default='NA')
-	bio = models.CharField(_('bio'), max_length=500, blank=True, null=True, default='Enter bio.')
-	occupation = models.CharField(_('occupation'), max_length=150, blank=True, null=True)
-	school = models.CharField(_('school'), max_length=150, blank=True, null=True)
-
-	class Meta:
-
-		db_table = 'profiles'
-		verbose_name = _('profile')
-		verbose_name_plural = _('profiles')
-
-	def __unicode__(self):
-		return self.user.get_full_name()
-
-	def __str__(self):
-		return self.user.get_full_name()
-
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
 
 
