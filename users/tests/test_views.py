@@ -3,11 +3,13 @@ import pytest
 import factory
 import factory.django
 
+from django.test import TestCase
+
 from users.models import User
 from users.views import CreateUserAccountView
 
 
-class TestCreateAccountView():
+class TestCreateAccountView:
     """
     Test of CreateUserAccountView
     """
@@ -30,8 +32,12 @@ class TestCreateAccountView():
         assert response.resolver_match.func.__name__ == 'CreateUserAccountView', 'Should return name of view.'
 
     def test_create_user_account_view_template(self, client):
+        response = client.get('/accounts/register/')
+        assert response.templates[0].name == 'users/registration.html'
+
+    def test_create_user_account_view_template_content(self, client):
         """
         Test CreateUserAccountView template.
         """
         response = client.get('/accounts/register/')
-        assert response == 'users/registration.html'
+        assert '<title>Ibhuku | Register</title>' in response.content.decode('utf8')
