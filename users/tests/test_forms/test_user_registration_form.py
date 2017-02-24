@@ -51,4 +51,8 @@ class TestUserRegisrationForm:
         assert self.form.is_valid() ==  False
         assert self.form2.is_valid() == True
 
+    def test_user_registration_form_html_render(self, client):
+        response = client.get('/accounts/register/')
+        assert 'input' in response.content.decode('utf8')
+
 

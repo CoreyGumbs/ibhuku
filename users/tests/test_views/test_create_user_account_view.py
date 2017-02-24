@@ -56,4 +56,4 @@ class TestCreateAccountView:
         Test template context rendering.
         """
         response = client.get('/accounts/register/')
-        assert 'test' in response.context
+        assert 'form' in response.context
