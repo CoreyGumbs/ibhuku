@@ -8,11 +8,13 @@ from users.tests.factories import UserFactory
 from users.models import User
 from users.forms import UserRegistrationForm
 
+
 @pytest.mark.django_db
 class TestUserRegisrationForm:
     """
     Test of User Registration Form.
     """
+
     def setup(self):
         """
         Sets up test fixtures using Factory Boy instances. See factories.py module
@@ -33,22 +35,24 @@ class TestUserRegisrationForm:
         """
         self.form = UserRegistrationForm(data={})
 
-        #As per Django documentation, the data={} will return True even if no kwargs passed.
+        # As per Django documentation, the data={} will return True even if no
+        # kwargs passed.
         assert self.form.is_bound == True, 'Returns True if form is bound by data.'
 
     def test_user_registration_form_is_valid(self):
 
-        #Hardcoded kwargs as form wont take self.data fixture. Will return False.
+        # Hardcoded kwargs as form wont take self.data fixture. Will return
+        # False.
         self.form2 = UserRegistrationForm(data={
-                'first_name': 'Testy',
-                'last_name': 'McTesty',
-                'email': 'McTesty@testing.com',
-                'password': 'testpassword1234',
-                'acct_type': 'IND',
-                'toc': False,
-            })
+            'first_name': 'Testy',
+            'last_name': 'McTesty',
+            'email': 'McTesty@testing.com',
+            'password': 'testpassword1234',
+            'acct_type': 'IND',
+            'toc': False,
+        })
 
-        assert self.form.is_valid() ==  False
+        assert self.form.is_valid() == False
         assert self.form2.is_valid() == True
 
     def test_user_registration_form_html_render(self, client):
@@ -56,6 +60,5 @@ class TestUserRegisrationForm:
         assert '<p>' in response.content.decode('utf8')
 
     def test_user_registration_form_errors(self, client):
-        response =  client.post('/accounts/register/', {'first_name':'', 'last_name': ''})
-        
-
+        response = client.post('/accounts/register/',
+                               {'first_name': '', 'last_name': ''})
