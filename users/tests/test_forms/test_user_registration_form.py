@@ -39,22 +39,15 @@ class TestUserRegisrationForm:
         # kwargs passed.
         assert self.form.is_bound == True, 'Returns True if form is bound by data.'
 
-    # def test_user_registration_form_is_valid(self):
+    def test_user_registration_form_is_valid(self):
 
-    #     # Hardcoded kwargs as form wont take self.data fixture. Will return
-    #     # False.
-    #     self.form2 = UserRegistrationForm(data={
-    #         'first_name': 'Testy',
-    #         'last_name': 'McTesty',
-    #         'email': 'McTesty@testing.com',
-    #         'password': 'testpassword1234',
-    #         'confirm_password': 'testpassword1234',
-    #         'acct_type': 'IND',
-    #         'toc': False,
-    #     })
+        # Hardcoded kwargs as form wont take self.data fixture. Will return
+        # False.
+        data = {'first_name': 'Testy', 'last_name': 'McTesty', 'email': 'McTesty@testing.com', 'password': 'testpassword1234', 'confirm_password': 'testpassword1234', 'acct_type': 'IND', 'toc': False, }
+        self.form2 = UserRegistrationForm(data=data)
 
-    #     assert self.form.is_valid() == False
-    #     assert self.form2.is_valid() == True
+        assert self.form.is_valid() == False
+        #assert self.form2.is_valid == True
 
     def test_user_registration_form_html_render(self, client):
         response = client.get('/accounts/register/')
