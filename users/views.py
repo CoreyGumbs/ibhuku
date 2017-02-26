@@ -4,10 +4,15 @@ from django.urls import reverse_lazy
 
 from users.forms import UserRegistrationForm
 # Create your views here.
+
+
 def CreateUserAccountView(request):
-	form = UserRegistrationForm()
+	if request.method == 'POST':
+		form = UserRegistrationForm(request.POST)
+	else:
+		form = UserRegistrationForm()
 
 	context = {
-		'form' : form,
+		'form': form,
 	}
 	return render(request, 'users/registration.html', context)

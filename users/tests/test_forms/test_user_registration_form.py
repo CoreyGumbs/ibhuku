@@ -43,11 +43,21 @@ class TestUserRegisrationForm:
 
         # Hardcoded kwargs as form wont take self.data fixture. Will return
         # False.
-        data = {'first_name': 'Testy', 'last_name': 'McTesty', 'email': 'McTesty@testing.com', 'password': 'testpassword1234', 'confirm_password': 'testpassword1234', 'acct_type': 'IND', 'toc': False, }
+        data={
+                'first_name': 'Testy', 
+                'last_name': 'McTesty', 
+                'email': 'McTesty@testing.com', 
+                'password': 'testpassword1234', 
+                'confirm_password': 'testpassword1234', 
+                'acct_type': 'IND', 
+                'toc': True, 
+            }
+
         self.form2 = UserRegistrationForm(data=data)
 
         assert self.form.is_valid() == False
-        #assert self.form2.is_valid == True
+        print(self.form2.errors)
+        assert self.form2.is_valid() == True
 
     def test_user_registration_form_html_render(self, client):
         response = client.get('/accounts/register/')
