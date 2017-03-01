@@ -42,3 +42,24 @@ class UserRegistrationForm(ModelForm):
 					css_class='col-md-12', style='margin-top:50px;',
 				),
 			)
+
+	def clean_confirm_password(self):
+		password = self.cleaned_data.get('password')
+		confirm_password = self.cleaned_data.get('confirm_password')
+
+		if password != confirm_password:
+			raise forms.ValidationError(_("Passwords don't match."))
+		else:
+			return password
+
+	def clean_password(self):
+		password = self.cleaned_data.get('password')
+		confirm_password = self.cleaned_data.get('confirm_password')
+
+		if password == confirm_password:
+			if len(password) < 8:
+				raise forms.ValidationError(_('Password must be at least 8 characters.'))
+			else:
+				password_hashed =  make_password(password)
+				return password_hashed
+

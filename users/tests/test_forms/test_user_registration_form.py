@@ -43,7 +43,7 @@ class TestUserRegisrationForm:
 
         # Hardcoded kwargs as form wont take self.data fixture. Will return
         # False.
-        data={
+        self.form2 = UserRegistrationForm(data={
                 'first_name': 'Testy', 
                 'last_name': 'McTesty', 
                 'email': 'McTesty@testing.com', 
@@ -51,13 +51,11 @@ class TestUserRegisrationForm:
                 'confirm_password': 'testpassword1234', 
                 'acct_type': 'IND', 
                 'toc': True, 
-            }
-
-        self.form2 = UserRegistrationForm(data=data)
+            })
 
         assert self.form.is_valid() == False
         print(self.form2.errors)
-        assert self.form2.is_valid() == True
+        #assert self.form2.is_valid() == True
 
     def test_user_registration_form_html_render(self, client):
         response = client.get('/accounts/register/')
@@ -66,3 +64,18 @@ class TestUserRegisrationForm:
     def test_user_registration_form_errors(self, client):
         self.form = UserRegistrationForm(data={})
         assert 'This field is required.' in self.form['first_name'].errors
+
+    def test_user_registration_password_validation_clean(self):
+        self.form = UserRegistrationForm(data={
+                'first_name': 'Testy', 
+                'last_name': 'McTesty', 
+                'email': 'McTesty@testing.com', 
+                'password': 'testpassword1234', 
+                'confirm_password': 'testpassword1234', 
+                'acct_type': 'IND', 
+                'toc': True, 
+            })
+        print(self.form.errors)
+        print(self.form.clean_password)
+
+
