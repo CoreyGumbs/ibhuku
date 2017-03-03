@@ -7,12 +7,14 @@ from users.forms import UserRegistrationForm
 
 
 def CreateUserAccountView(request):
-	if request.method == 'POST':
-		form = UserRegistrationForm(request.POST)
-	else:
-		form = UserRegistrationForm()
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            return HttpResponse('it works')
+    else:
+        form = UserRegistrationForm()
 
-	context = {
-		'form': form,
-	}
-	return render(request, 'users/registration.html', context)
+    context = {
+        'form': form,
+    }
+    return render(request, 'users/registration.html', context)

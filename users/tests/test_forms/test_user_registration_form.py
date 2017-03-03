@@ -43,23 +43,23 @@ class TestUserRegisrationForm:
 
         # Hardcoded kwargs as form wont take self.data fixture. Will return
         # False.
-        self.form2 = UserRegistrationForm(data={
-                'first_name': 'Testy', 
-                'last_name': 'McTesty', 
-                'email': 'McTesty@testing.com', 
-                'password': 'testpassword1234', 
-                'confirm_password': 'testpassword1234', 
-                'acct_type': 'IND', 
-                'toc': True, 
-            })
+        self.form = UserRegistrationForm(data={
+            'first_name': 'Testy',
+            'last_name': 'McTesty',
+            'email': 'McTesty@testing.com',
+            'password': 'testpassword1234',
+            'confirm_password': 'testpassword1234',
+            'acct_type': 'IND',
+            'toc': True,
+        })
 
         assert self.form.is_valid() == False
-        print(self.form2.errors)
         #assert self.form2.is_valid() == True
 
     def test_user_registration_form_html_render(self, client):
         response = client.get('/accounts/register/')
-        assert '<label for="id_acct_type" class="control-label  requiredField">' in response.content.decode('utf8')
+        assert '<label for="id_acct_type" class="control-label  requiredField">' in response.content.decode(
+            'utf8')
 
     def test_user_registration_form_errors(self, client):
         self.form = UserRegistrationForm(data={})
@@ -67,15 +67,11 @@ class TestUserRegisrationForm:
 
     def test_user_registration_password_validation_clean(self):
         self.form = UserRegistrationForm(data={
-                'first_name': 'Testy', 
-                'last_name': 'McTesty', 
-                'email': 'McTesty@testing.com', 
-                'password': 'testpassword1234', 
-                'confirm_password': 'testpassword1234', 
-                'acct_type': 'IND', 
-                'toc': True, 
-            })
-        print(self.form.errors)
-        print(self.form.clean_password)
-
-
+            'first_name': 'Testy',
+            'last_name': 'McTesty',
+            'email': 'McTesty@testing.com',
+            'password': 'testpassword1234',
+            'confirm_password': 'testpassword1234',
+            'acct_type': 'IND',
+            'toc': True,
+        })

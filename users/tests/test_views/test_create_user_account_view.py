@@ -7,6 +7,7 @@ from users.tests.factories import UserFactory
 from users.models import User
 from users.views import CreateUserAccountView
 
+
 @pytest.mark.django_db
 class TestCreateAccountView:
     """
@@ -25,7 +26,7 @@ class TestCreateAccountView:
 
     def test_accounts_index_redirects_to_registration_view(self, client):
         """
-        Test that the accounts index directory 
+        Test that the accounts index directory
         and url: '/accounts/' redirects to '/accounts/register/'.
         """
         response = client.get('/accounts/', follow=True)
@@ -42,14 +43,16 @@ class TestCreateAccountView:
 
     def test_create_user_account_view_template(self, client):
         response = client.get('/accounts/register/')
-        assert response.templates[0].name == 'users/registration.html', 'Should return rendered template path.'
+        assert response.templates[
+            0].name == 'users/registration.html', 'Should return rendered template path.'
 
     def test_create_user_account_view_template_content(self, client):
         """
         Test CreateUserAccountView template.
         """
         response = client.get('/accounts/register/')
-        assert '<title>Ibhuku | Register</title>' in response.content.decode('utf8'), 'Should return current title data.'
+        assert 'Ibhuku | Register' in response.content.decode(
+            'utf8'), 'Should return current title data.'
 
     def test_create_user_account_view_template_context(self, client):
         """
@@ -57,3 +60,7 @@ class TestCreateAccountView:
         """
         response = client.get('/accounts/register/')
         assert 'form' in response.context
+
+    def test_create_user_account_view_template_args_kwargs(self, client):
+        response = client.post(
+            '/accounts/register/', {'first_name': 'corey', 'last_name': 'gumbs'})
