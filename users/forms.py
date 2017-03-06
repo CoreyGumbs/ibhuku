@@ -58,21 +58,21 @@ class UserRegistrationForm(ModelForm):
         )
 
     def clean_password(self):
-        password = self.cleaned_data.get('password')
+        password = self.cleaned_data['password']
         if password:
             if len(password) < 8:
                 raise forms.ValidationError(
                     _('Password must be at least 8 characters.'), code='password_short')
-            else:
-                return password
+        return password
 
     def clean(self):
-        cleaned_data = super(UserRegistrationForm, self).clean()
-        password = cleaned_data.get('password')
-        confirm_password = cleaned_data.get('confirm_password')
+        self.cleaned_data = super(UserRegistrationForm, self).clean()
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
 
         if password != confirm_password:
             raise forms.ValidationError(
-                _("Passwords don't match. Please check and try again."), code='pass_invalid_match')
-        else:
-            return cleaned_data
+                _("Passwords don't match. Please check and try again."),
+                code='pass_invalid_match')
+
+        return self.cleaned_data

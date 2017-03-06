@@ -53,8 +53,8 @@ class TestUserRegisrationForm:
         Test .is_valid() of form.
         """
         form = UserRegistrationForm(data={
-            'first_name': 'Testy',
-            'last_name': 'McTesty',
+            'first_name': self.user.first_name,
+            'last_name': self.user.last_name,
             'email': 'McTesty@testing.com',
             'password': 'testpassword1234',
             'confirm_password': 'testpassword1234',
@@ -75,12 +75,7 @@ class TestUserRegisrationForm:
             'email'].errors, 'Reports error on form field.'
 
     def test_user_registration_password_validation_clean(self):
-        self.form = UserRegistrationForm(data={
-            'first_name': 'Testy',
-            'last_name': 'McTesty',
-            'email': 'McTesty@testing.com',
-            'password': 'testpassword1234',
-            'confirm_password': 'testpassword1234',
-            'acct_type': 'IND',
-            'toc': True,
-        })
+        form = UserRegistrationForm(data=self.data)
+        form.is_valid()
+        assert 'testpassword0004' in form.clean_password()
+        assert 'testpassword0004' in form.cleaned_data.get('password')
