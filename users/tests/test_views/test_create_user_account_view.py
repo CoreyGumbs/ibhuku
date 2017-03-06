@@ -4,6 +4,9 @@ import pytest
 import factory
 import factory.django
 
+from django.core import mail
+from django.core.urlresolvers import reverse, resolve
+
 from users.tests.factories import UserFactory
 from users.models import User
 from users.views import CreateUserAccountView
@@ -21,9 +24,20 @@ class TestCreateAccountView:
         for more information.
         """
         self.user = UserFactory()
+        self.data = {
+            'first_name': self.user.first_name,
+            'last_name': self.user.last_name,
+            'email': self.user.email,
+            'password': self.user.password,
+            'confirm_password': self.user.password,
+            'acct_type': 'IND',
+            'toc': True,
+        }
 
     def test_user_exist(self):
+        user = User.objects.get(email__exact=self.user.email)
         assert len(User.objects.all()) == 1
+        assert user.email == 'Testy0@testing.com'
 
     def test_accounts_index_redirects_to_registration_view(self, client):
         """
@@ -61,7 +75,3 @@ class TestCreateAccountView:
         """
         response = client.get('/accounts/register/')
         assert 'form' in response.context
-
-    def test_create_user_account_view_template_args_kwargs(self, client):
-        response = client.post(
-            '/accounts/register/', {'first_name': 'corey', 'last_name': 'gumbs'})

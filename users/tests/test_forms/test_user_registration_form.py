@@ -84,9 +84,9 @@ class TestUserRegisrationForm:
         # instantiate form.is_valid() in order to run clean methods.
         form.is_valid()
 
-        assert 'testpassword0004' in form.clean_password(), 'Returns password'
+        assert 'testpassword0004' in form.clean_password(), 'Returns password.'
         assert 'testpassword0004' in form.cleaned_data.get(
-            'password'), 'Returns True if found in cleaned_data'
+            'password'), 'Returns password if found in cleaned_data'
 
     def test_user_registration_password_field_validation_error(self):
         """
@@ -101,7 +101,8 @@ class TestUserRegisrationForm:
             'acct_type': 'IND',
             'toc': True,
         })
-        assert form.has_error('password', code='password_short') == True
+        assert form.has_error(
+            'password', code='password_short') == True, 'Returns True if length validation error.'
 
     def test_user_registration_password_field_match_validation(self):
         form = UserRegistrationForm(data={
@@ -114,4 +115,4 @@ class TestUserRegisrationForm:
             'toc': True,
         })
         assert form.non_field_errors() == [
-            "Passwords don't match. Please check and try again."]
+            "Passwords don't match. Please check and try again."], 'Returns validation error for matching pass/cofirm_pass'

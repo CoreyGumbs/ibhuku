@@ -9,10 +9,17 @@ from users.forms import UserRegistrationForm
 
 def CreateUserAccountView(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST or None)
-        print(form.instance.first_name)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            return HttpResponse('it works')
+            new_user = form.save(commit=False)
+            new_user.password = make_password(
+                form.cleaned_data['password'])
+            new_user.save()
+            try:
+                user = User.objects.get(email__exact=form.instance.email)
+            except:
+                pass
+            return HttpResponse('Welcome')
     else:
         form = UserRegistrationForm()
 
