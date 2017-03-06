@@ -22,6 +22,15 @@ class TestUserRegisrationForm:
         """
         self.form = UserRegistrationForm()
         self.user = UserFactory()
+        self.data = {
+            'first_name': self.user.first_name,
+            'last_name': self.user.last_name,
+            'email': self.user.email,
+            'password': self.user.password,
+            'confirm_password': self.user.password,
+            'acct_type': 'IND',
+            'toc': True,
+        }
 
     def test_user_registration_form_is_not_bound(self):
         """
@@ -40,10 +49,10 @@ class TestUserRegisrationForm:
         assert self.form.is_bound == True, 'Returns True if form is bound by data.'
 
     def test_user_registration_form_is_valid(self):
-
-        # Hardcoded kwargs as form wont take self.data fixture. Will return
-        # False.
-        self.form = UserRegistrationForm(data={
+        """
+        Test .is_valid() of form.
+        """
+        form = UserRegistrationForm(data={
             'first_name': 'Testy',
             'last_name': 'McTesty',
             'email': 'McTesty@testing.com',
@@ -52,18 +61,18 @@ class TestUserRegisrationForm:
             'acct_type': 'IND',
             'toc': True,
         })
-
-        assert self.form.is_valid() == False
-        #assert self.form2.is_valid() == True
-
-    def test_user_registration_form_html_render(self, client):
-        response = client.get('/accounts/register/')
-        assert '<label for="id_acct_type" class="control-label  requiredField">' in response.content.decode(
-            'utf8')
+        assert form.is_valid() == True, 'Returns True if form is valid.'
 
     def test_user_registration_form_errors(self, client):
+        """
+        Test form errors.
+        """
         self.form = UserRegistrationForm(data={})
-        assert 'This field is required.' in self.form['first_name'].errors
+
+        assert 'This field is required.' in self.form[
+            'first_name'].errors, 'Reports error on form field.'
+        assert 'This field is required.' in self.form[
+            'email'].errors, 'Reports error on form field.'
 
     def test_user_registration_password_validation_clean(self):
         self.form = UserRegistrationForm(data={
