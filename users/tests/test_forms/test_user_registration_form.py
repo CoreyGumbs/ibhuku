@@ -52,6 +52,7 @@ class TestUserRegisrationForm:
         """
         Test .is_valid() of form.
         """
+        # Test will fail without hard coded kwargs
         form = UserRegistrationForm(data={
             'first_name': self.user.first_name,
             'last_name': self.user.last_name,
@@ -74,8 +75,43 @@ class TestUserRegisrationForm:
         assert 'This field is required.' in self.form[
             'email'].errors, 'Reports error on form field.'
 
-    def test_user_registration_password_validation_clean(self):
+    def test_user_registration_form_clean_methods(self):
+        """
+        Test form clean methods.
+        """
         form = UserRegistrationForm(data=self.data)
+
+        # instantiate form.is_valid() in order to run clean methods.
         form.is_valid()
-        assert 'testpassword0004' in form.clean_password()
-        assert 'testpassword0004' in form.cleaned_data.get('password')
+
+        assert 'testpassword0004' in form.clean_password(), 'Returns password'
+        assert 'testpassword0004' in form.cleaned_data.get(
+            'password'), 'Returns True if found in cleaned_data'
+
+    def test_user_registration_password_field_validation_error(self):
+        """
+        Test form password length validation.
+        """
+        form = UserRegistrationForm(data={
+            'first_name': self.user.first_name,
+            'last_name': self.user.last_name,
+            'email': 'McTesty@testing.com',
+            'password': 'tests',
+            'confirm_password': 'testpassword1234',
+            'acct_type': 'IND',
+            'toc': True,
+        })
+        assert form.has_error('password', code='password_short') == True
+
+    def test_user_registration_password_field_match_validation(self):
+        form = UserRegistrationForm(data={
+            'first_name': self.user.first_name,
+            'last_name': self.user.last_name,
+            'email': 'McTesty@testing.com',
+            'password': 'testpassword0004',
+            'confirm_password': 'testpassword1234',
+            'acct_type': 'IND',
+            'toc': True,
+        })
+        assert form.non_field_errors() == [
+            "Passwords don't match. Please check and try again."]
