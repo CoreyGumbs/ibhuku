@@ -75,3 +75,6 @@ class TestCreateAccountView:
         """
         response = client.get('/accounts/register/')
         assert 'form' in response.context
+
+    def test_create_user_account_email_sent(self, client):
+        response = client.get('/accounts/register/')

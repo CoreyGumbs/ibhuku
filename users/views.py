@@ -4,7 +4,10 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse_lazy
 
+from users.userslib.confirm_email import confirm_account_link
+
 from users.forms import UserRegistrationForm
+from users.models import User
 # Create your views here.
 
 
@@ -18,7 +21,11 @@ def CreateUserAccountView(request):
             new_user.save()
             try:
                 user = User.objects.get(email__exact=form.instance.email)
-            except:
+                token = default_token_generator.make_token(user)
+                if user:
+                    confirm_account_link(
+                        user, form.instance.email, token, request=request)
+            except User.DoesNotExist:
                 pass
             return HttpResponse('Welcome')
     else:
