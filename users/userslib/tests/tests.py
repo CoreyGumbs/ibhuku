@@ -64,6 +64,20 @@ class TestConfirmAccountLink:
             subject, text_content, from_email, [to_email])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
+
         assert len(mailoutbox) == 1
         mail = mailoutbox[0]
         assert mail.subject == 'Welcome to Ibhuku.com. Confirm your email.'
+        assert mail.from_email == 'Ibhuku Team <noreply@ibhuku.com>'
+        assert list(mail.to) == ['Testy0@testing.com']
+
+    def test_confirm_account_link_lib(self, mailoutbox, client):
+        response = client.get('/acounts/register/')
+        token = default_token_generator.make_token(self.user)
+        mail = confirm_account_link(
+            self.user, self.user.email, token, request=response.wsgi_request)
+        assert len(mailoutbox) == 1
+        sent_mail = mailoutbox[0]
+        assert sent_mail.subject == 'Welcome to Ibhuku.com. Confirm your email.'
+        assert sent_mail.from_email == 'Ibhuku Team <noreply@ibhuku.com>'
+        assert list(sent_mail.to) == ['Testy1@testing.com']

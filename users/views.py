@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse_lazy
 
 from users.forms import UserRegistrationForm
@@ -27,3 +28,7 @@ def CreateUserAccountView(request):
         'form': form,
     }
     return render(request, 'users/registration.html', context)
+
+
+def ConfirmAccountEmailActivationLink(request, uidb64=None, token=None, token_generator=default_token_generator):
+    return HttpResponse('Hi.')
