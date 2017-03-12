@@ -77,4 +77,12 @@ class TestCreateAccountView:
         assert 'form' in response.context
 
     def test_create_user_account_email_sent(self, client):
-        response = client.get('/accounts/register/')
+        response = client.post('/accounts/register/', {
+            'first_name': self.user.first_name,
+            'last_name': self.user.last_name,
+            'email': self.user.email,
+            'password': self.user.password,
+            'confirm_password': self.user.password,
+            'acct_type': 'IND',
+            'toc': True,
+        }, follow=True)

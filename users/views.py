@@ -25,6 +25,7 @@ def CreateUserAccountView(request):
                 if user:
                     confirm_account_link(
                         user, form.instance.email, token, request=request)
+                    return HttpResponse('Email Sent')
             except User.DoesNotExist:
                 pass
             return HttpResponse('Welcome')
