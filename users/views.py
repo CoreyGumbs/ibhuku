@@ -11,7 +11,7 @@ from users.models import User
 # Create your views here.
 
 
-def CreateUserAccountView(request):
+def create_user_acccount(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -26,7 +26,7 @@ def CreateUserAccountView(request):
                 if user:
                     confirm_account_link(
                         user, form.instance.email, token, request=request)
-                    return HttpResponse('Email Sent')
+                    return HttpResponseRedirect(reverse('users:activation-sent'))
             except User.DoesNotExist:
                 pass
             return HttpResponse('Welcome')
@@ -37,6 +37,10 @@ def CreateUserAccountView(request):
         'form': form,
     }
     return render(request, 'users/registration.html', context)
+
+
+def user_activation_sent(request):
+    return render(request, 'users/account_activation_sent.html')
 
 
 def ConfirmAccountEmailActivationLink(request, uidb64=None, token=None, token_generator=default_token_generator):

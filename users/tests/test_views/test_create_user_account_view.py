@@ -11,13 +11,13 @@ from django.core.urlresolvers import reverse, resolve
 
 from users.tests.factories import UserFactory
 from users.models import User
-from users.views import CreateUserAccountView
+from users.views import create_user_acccount
 
 
 @pytest.mark.django_db
 class TestCreateAccountView:
     """
-    Test of CreateUserAccountView
+    Test of create_user_acccount view.
     """
 
     def setup(self):
@@ -57,7 +57,7 @@ class TestCreateAccountView:
         """
         response = client.get('/accounts/register/')
         assert response.status_code == 200, 'Should return 200.'
-        assert response.resolver_match.func.__name__ == 'CreateUserAccountView', 'Should return correct name of view.'
+        assert response.resolver_match.func.__name__ == 'create_user_acccount', 'Should return correct name of view.'
 
     def test_create_user_account_view_template(self, client):
         response = client.get('/accounts/register/')
@@ -79,17 +79,11 @@ class TestCreateAccountView:
         response = client.get('/accounts/register/')
         assert 'form' in response.context, 'Should return "form" context parameter.'
 
-    def test_create_user_account_email_sent(self, client):
-        response = client.post('/accounts/register/', {
-            'first_name': self.user.first_name,
-            'last_name': self.user.last_name,
-            'email': self.user.email,
-            'password': self.user.password,
-            'confirm_password': self.user.password,
-            'acct_type': 'IND',
-            'toc': True,
-        })
+    def test_account_confirmation_email_sent_view(self, client):
+        response = client.get('/accounts/register/activation/')
+        html = response.content.decode('utf-8')
 
-        assert User.objects.count() == 1
         assert response.status_code == 200
-        #assert len(mail.outbox) == 1
+        assert response.templates[
+            0].name == 'users/account_activation_sent.html', 'Should return rendered template path.'
+        assert ''
