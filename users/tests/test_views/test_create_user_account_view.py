@@ -86,4 +86,4 @@ class TestCreateAccountView:
         assert response.status_code == 200
         assert response.templates[
             0].name == 'users/account_activation_sent.html', 'Should return rendered template path.'
-        assert ''
+        assert 'Activation Link Emailed' in html

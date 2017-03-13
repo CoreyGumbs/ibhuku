@@ -29,7 +29,7 @@ def create_user_acccount(request):
                     return HttpResponseRedirect(reverse('users:activation-sent'))
             except User.DoesNotExist:
                 pass
-            return HttpResponse('Welcome')
+            return HttpResponseRedirect(reverse('users:activation-sent'))
     else:
         form = UserRegistrationForm()
 
