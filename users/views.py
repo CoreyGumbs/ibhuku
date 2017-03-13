@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import default_token_generator
+from django.core.urlresolvers import reverse, resolve
 from django.urls import reverse_lazy
 
 from users.userslib.confirm_email import confirm_account_link
@@ -28,7 +29,7 @@ def create_user_acccount(request):
                         user, form.instance.email, token, request=request)
                     return HttpResponseRedirect(reverse('users:activation-sent'))
             except User.DoesNotExist:
-                pass
+                return HttpResponseRedirect(reverse('users:error'))
             return HttpResponseRedirect(reverse('users:activation-sent'))
     else:
         form = UserRegistrationForm()

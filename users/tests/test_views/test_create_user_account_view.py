@@ -50,6 +50,8 @@ class TestCreateAccountView:
         response = client.get('/accounts/', follow=True)
         assert response.resolver_match.url_name == 'register', 'Should return redirected url name.'
         assert response.status_code == 200, 'Should return 200 on redirect.'
+        assert response.templates[
+            0].name == 'users/registration.html', 'Should return rendered template path.'
 
     def test_create_user_account_view_and_url(self, client):
         """
@@ -80,10 +82,24 @@ class TestCreateAccountView:
         assert 'form' in response.context, 'Should return "form" context parameter.'
 
     def test_account_confirmation_email_sent_view(self, client):
-        response = client.get('/accounts/register/activation/')
+        """
+        Test account created succes redirect and confirm account email sent.
+        """
+        response = client.post('/accounts/register/', {
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'email': 'johndoe@test.com',
+            'password': self.user.password,
+            'confirm_password': self.user.password,
+            'acct_type': 'IND',
+            'toc': True,
+        })
+
         html = response.content.decode('utf-8')
 
-        assert response.status_code == 200
+        assert response.status_code == 302, 'Returns 301/302 if successful page redirection.'
         assert response.templates[
             0].name == 'users/account_activation_sent.html', 'Should return rendered template path.'
-        assert 'Activation Link Emailed' in html
+        assert 'Activation Link Emailed' in html, 'Should return text found in page title.'
+        assert len(
+            mail.outbox) == 1, 'Returns 1 mailbox entry if confirm account email sent.'
