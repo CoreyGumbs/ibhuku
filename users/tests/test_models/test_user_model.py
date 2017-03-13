@@ -22,7 +22,7 @@ class TestUserModel:
         """
         self.user1 = UserFactory()
         self.user2 = UserFactory(
-            first_name='John', last_name='', email='DoeBoy123@testing.com')
+            first_name='John', last_name='Doe', email='DoeBoy123@testing.com')
         self.users = User.objects.all()
 
     # Test of User Model created instances
@@ -46,18 +46,18 @@ class TestUserModel:
         Test the user model's get_full_name() method.
         """
         assert self.user1.get_full_name(
-        ) == 'TMcTesty4', 'Should return formatted name if last name provided by user.'
+        ) == 'Testy4McTesty4', 'Should return full_name method value.'
         assert self.user2.get_full_name(
-        ) == 'John', 'Should return first name if no last name provided by user.'
+        ) == 'JohnDoe', 'Should return full_name method value.'
 
     def test_user_get_short_name_method(self):
         """
         Test the user model's get_short_name() method.
         """
         assert self.user1.get_short_name(
-        ) == 'TMcTesty6', 'Should return formatted name if last name provided by user.'
+        ) == 'TMcTesty6', 'Should return short_name method value.'
         assert self.user2.get_short_name(
-        ) == 'John', 'Should return first name if no last name provided by user.'
+        ) == 'JDoe', 'Should return short_name method value.'
 
     def test_user_model_saves(self):
         """
@@ -77,15 +77,15 @@ class TestUserModel:
         Test the user model's __unicode__() method.
         """
         assert self.user1.__unicode__(
-        ) == 'TMcTesty10', 'Should return formatted name if last name provided by user.'
+        ) == 'Testy10McTesty10', 'Should return unicode method value.'
         assert self.user2.__unicode__(
-        ) == 'John', 'Should return first name if no last name provided by user.'
+        ) == 'JohnDoe', 'Should return unicode method value.'
 
     def test_user_model_str_method(self):
         """
         Test the user model's __str__() method.
         """
         assert self.user1.__str__(
-        ) == 'TMcTesty12', 'Should return formatted name if last name provided by user.'
+        ) == 'Testy12McTesty12', 'Should return str method value.'
         assert self.user2.__str__(
-        ) == 'John', 'Should return first name if no last name provided by user.'
+        ) == 'JohnDoe', 'Should return str method value.'

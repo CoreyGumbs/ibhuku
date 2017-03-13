@@ -18,6 +18,7 @@ def CreateUserAccountView(request):
             new_user = form.save(commit=False)
             new_user.password = make_password(
                 form.cleaned_data['password'])
+            new_user.username = form.instance.generic_username()
             new_user.save()
             try:
                 user = User.objects.get(email__exact=form.instance.email)

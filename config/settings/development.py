@@ -6,6 +6,7 @@ from .base import *
 # Quick-start development settings - unsuitable for production
 DEBUG = True
 
+#EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Database

@@ -1,9 +1,11 @@
 #!/usr/bin/env python
-
+# -*- coding: UTF-8 -*-
 import pytest
 import factory
 import factory.django
+from unittest.mock import patch, MagicMock
 
+from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse, resolve
 
@@ -37,7 +39,8 @@ class TestCreateAccountView:
     def test_user_exist(self):
         user = User.objects.get(email__exact=self.user.email)
         assert len(User.objects.all()) == 1
-        assert user.email == 'Testy0@testing.com'
+        assert user.email == 'Testy0@testing.com', 'Should return user email.'
+        assert user.username == 'Testy0McT', 'Should return saved generically generated username.'
 
     def test_accounts_index_redirects_to_registration_view(self, client):
         """
@@ -54,7 +57,7 @@ class TestCreateAccountView:
         """
         response = client.get('/accounts/register/')
         assert response.status_code == 200, 'Should return 200.'
-        assert response.resolver_match.func.__name__ == 'CreateUserAccountView', 'Should return name of view.'
+        assert response.resolver_match.func.__name__ == 'CreateUserAccountView', 'Should return correct name of view.'
 
     def test_create_user_account_view_template(self, client):
         response = client.get('/accounts/register/')
@@ -74,7 +77,7 @@ class TestCreateAccountView:
         Test template context rendering.
         """
         response = client.get('/accounts/register/')
-        assert 'form' in response.context
+        assert 'form' in response.context, 'Should return "form" context parameter.'
 
     def test_create_user_account_email_sent(self, client):
         response = client.post('/accounts/register/', {
@@ -85,4 +88,8 @@ class TestCreateAccountView:
             'confirm_password': self.user.password,
             'acct_type': 'IND',
             'toc': True,
-        }, follow=True)
+        })
+
+        assert User.objects.count() == 1
+        assert response.status_code == 200
+        #assert len(mail.outbox) == 1

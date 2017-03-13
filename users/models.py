@@ -1,4 +1,6 @@
 from __future__ import unicode_literals
+import random
+import string
 
 from django.conf import settings
 from django.db import models
@@ -40,25 +42,21 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _('users')
 
     def get_full_name(self):
-        if self.last_name:
-            return '{0}{1}'.format(self.first_name[:1], self.last_name)
-        else:
-            return self.first_name
+        return '{0}{1}'.format(self.first_name, self.last_name)
 
     def get_short_name(self):
-        if self.last_name:
-            return '{0}{1}'.format(self.first_name[:1], self.last_name)
-        else:
-            return self.first_name
+        return '{0}{1}'.format(self.first_name[:1], self.last_name)
+
+    def generic_username(self):
+        """
+        Generates unique generic username upon account creation.
+        """
+        random_key = ''.join(random.choices(
+            string.ascii_uppercase + string.digits, k=6))
+        return '{0}{1}'.format(self.first_name, random_key)
 
     def __unicode__(self):
-        if self.last_name:
-            return '{0}{1}'.format(self.first_name[:1], self.last_name)
-        else:
-            return self.first_name
+        return '{0}{1}'.format(self.first_name, self.last_name)
 
     def __str__(self):
-        if self.last_name:
-            return '{0}{1}'.format(self.first_name[:1], self.last_name)
-        else:
-            return self.first_name
+        return '{0}{1}'.format(self.first_name, self.last_name)
