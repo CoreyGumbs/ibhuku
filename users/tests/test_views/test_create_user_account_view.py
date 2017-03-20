@@ -3,12 +3,10 @@
 import pytest
 import factory
 import factory.django
-from unittest.mock import patch, MagicMock
 
 from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse, resolve
-from django.core.exceptions import ObjectDoesNotExist
 
 from users.tests.factories import UserFactory
 from users.models import User

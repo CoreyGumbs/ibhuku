@@ -44,5 +44,5 @@ def user_activation_sent(request):
     return render(request, 'users/account_activation_sent.html')
 
 
-def ConfirmAccountEmailActivationLink(request, uidb64=None, token=None, token_generator=default_token_generator):
-    return HttpResponse('Hi.')
+def confirm_activation_link(request, uidb64=None, token=None, token_generator=default_token_generator):
+    return HttpResponse(str(uidb64) + ' ' + token)
