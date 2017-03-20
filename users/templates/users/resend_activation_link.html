@@ -1,0 +1,9 @@
+{% extends "users/__base.html" %}
+{%load staticfiles%}
+{% load crispy_forms_tags %}
+
+{%block user_title%}Ibhuku | Resend Link{%endblock user_title%}
+
+{%block user_content%}	
+	{% crispy form form.helper %}
+{%endblock user_content%}

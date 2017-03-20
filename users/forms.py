@@ -76,3 +76,26 @@ class UserRegistrationForm(ModelForm):
                 code='pass_invalid_match')
 
         return self.cleaned_data
+
+
+class ResendActivationLinkForm(ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['email']
+        exclude = ('first_name', 'last_name', 'username',)
+
+    def __init__(self, *args, **kwargs):
+        super(ResendActivationLinkForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'resendlinkForm'
+        self.helper.form_method = 'post'
+        self.helper.error_text_inline = True
+        self.helper.layout = Layout(
+            Div(
+                Div(Field('email', placeholder="Email",
+                          active=True), css_class='col-md-12'),
+                Div(FormActions(Submit('submit', 'Submit',
+                                       css_class='btn btn-success btn-lg btn-block'),), css_class='col-md-12'),
+            ),
+        )
