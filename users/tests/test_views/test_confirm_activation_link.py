@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse, resolve
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode
 
 from users.tests.factories import UserFactory
@@ -48,3 +48,13 @@ class TestAccountActivationLink:
             'uidb64': self.user_uid, 'token': self.user_token}))
         html = response.content.decode('utf8')
         assert 'Ibhuku | Account Confirmed' in html
+
+    def test_confirm_activation_link_uid64_parameter_invalid(self, client):
+        response = client.get(reverse('users:activate', kwargs={
+            'uidb64': b'MPB', 'token': self.user_token}))
+        assert response.context['validlink'] == False
+
+    def test_confirm_activation_link_token_parameter_invalid(self, client):
+        response = client.get(reverse('users:activate', kwargs={
+            'uidb64': self.user_uid, 'token': '12-2345A'}))
+        assert response.context['validlink'] == False

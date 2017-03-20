@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import default_token_generator
 from django.core.urlresolvers import reverse, resolve
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_decode
 from django.urls import reverse_lazy
 
 from users.userslib.confirm_email import confirm_account_link
@@ -45,4 +47,19 @@ def user_activation_sent(request):
 
 
 def confirm_activation_link(request, uidb64=None, token=None, token_generator=default_token_generator):
-    return render(request, 'users/activation_link.html')
+    try:
+        user = User.objects.get(
+            pk=force_text(urlsafe_base64_decode(uidb64)))
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and token_generator.check_token(user, token):
+        validlink = True
+    else:
+        validlink = False
+
+    context = {
+        'validlink': validlink,
+    }
+
+    return render(request, 'users/activation_link.html', context)
