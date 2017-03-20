@@ -45,4 +45,4 @@ def user_activation_sent(request):
 
 
 def confirm_activation_link(request, uidb64=None, token=None, token_generator=default_token_generator):
-    return HttpResponse(str(uidb64) + ' ' + token)
+    return render(request, 'users/activation_link.html')

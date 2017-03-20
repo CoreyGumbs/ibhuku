@@ -34,6 +34,7 @@ class TestAccountActivationLink:
 
     def test_confirm_account_link_view(self, client):
         """
+        Test confirm_activation_link view.
         """
         response = client.post(reverse('users:activate', kwargs={
             'uidb64': self.user_uid, 'token': self.user_token}))
@@ -41,3 +42,9 @@ class TestAccountActivationLink:
         assert response.resolver_match.func.__name__ == 'confirm_activation_link'
         assert response.templates[
             0].name == 'users/activation_link.html', 'Should return rendered template path.'
+
+    def test_confirm_activation_link_view_template_renders(self, client):
+        response = client.get(reverse('users:activate', kwargs={
+            'uidb64': self.user_uid, 'token': self.user_token}))
+        html = response.content.decode('utf8')
+        assert 'Ibhuku | Account Confirmed' in html
