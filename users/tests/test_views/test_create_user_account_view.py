@@ -8,6 +8,7 @@ from unittest.mock import patch, MagicMock
 from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse, resolve
+from django.core.exceptions import ObjectDoesNotExist
 
 from users.tests.factories import UserFactory
 from users.models import User
@@ -93,13 +94,21 @@ class TestCreateAccountView:
             'confirm_password': self.user.password,
             'acct_type': 'IND',
             'toc': True,
-        })
+        }, follow=True)
 
         html = response.content.decode('utf-8')
 
-        assert response.status_code == 302, 'Returns 301/302 if successful page redirection.'
+        assert response.status_code == 200, 'Returns 200 if successful page redirection after POST.'
         assert response.templates[
             0].name == 'users/account_activation_sent.html', 'Should return rendered template path.'
         assert 'Activation Link Emailed' in html, 'Should return text found in page title.'
         assert len(
             mail.outbox) == 1, 'Returns 1 mailbox entry if confirm account email sent.'
+
+    def test_account_creation_user_doesnt_exist(self):
+        """"
+        Test User.DoesNotExist exception
+        """
+        with pytest.raises(Exception) as excinfo:
+            User.objects.get(email__exact="no_user@test.com")
+        assert 'User matching query does not exist.' in str(excinfo.value)
