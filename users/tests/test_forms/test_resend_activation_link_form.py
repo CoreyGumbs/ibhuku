@@ -33,5 +33,26 @@ class TestResendActivationLinkForm:
             'toc': True,
         }
 
-    def test_resend_link_form_is_bound(self):
+    def test_resend_link_form_is_not_bound(self):
         assert self.link_form.is_bound == False
+
+    def test_resend_link_form_is_bound(self):
+        self.link_form = ResendActivationLinkForm(data={})
+        assert self.link_form.is_bound == True
+
+    def test_resend_link_form_is_valid(self):
+        form = ResendActivationLinkForm(data={'email': 'testymctest@test.com'})
+        assert form.is_valid() == True
+
+    def test_resend_link_form_errors(self):
+        form = ResendActivationLinkForm(data={})
+        assert 'This field is required.' in form['email'].errors
+
+    def test_resend_link_cleaned_data(self):
+        form = ResendActivationLinkForm(data={'email': 'testymctest@test.com'})
+        form.is_valid()
+        assert 'testymctest@test.com' in form.cleaned_data.get('email')
+
+    def test_resend_link_invalid_email(self):
+        form = ResendActivationLinkForm(data={'email': 'testymctest'})
+        assert 'Enter a valid email address.' in form['email'].errors

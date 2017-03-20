@@ -82,8 +82,9 @@ class ResendActivationLinkForm(ModelForm):
 
     class Meta:
         model = User
-        fields = ['email']
+        fields = ('email',)
         exclude = ('first_name', 'last_name', 'username',)
+        fields_required = ('email')
 
     def __init__(self, *args, **kwargs):
         super(ResendActivationLinkForm, self).__init__(*args, **kwargs)
