@@ -55,6 +55,8 @@ def confirm_activation_link(request, uidb64=None, token=None, token_generator=de
 
     if user is not None and token_generator.check_token(user, token):
         validlink = True
+        user.is_active = True
+        user.save()
     else:
         validlink = False
 

@@ -2,25 +2,52 @@
 {%load staticfiles%}
 {% load crispy_forms_tags%}
 
-{%block user_title%}Ibhuku | Account Confirmed{%endblock user_title%}
+{%block user_title%}
+	{%if validlink%}
+		Ibhuku | Account Confirmed
+		{%else%}
+	Ibhuku | Link Expired
+	{%endif%}
+{%endblock user_title%}
 {%block user_javascript%}
-	<!--<script>
-  		window.setTimeout(function(){
-    		window.location.href = "{% url 'users:index' %}";
-  		}, 3000);
-	</script>-->
+	{%if validlink%}
+		<!--<script>
+	  		window.setTimeout(function(){
+	    		window.location.href = "{% url 'users:index' %}";
+	  		}, 3000);
+		</script>-->
+	{%else%}
+		<!--<script>
+	  		window.setTimeout(function(){
+	    		window.location.href = "{% url 'users:index' %}";
+	  		}, 3000);
+		</script>-->
+	{%endif%}
 {%endblock user_javascript%}
-
 {%block user_content%}
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="col-md-12 page-header text-info text-center">
-				<h3>Your account has been activated</h3>
+	{%if validlink%}
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="col-md-12 page-header text-info text-center">
+					<h3>Your account has been activated</h3>
+				</div>
+				<div class="col-md-12 well lead text-center">
+					<p>You may now log into your account.</p>
+				</div>
+				<p class="small text-center">If this page does not redirect in 5 seconds. Please <a href="{%url 'users:index' %}">click here</a>.</p>
 			</div>
-			<div class="col-md-12 well lead text-center">
-				<p>You may now log into your account.</p>
-			</div>
-			<p class="small text-center">If this page does not redirect in 5 seconds. Please <a href="{%url 'users:index' %}">click here</a>.</p>
 		</div>
-	</div>
+	{%else%}
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="col-md-12 page-header text-info text-center">
+					<h3>Sorry there was an error.</h3>
+				</div>
+				<div class="col-md-12 well lead text-center">
+					<p>Your link has expired or there was an error. Please click here to </p>
+				</div>
+				<p class="small text-center">If this page does not redirect in 5 seconds. Please <a href="{%url 'users:index' %}">click here</a>.</p>
+			</div>
+		</div>
+	{%endif%}
 {%endblock user_content%}

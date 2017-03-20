@@ -47,7 +47,7 @@ class TestAccountActivationLink:
         response = client.get(reverse('users:activate', kwargs={
             'uidb64': self.user_uid, 'token': self.user_token}))
         html = response.content.decode('utf8')
-        assert 'Ibhuku | Account Confirmed' in html
+        assert 'Ibhuku | Account Confirmed' in response.content.decode('utf8')
 
     def test_confirm_activation_link_uid64_parameter_invalid(self, client):
         response = client.get(reverse('users:activate', kwargs={
@@ -58,3 +58,16 @@ class TestAccountActivationLink:
         response = client.get(reverse('users:activate', kwargs={
             'uidb64': self.user_uid, 'token': '12-2345A'}))
         assert response.context['validlink'] == False
+        assert 'Link Expired' in response.content.decode('utf8')
+
+    def test_confirm_activation_link_parameters_valid(self, client):
+        response = client.get(reverse('users:activate', kwargs={
+            'uidb64': self.user_uid, 'token': self.user_token}))
+        assert response.context['validlink'] == True
+        assert 'Account Confirmed' in response.content.decode('utf8')
+
+    def test_confirm_activation_link_view_user_active(self, client):
+        response = client.get(reverse('users:activate', kwargs={
+            'uidb64': self.user_uid, 'token': self.user_token}))
+        user = User.objects.get(email__exact=self.user.email)
+        assert user.is_active == True
