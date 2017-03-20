@@ -65,3 +65,7 @@ def confirm_activation_link(request, uidb64=None, token=None, token_generator=de
     }
 
     return render(request, 'users/activation_link.html', context)
+
+
+def resend_activation_link(request):
+    return HttpResponse('test')
