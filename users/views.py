@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 
 from users.userslib.confirm_email import confirm_account_link
 
-from users.forms import UserRegistrationForm
+from users.forms import UserRegistrationForm, ResendActivationLinkForm
 from users.models import User
 # Create your views here.
 
@@ -68,4 +68,8 @@ def confirm_activation_link(request, uidb64=None, token=None, token_generator=de
 
 
 def resend_activation_link(request):
-    return HttpResponse('test')
+    form = ResendActivationLinkForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'users/resend_activation_link.html', context)
