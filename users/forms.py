@@ -78,13 +78,8 @@ class UserRegistrationForm(ModelForm):
         return self.cleaned_data
 
 
-class ResendActivationLinkForm(ModelForm):
-
-    class Meta:
-        model = User
-        fields = ('email',)
-        exclude = ('first_name', 'last_name', 'username',)
-        fields_required = ('email')
+class ResendActivationLinkForm(forms.Form):
+    email = forms.EmailField(label='Email', max_length=255, required=True)
 
     def __init__(self, *args, **kwargs):
         super(ResendActivationLinkForm, self).__init__(*args, **kwargs)
@@ -94,9 +89,15 @@ class ResendActivationLinkForm(ModelForm):
         self.helper.error_text_inline = True
         self.helper.layout = Layout(
             Div(
-                Div(Field('email', placeholder="Email",
-                          active=True), css_class='col-md-12'),
-                Div(FormActions(Submit('submit', 'Submit',
-                                       css_class='btn btn-success btn-lg btn-block'),), css_class='col-md-12'),
+                Div(Field(
+                    'email', placeholder="Email",
+                    active=True, css_class='col-md-3'),
+                    ),
+                Div(
+                    FormActions(
+                        Submit('submit', 'Submit', css_class='col-md-3')
+                    )
+                ),
+                css_class='col-md-12',
             ),
         )

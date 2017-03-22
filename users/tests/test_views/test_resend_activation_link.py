@@ -7,6 +7,7 @@ import factory.django
 from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse, resolve
+from django.template.loader import render_to_string
 
 from users.tests.factories import UserFactory
 from users.models import User
@@ -30,4 +31,21 @@ class TestResendActivationLinkView:
         assert response.templates[
             0].name == 'users/resend_activation_link.html'
         assert 'form' in response.context
-        assert 'Resend Link' in response.content.decode('utf8')
+        assert 'Ibhuku | Resend Link' in response.content.decode('utf8')
+
+    def test_resend_activation_link_new_email(self, client):
+        response = client.post(
+            '/accounts/reset/', {'email': self.user.email}, follow=True)
+
+        assert response.status_code == 200
+        assert 'Ibhuku | Activation Link Emailed' in response.content.decode(
+            'utf8')
+        assert response.templates[
+            0].name == 'users/account_activation_sent.html', 'Should return rendered template path.'
+        assert len(
+            mail.outbox) == 1, 'Returns 1 mailbox entry if confirm account email sent.'
+        assert mail.outbox[
+            0].subject == 'Welcome to Ibhuku.com. Confirm your email.'
+        assert mail.outbox[0].to == ['Testy2@testing.com']
+        assert 'By clicking on the following button/link, you are confirming your email address' in str(mail.outbox[
+            0].body)

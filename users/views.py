@@ -68,7 +68,21 @@ def confirm_activation_link(request, uidb64=None, token=None, token_generator=de
 
 
 def resend_activation_link(request):
-    form = ResendActivationLinkForm()
+    if request.method == 'POST':
+        form = ResendActivationLinkForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.get(email__exact=email)
+                token = default_token_generator.make_token(user)
+                if user:
+                    confirm_account_link(user, email, token, request=request)
+                    return HttpResponseRedirect(reverse('users:activation-sent'))
+            except User.DoesNotExist:
+                return HttpResponseRedirect(reverse('users:activation-sent'))
+    else:
+        form = ResendActivationLinkForm()
+
     context = {
         'form': form,
     }
