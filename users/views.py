@@ -31,7 +31,7 @@ def create_user_acccount(request):
                         user, form.instance.email, token, request=request)
                     return HttpResponseRedirect(reverse('users:activation-sent'))
             except User.DoesNotExist:
-                return HttpResponseRedirect(reverse('users:error'))
+                return HttpResponseRedirect(reverse('users:index'))
             return HttpResponseRedirect(reverse('users:activation-sent'))
     else:
         form = UserRegistrationForm()
@@ -82,7 +82,7 @@ def resend_activation_link(request):
                 else:
                     return HttpResponseRedirect(reverse('users:activation-exists'))
             except User.DoesNotExist:
-                return HttpResponseRedirect(reverse('users:activation-sent'))
+                return HttpResponseRedirect(reverse('users:index'))
     else:
         form = ResendActivationLinkForm()
 
