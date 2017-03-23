@@ -75,8 +75,12 @@ def resend_activation_link(request):
             try:
                 user = User.objects.get(email__exact=email)
                 token = default_token_generator.make_token(user)
-                if user:
+                # what if user is already active or confirmed?
+                # should add if user.active == False?
+                if user.is_active is False:
                     confirm_account_link(user, email, token, request=request)
+                    return HttpResponseRedirect(reverse('users:activation-sent'))
+                else:
                     return HttpResponseRedirect(reverse('users:activation-sent'))
             except User.DoesNotExist:
                 return HttpResponseRedirect(reverse('users:activation-sent'))
