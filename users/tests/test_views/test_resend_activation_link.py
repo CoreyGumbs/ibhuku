@@ -49,3 +49,18 @@ class TestResendActivationLinkView:
         assert mail.outbox[0].to == ['Testy2@testing.com']
         assert 'By clicking on the following button/link, you are confirming your email address' in str(mail.outbox[
             0].body)
+
+    def test_resend_activation_link_new_email_account_confirmed(self, client):
+        # set user.is_active = True
+        self.user.is_active = True
+        self.user.save()
+
+        response = client.post(
+            '/accounts/reset/', {'email': self.user.email}, follow=True)
+
+        assert response.resolver_match.url_name == 'activation-exists'
+        assert 'Ibhuku | Account Exists' in response.content.decode(
+            'utf8')
+        assert response.status_code == 200
+        assert len(
+            mail.outbox) == 0, 'Returns 1 mailbox entry if confirm account email sent.'
