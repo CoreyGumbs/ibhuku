@@ -38,36 +38,65 @@ class TestAccountActivationLink:
         """
         response = client.post(reverse('users:activate', kwargs={
             'uidb64': self.user_uid, 'token': self.user_token}))
-        assert response.status_code == 200
-        assert response.resolver_match.func.__name__ == 'confirm_activation_link'
+
+        assert response.status_code == 200, "Should return 200 for page found."
+        assert response.resolver_match.func.__name__ == 'confirm_activation_link', 'Should return view function name.'
         assert response.templates[
             0].name == 'users/activation_link.html', 'Should return rendered template path.'
 
     def test_confirm_activation_link_view_template_renders(self, client):
+        """
+        Test that view template renders.
+        """
         response = client.get(reverse('users:activate', kwargs={
             'uidb64': self.user_uid, 'token': self.user_token}))
+
         html = response.content.decode('utf8')
-        assert 'Ibhuku | Account Confirmed' in response.content.decode('utf8')
+
+        assert 'Ibhuku | Account Confirmed' in response.content.decode(
+            'utf8'), 'Returns correct page <title> found on page.'
 
     def test_confirm_activation_link_uid64_parameter_invalid(self, client):
+        """
+        Test uidb64 is invalid and response.
+        """
         response = client.get(reverse('users:activate', kwargs={
             'uidb64': b'MPB', 'token': self.user_token}))
-        assert response.context['validlink'] == False
+
+        assert response.context[
+            'validlink'] == False, 'Should return False if uidb64 parameter is invalid.'
 
     def test_confirm_activation_link_token_parameter_invalid(self, client):
+        """
+        Test token parameter is invalid.
+        """
         response = client.get(reverse('users:activate', kwargs={
             'uidb64': self.user_uid, 'token': '12-2345A'}))
-        assert response.context['validlink'] == False
-        assert 'Link Expired' in response.content.decode('utf8')
+
+        assert response.context[
+            'validlink'] == False, 'Should return False if token parameter is invalid.'
+        assert 'Link Expired' in response.content.decode(
+            'utf8'), 'Is true if "Link Expired" is found on page due to invalid parameter.'
 
     def test_confirm_activation_link_parameters_valid(self, client):
+        """
+        Test url parameters are valid.
+        """
         response = client.get(reverse('users:activate', kwargs={
             'uidb64': self.user_uid, 'token': self.user_token}))
-        assert response.context['validlink'] == True
-        assert 'Account Confirmed' in response.content.decode('utf8')
+
+        assert response.context[
+            'validlink'] == True, 'Returns true when both parameters are valid.'
+        assert 'Account Confirmed' in response.content.decode(
+            'utf8'), 'Is true if "Account Confirmed" is found on page due to valid parameters.'
 
     def test_confirm_activation_link_view_user_active(self, client):
+        """
+        Test that valid account activation link confirms user.
+        """
         response = client.get(reverse('users:activate', kwargs={
             'uidb64': self.user_uid, 'token': self.user_token}))
+
         user = User.objects.get(email__exact=self.user.email)
-        assert user.is_active == True
+
+        assert user.is_active == True, 'Should return True if valid link is confirmed and verified by view.'

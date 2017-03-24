@@ -36,8 +36,12 @@ class TestCreateAccountView:
         }
 
     def test_user_exist(self):
+        """
+        Test user was created.
+        """
         user = User.objects.get(email__exact=self.user.email)
-        assert len(User.objects.all()) == 1
+        assert len(User.objects.all()
+                   ) == 1, 'Returns number of users created/found in database.'
         assert user.email == 'Testy0@testing.com', 'Should return user email.'
         assert user.username == 'Testy0McT', 'Should return saved generically generated username.'
 
