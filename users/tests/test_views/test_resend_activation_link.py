@@ -63,4 +63,4 @@ class TestResendActivationLinkView:
             'utf8')
         assert response.status_code == 200
         assert len(
-            mail.outbox) == 0, 'Returns 1 mailbox entry if confirm account email sent.'
+            mail.outbox) == 1, 'Returns 1 mailbox entry if already confirmed email sent.'

@@ -19,7 +19,7 @@ from django.core.urlresolvers import reverse, resolve
 
 from users.tests.factories import UserFactory
 
-from users.userslib.confirm_email import confirm_account_link
+from users.userslib.confirm_email import confirm_account_link, already_confirmed_account
 from users.models import User
 
 
@@ -81,3 +81,39 @@ class TestConfirmAccountLink:
         assert sent_mail.subject == 'Welcome to Ibhuku.com. Confirm your email.'
         assert sent_mail.from_email == 'Ibhuku Team <noreply@ibhuku.com>'
         assert list(sent_mail.to) == ['Testy1@testing.com']
+
+
+@pytest.mark.django_db
+class TestAlreadyConfirmedAccount:
+
+    def setup(self):
+        """
+        Sets up test fixtures using Factory Boy instances. See factories.py module
+        for more information.
+        """
+        self.user = UserFactory()
+        self.data = {
+            'first_name': self.user.first_name,
+            'last_name': self.user.last_name,
+            'email': self.user.email,
+            'password': self.user.password,
+            'confirm_password': self.user.password,
+            'acct_type': 'IND',
+            'toc': True,
+        }
+
+    def test_already_confirmed_account_email_response(self, client):
+        """
+        Test already_confirmed_account email is sent on already verified account.
+        """
+        self.user.is_active = True
+        self.user.save()
+
+        response = client.post(
+            '/accounts/reset/', {'email': self.user.email}, follow=True)
+
+        assert len(mail.outbox) == 1, ''
+        assert mail.outbox[0].subject == 'Your accounts is already confirmed.'
+        assert mail.outbox[0].to == ['Testy2@testing.com']
+        assert 'You have received this email because there was an attempt to reset the activation link for your account.' in str(mail.outbox[
+            0].body)

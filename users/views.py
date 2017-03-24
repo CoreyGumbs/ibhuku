@@ -7,7 +7,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode
 from django.urls import reverse_lazy
 
-from users.userslib.confirm_email import confirm_account_link
+from users.userslib.confirm_email import confirm_account_link, already_confirmed_account
 
 from users.forms import UserRegistrationForm, ResendActivationLinkForm
 from users.models import User
@@ -80,6 +80,7 @@ def resend_activation_link(request):
                     confirm_account_link(user, email, token, request=request)
                     return HttpResponseRedirect(reverse('users:activation-sent'))
                 else:
+                    already_confirmed_account(user, email, request=request)
                     return HttpResponseRedirect(reverse('users:activation-exists'))
             except User.DoesNotExist:
                 return HttpResponseRedirect(reverse('users:index'))

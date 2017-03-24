@@ -33,3 +33,25 @@ def confirm_account_link(user, email, token, use_https=None, request=None):
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+
+def already_confirmed_account(user, email, use_https=None, request=None):
+    current_site = get_current_site(request)
+    site_name = current_site.name
+    domain = current_site.domain
+
+    context = {
+        'user': user,
+        'email': email,
+        'protocol': 'https' if use_https else 'http',
+        'domain': domain,
+        'site_name': site_name,
+    }
+
+    subject, from_email, to_email = 'Your accounts is already confirmed.', 'Ibhuku Team <noreply@ibhuku.com>', email
+    text_content = render_to_string('emails/reset_link_expired.txt', context)
+    html_content = render_to_string('emails/reset_link_expired.html', context)
+
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()

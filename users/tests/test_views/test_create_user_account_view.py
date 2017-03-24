@@ -102,7 +102,6 @@ class TestCreateAccountView:
         assert 'Activation Link Emailed' in html, 'Should return text found in page title.'
         assert len(
             mail.outbox) == 1, 'Returns 1 mailbox entry if confirm account email sent.'
-        mail.outbox = []
 
     def test_account_creation_user_doesnt_exist(self):
         """"

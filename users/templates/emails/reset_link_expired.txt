@@ -1,0 +1,15 @@
+
+Hi {{user.first_name}}, 
+
+You have received this email because there was an attempt to reset the activation link for your account. 
+
+If this attempt was made by you, we would like to let you know your account has been confrimed and email verified.
+
+If this wasn't an attempt by you, please check your email account, as well as your {{domain}} account to ensure they are secure.
+
+
+Email used: {{email}}
+							
+						 
+
+						
