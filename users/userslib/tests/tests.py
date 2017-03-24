@@ -64,8 +64,8 @@ class TestConfirmAccountLink:
             'site_name': site_name,
         }
         subject, from_email, to_email = 'Welcome to Ibhuku.com. Confirm your email.', 'Ibhuku Team <noreply@ibhuku.com>', self.user.email
-        text_content = render_to_string('emails/test_email.txt', context)
-        html_content = render_to_string('emails/test_email.html', context)
+        text_content = render_to_string('emails/registration.txt', context)
+        html_content = render_to_string('emails/registration.html', context)
         msg = EmailMultiAlternatives(
             subject, text_content, from_email, [to_email])
         msg.attach_alternative(html_content, "text/html")
