@@ -25,6 +25,9 @@ from users.models import User
 
 @pytest.mark.django_db
 class TestConfirmAccountLink:
+    """
+    Test ConfrimAccountLink Function.
+    """
 
     def setup(self):
         """
@@ -43,6 +46,9 @@ class TestConfirmAccountLink:
         }
 
     def test_confirm_email_response(self, mailoutbox, client):
+        """
+        Test that simulates the confrim email account function.
+        """
         response = client.get('/accounts/register/')
         current_site = get_current_site(response.wsgi_request)
         site_name = current_site.name
@@ -65,26 +71,36 @@ class TestConfirmAccountLink:
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
-        assert len(mailoutbox) == 1
+        assert len(mailoutbox) == 1, 'Returns 1 if email was sent.'
         mail = mailoutbox[0]
-        assert mail.subject == 'Welcome to Ibhuku.com. Confirm your email.'
-        assert mail.from_email == 'Ibhuku Team <noreply@ibhuku.com>'
-        assert list(mail.to) == ['Testy0@testing.com']
+        assert mail.subject == 'Welcome to Ibhuku.com. Confirm your email.', 'Should return email subject line of sent email.'
+        assert mail.from_email == 'Ibhuku Team <noreply@ibhuku.com>', 'Should return "from email" found in email.'
+        assert list(mail.to) == [
+            'Testy0@testing.com'], 'Should return confirm link email to.'
 
     def test_confirm_account_link_lib(self, mailoutbox, client):
+        """
+        Test of the actual confirm_account_link function from the userslib.
+        """
         response = client.get('/acounts/register/')
+
         token = default_token_generator.make_token(self.user)
         mail = confirm_account_link(
             self.user, self.user.email, token, request=response.wsgi_request)
-        assert len(mailoutbox) == 1
+
+        assert len(mailoutbox) == 1, 'Returns 1 if email has been sent.'
         sent_mail = mailoutbox[0]
-        assert sent_mail.subject == 'Welcome to Ibhuku.com. Confirm your email.'
-        assert sent_mail.from_email == 'Ibhuku Team <noreply@ibhuku.com>'
-        assert list(sent_mail.to) == ['Testy1@testing.com']
+        assert sent_mail.subject == 'Welcome to Ibhuku.com. Confirm your email.', 'Should return email subject line of sent email.'
+        assert sent_mail.from_email == 'Ibhuku Team <noreply@ibhuku.com>', 'Should return "from email" found in email.'
+        assert list(sent_mail.to) == [
+            'Testy1@testing.com'], 'Should return user email used to register.'
 
 
 @pytest.mark.django_db
 class TestAlreadyConfirmedAccount:
+    """
+    Test AlreadyConfirmedAccount Function.
+    """
 
     def setup(self):
         """
@@ -112,8 +128,10 @@ class TestAlreadyConfirmedAccount:
         response = client.post(
             '/accounts/reset/', {'email': self.user.email}, follow=True)
 
-        assert len(mail.outbox) == 1, ''
-        assert mail.outbox[0].subject == 'Your accounts is already confirmed.'
-        assert mail.outbox[0].to == ['Testy2@testing.com']
+        assert len(mail.outbox) == 1, 'Returns 1 if email has been sent.'
+        assert mail.outbox[
+            0].subject == 'Your accounts is already confirmed.', 'Should return email subject line of sent email.'
+        assert mail.outbox[0].to == [
+            'Testy2@testing.com'], 'Should return user email used to register.'
         assert 'You have received this email because there was an attempt to reset the activation link for your account.' in str(mail.outbox[
-            0].body)
+            0].body), 'Returns template text found in the body of sent email.'
