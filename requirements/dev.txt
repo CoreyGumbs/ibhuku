@@ -6,8 +6,10 @@ Django==1.10.5
 django-crispy-forms==1.6.1
 factory-boy==2.8.1
 Faker==0.7.7
+mock==2.0.0
 olefile==0.44
 packaging==16.8
+pbr==2.0.0
 Pillow==4.0.0
 psycopg2==2.6.2
 py==1.4.32

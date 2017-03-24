@@ -16,7 +16,8 @@ import json
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,6 +28,7 @@ security_key = os.path.join(BASE_DIR, 'secrets.json')
 
 with open(security_key) as f:
     secrets = json.loads(f.read())
+
 
 def get_secret(setting, secrets=secrets):
     try:
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'users',
 ]
 
@@ -73,7 +76,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,  'templates'),],
+        'DIRS': [os.path.join(BASE_DIR,  'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,7 +92,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-#Password Hashers
+# Password Hashers
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
@@ -147,4 +150,4 @@ PASSWORD_RESET_TIMEOUT_DAYS = 1
 # EMAIL_HOST_USER = get_secret('EMAIL_HOST_USER')
 # EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
 # EMAIL_USE_TLS = True
-# DEFAULT_FROM_EMAIL = 'Ibhuku Team <noreply@Ibhuku.com>'
+# DEFAULT_FROM_EMAIL = 'The Ibhuku Team <noreply@Ibhuku.com>'

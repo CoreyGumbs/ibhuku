@@ -1,0 +1,26 @@
+{% extends "users/__base.html" %}
+{%load staticfiles%}
+{% load crispy_forms_tags%}
+
+{%block user_title%}Ibhuku | Account Exists{%endblock user_title%}
+{%block user_javascript%}
+	<!--<script>
+  		window.setTimeout(function(){
+    		window.location.href = "{% url 'users:index' %}";
+  		}, 3000);
+	</script>-->
+{%endblock user_javascript%}
+
+{%block user_content%}
+	<div class="row">
+		<div class="col-md-12">
+			<div class="col-md-12 page-header text-info text-center">
+				<h3>You're account is already confirmed.</h3>
+			</div>
+			<div class="col-md-12 well lead text-center">
+				<p>You can login to your account, just <a href="{%url 'users:index'%}">click here</a>.</p>
+			</div>
+			<p class="small text-center">If this page does not redirect in 5 seconds. Please <a href="{%url 'users:index' %}">click here</a>.</p>
+		</div>
+	</div>
+{%endblock user_content%}

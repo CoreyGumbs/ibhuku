@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Welcome to Ibhuku! Confirm Your Email</title>
+	<style>
+		body {
+			background-color: white;
+			font-family: Arial, sans-serif;
+		}
+		p {
+			font-size: 16px;
+			line-height: 25px;
+			color: #000000;
+		}
+		button { 
+			background-color: #177f43;
+			height: 45px;
+			width: 300px;
+			padding: 10px;
+			font-size: 16px;
+			border: 0;
+			border-radius: 5px;
+			color: #ffffff;
+		 }
+		 button:hover{
+			background-color: #075327;
+		 }
+		 td{
+		 	padding: 0px 30px;
+		 }
+		 a{
+		 	text-decoration: none;
+		 }
+	</style>
+</head>
+<body>
+		<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td>
+					<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style=" border: 1px solid #eeeeee; border-collapse: collapse;">
+						<tr style="background-color: #e2e2e2;">
+							<td>
+								<h2>There was an issue with your account.</h2>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding: 20px 30px">
+								<p>
+									Hi {{ user.first_name }}, 
+								</p>
+								<p> 
+								You have received this email because there was an attempt to reset the activation link for your account. 
+								</p>
+								<p>
+								If this attempt was made by you, we would like to let you know your account has been confrimed and email verified.
+								</p>
+								<p>
+								If this wasn't an attempt by you, please check your email account, as well as your {{domain}} account to ensure they are secure.
+								</p>
+								<p>
+								Email used: {{email}} 
+								</p>
+								<p>
+									If you are having issues with your account please feel free to contact us.
+								</p>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+</body>
+</html>

@@ -1,0 +1,15 @@
+
+{{user.first_name}}, you're almost done!
+
+Just confirm your email address.
+							
+						 
+By clicking on the following button/link, you are confirming your email address and agreeing to Ibhuku's terms of service. 
+								
+You can also copy and paste this link in your browser: {% autoescape on %}
+	{{ protocol }}://{{ domain }}{% url 'users:activate' uidb64=uid token=token %}
+{% endautoescape %}
+
+
+<a href="{{ protocol }}://{{ domain }}{% url 'users:activate' uidb64=uid token=token %}">Confirm Email Address</a>
+						

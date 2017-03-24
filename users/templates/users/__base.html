@@ -1,0 +1,29 @@
+{%load staticfiles%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+		{%block user_title%}Ibhuku | Welcome {% endblock user_title%}
+	</title>
+	{%block stylesheets%}
+		{%include 'bootstrap_css/bootstrap3.html'%}
+	{%endblock stylesheets%}
+	{%block user_javascript%}{%endblock user_javascript%}
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				{%block user_content%}{%endblock user_content%}
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+	</div>
+</body>
+{%block global_javascript%}
+	{%include 'javascript/global_javascript.html'%}
+	{%block javascript%}{%endblock javascript%}
+{%endblock global_javascript%}
+</html>
