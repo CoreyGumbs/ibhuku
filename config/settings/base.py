@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'users',
+    'profiles',
 ]
 
 AUTH_USER_MODEL = 'users.User'

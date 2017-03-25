@@ -1,9 +1,9 @@
 #!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
 import pytest
 import factory
 import factory.django
-
-from django.db.models.signals import pre_save, post_save
 
 from users.models import User
 from users.tests.factories import UserFactory
