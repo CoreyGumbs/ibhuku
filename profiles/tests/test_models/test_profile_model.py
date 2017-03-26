@@ -27,14 +27,14 @@ class TestProfileModel:
         """
         Test to see if user was created.
         """
-        assert self.user.first_name == 'Testy0'
-        assert self.user.id == 1
+        assert self.user.first_name == 'Testy0', 'Should return user first_name.'
+        assert self.user.id == 1, 'Should return user pk/id'
 
     def test_user_profile_created(self):
         """
         Test if user profile created.
         """
-        assert self.profile.user.first_name == 'Testy1'
+        assert self.profile.user.first_name == 'Testy1', 'Should '
 
     def test_profile_unicode_method(self):
         """
@@ -47,3 +47,14 @@ class TestProfileModel:
         Test the __str__ method of model.
         """
         assert self.profile.__str__() == 'Testy3McT'
+
+    def test_profile_bio_saves(self):
+        """
+        Test the bio model field saves data.
+        """
+        assert self.profile.bio == ''
+
+        self.profile.bio = 'This is a test.'
+        self.profile.save()
+
+        assert self.profile.bio == 'This is a test.'

@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bio = models.CharField(_('bio'), max_length=150, blank=True)
 
     class Meta:
         db_table = 'profile'
