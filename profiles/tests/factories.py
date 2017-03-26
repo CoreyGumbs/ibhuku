@@ -22,17 +22,3 @@ class UserFactory(factory.django.DjangoModelFactory):
     email = factory.LazyAttribute(
         lambda n: '{0}@testing.com'.format(n.first_name))
     password = factory.Sequence(lambda n: 'testpassword{:04d}'.format(n))
-
-
-# @factory.django.mute_signals(post_save)
-# class ProfileFactory(factory.django.DjangoModelFactory):
-
-#     class Meta:
-#         model = Profile
-
-#     user = factory.SubFactory(UserFactory)
-
-
-# def make_chain():
-#     with factory.django.mute_signals(post_save):
-#         return UserProfileFactory()
