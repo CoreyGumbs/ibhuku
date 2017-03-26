@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bio = models.CharField(_('bio'), max_length=150, blank=True)
+    bio = models.CharField(_('bio'), max_length=140, blank=True)
     location = models.CharField(_('location'), max_length=255, blank=True)
     email_confirmed = models.BooleanField(_('confirmed'), default=False)
 
