@@ -51,7 +51,7 @@ def confirm_activation_link(request, uidb64=None, token=None, token_generator=de
     try:
         user = User.objects.get(
             pk=force_text(urlsafe_base64_decode(uidb64)))
-        profile = Profile.objects.get(user_id=user.id)
+
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 

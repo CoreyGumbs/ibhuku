@@ -69,3 +69,14 @@ class TestProfileModel:
         self.profile.save()
 
         assert self.profile.location == 'Queens, N.Y.', 'Should return newly saved data to location field.'
+
+    def test_profile_email_confirmed_field_saves(self):
+        """
+        Test email_confirmed model field.
+        """
+        assert self.profile.email_confirmed == False, 'Should return default value of False.'
+
+        self.profile.email_confirmed = True
+        self.profile.save()
+
+        assert self.profile.email_confirmed == True, 'Should return value of True.'
