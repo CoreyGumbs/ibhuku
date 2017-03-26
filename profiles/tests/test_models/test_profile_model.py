@@ -80,3 +80,6 @@ class TestProfileModel:
         self.profile.save()
 
         assert self.profile.email_confirmed == True, 'Should return value of True.'
+
+    def test_profile_user_reverse_relations(self):
+        assert self.profile.user.get_full_name() == 'Testy7McTesty7'
