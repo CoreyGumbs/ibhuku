@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse, resolve
 from django.template.loader import render_to_string
 
 from users.tests.factories import UserFactory
+from profiles.models import Profile
 from users.models import User
 from users.views import resend_activation_link
 
@@ -26,6 +27,7 @@ class TestResendActivationLinkView:
         for more information.
         """
         self.user = UserFactory()
+        self.profile = Profile.objects.create(user_id=self.user.id)
 
     def test_resend_activation_link_view(self, client):
         """
@@ -65,7 +67,7 @@ class TestResendActivationLinkView:
             mail.outbox) == 1, 'Returns 1 mailbox entry if confirm account email sent.'
         assert mail.outbox[
             0].subject == 'Welcome to Ibhuku.com. Confirm your email.', 'Returns email subject.'
-        assert mail.outbox[0].to == ['Testy2@testing.com']
+        assert mail.outbox[0].to == ['Testy16@testing.com']
         assert 'By clicking on the following button/link, you are confirming your email address' in str(mail.outbox[
             0].body), 'Should return email body text.'
 
@@ -88,6 +90,6 @@ class TestResendActivationLinkView:
         assert mail.outbox[
             0].subject == 'Your accounts is already confirmed.', 'Should return subject of email sent to user.'
         assert mail.outbox[0].to == [
-            'Testy3@testing.com'], 'Should return email message was sent to.'
-        assert 'Testy3@testing.com' in str(mail.outbox[
+            'Testy17@testing.com'], 'Should return email message was sent to.'
+        assert 'Testy17@testing.com' in str(mail.outbox[
             0].body), 'Should return the user email address used to confirm the account in email text body.'

@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # Create your models here.
@@ -11,6 +13,7 @@ class Profile(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio = models.CharField(_('bio'), max_length=150, blank=True)
     location = models.CharField(_('location'), max_length=255, blank=True)
+    email_confirmed = models.BooleanField(_('confirmed'), default=False)
 
     class Meta:
         db_table = 'profile'

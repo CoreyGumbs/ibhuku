@@ -14,6 +14,7 @@ from django.utils.http import urlsafe_base64_encode
 from users.tests.factories import UserFactory
 from users.models import User
 from users.views import confirm_activation_link
+from profiles.models import Profile
 
 
 @pytest.mark.django_db
@@ -31,6 +32,7 @@ class TestAccountActivationLink:
         self.user_uid = urlsafe_base64_encode(force_bytes(self.user.pk))
         self.uid = urlsafe_base64_encode(force_bytes(self.user.pk))
         self.user_token = default_token_generator.make_token(self.user)
+        self.profile = Profile.objects.create(user_id=self.user.id)
 
     def test_confirm_account_link_view(self, client):
         """
@@ -90,7 +92,7 @@ class TestAccountActivationLink:
         assert 'Account Confirmed' in response.content.decode(
             'utf8'), 'Is true if "Account Confirmed" is found on page due to valid parameters.'
 
-    def test_confirm_activation_link_view_user_active(self, client):
+    def test_confirm_activation_link_view_user_active_confirmed(self, client):
         """
         Test that valid account activation link confirms user.
         """
@@ -98,5 +100,7 @@ class TestAccountActivationLink:
             'uidb64': self.user_uid, 'token': self.user_token}))
 
         user = User.objects.get(email__exact=self.user.email)
+        profile = Profile.objects.get(user_id=user.id)
 
-        assert user.is_active == True, 'Should return True if valid link is confirmed and verified by view.'
+        assert user.is_active == True, 'Should return True if valid link is confirmed.'
+        assert profile.email_confirmed == True, 'Should return True if valid link is confirmed.'

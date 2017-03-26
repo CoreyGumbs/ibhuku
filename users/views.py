@@ -11,6 +11,7 @@ from users.userslib.confirm_email import confirm_account_link, already_confirmed
 
 from users.forms import UserRegistrationForm, ResendActivationLinkForm
 from users.models import User
+from profiles.models import Profile
 # Create your views here.
 
 
@@ -50,12 +51,14 @@ def confirm_activation_link(request, uidb64=None, token=None, token_generator=de
     try:
         user = User.objects.get(
             pk=force_text(urlsafe_base64_decode(uidb64)))
+        profile = Profile.objects.get(user_id=user.id)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
     if user is not None and token_generator.check_token(user, token):
         validlink = True
         user.is_active = True
+        user.profile.email_confirmed = True
         user.save()
     else:
         validlink = False

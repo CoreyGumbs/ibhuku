@@ -5,6 +5,7 @@ import pytest
 import factory
 import factory.django
 
+from profiles.models import Profile
 from users.models import User
 from users.tests.factories import UserFactory
 
@@ -24,6 +25,8 @@ class TestUserModel:
         self.user2 = UserFactory(
             first_name='John', last_name='Doe', email='DoeBoy123@testing.com')
         self.users = User.objects.all()
+        self.profile = Profile.objects.create(user_id=self.user1.id)
+        self.profile2 = Profile.objects.create(user_id=self.user2.id)
 
     # Test of User Model created instances
     def test_user1_instance_created(self):
@@ -67,11 +70,11 @@ class TestUserModel:
         self.user1.is_active = True
         self.user1.acct_type = 'EDU'
         self.user1.save()
+
         assert self.user1.password == 'testpassword12345'
         assert self.user1.is_active == True
         assert self.user1.acct_type == 'EDU'
 
-    # Test of User Model methods
     def test_user_model_unicode_method(self):
         """
         Test the user model's __unicode__() method.

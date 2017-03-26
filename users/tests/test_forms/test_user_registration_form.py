@@ -84,8 +84,8 @@ class TestUserRegisrationForm:
         # instantiate form.is_valid() in order to run clean methods.
         form.is_valid()
 
-        assert 'testpassword0004' in form.clean_password(), 'Returns password.'
-        assert 'testpassword0004' in form.cleaned_data.get(
+        assert 'testpassword0010' in form.clean_password(), 'Returns password.'
+        assert 'testpassword0010' in form.cleaned_data.get(
             'password'), 'Returns password if found in cleaned_data'
 
     def test_user_registration_password_field_validation_error(self):

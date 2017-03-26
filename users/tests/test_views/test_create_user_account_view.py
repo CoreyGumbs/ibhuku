@@ -42,8 +42,8 @@ class TestCreateAccountView:
         user = User.objects.get(email__exact=self.user.email)
         assert len(User.objects.all()
                    ) == 1, 'Returns number of users created/found in database.'
-        assert user.email == 'Testy0@testing.com', 'Should return user email.'
-        assert user.username == 'Testy0McT', 'Should return saved generically generated username.'
+        assert user.email == 'Testy6@testing.com', 'Should return user email.'
+        assert user.username == 'Testy6McT', 'Should return saved generically generated username.'
 
     def test_accounts_index_redirects_to_registration_view(self, client):
         """
