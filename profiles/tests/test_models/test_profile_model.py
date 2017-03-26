@@ -34,27 +34,30 @@ class TestProfileModel:
         """
         Test if user profile created.
         """
-        assert self.profile.user.first_name == 'Testy1', 'Should '
+        assert self.profile.user.first_name == 'Testy1', 'Should  return associated user first name.'
 
     def test_profile_unicode_method(self):
         """
         Test the __unicode__ method of model.
         """
-        assert self.profile.__unicode__() == 'Testy2McT'
+        assert self.profile.__unicode__() == 'Testy2McT', 'Should return username.'
 
     def test_profile_str_method(self):
         """
         Test the __str__ method of model.
         """
-        assert self.profile.__str__() == 'Testy3McT'
+        assert self.profile.__str__() == 'Testy3McT', 'Should return username.'
 
     def test_profile_bio_saves(self):
         """
         Test the bio model field saves data.
         """
-        assert self.profile.bio == ''
+        assert self.profile.bio == '', 'Should return original bio field data.'
 
         self.profile.bio = 'This is a test.'
         self.profile.save()
 
-        assert self.profile.bio == 'This is a test.'
+        assert self.profile.bio == 'This is a test.', 'Should return newly saved data to bio field.'
+
+    def test_profile_sex_value(self):
+        pass
