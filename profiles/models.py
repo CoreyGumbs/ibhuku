@@ -10,6 +10,7 @@ class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio = models.CharField(_('bio'), max_length=150, blank=True)
+    location = models.CharField(_('location'), max_length=255, blank=True)
 
     class Meta:
         db_table = 'profile'

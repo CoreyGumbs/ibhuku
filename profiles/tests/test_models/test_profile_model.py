@@ -48,7 +48,7 @@ class TestProfileModel:
         """
         assert self.profile.__str__() == 'Testy3McT', 'Should return username.'
 
-    def test_profile_bio_saves(self):
+    def test_profile_bio_field_saves(self):
         """
         Test the bio model field saves data.
         """
@@ -59,5 +59,13 @@ class TestProfileModel:
 
         assert self.profile.bio == 'This is a test.', 'Should return newly saved data to bio field.'
 
-    def test_profile_sex_value(self):
-        pass
+    def test_profile_location_field_saves(self):
+        """
+        Test location model field.
+        """
+        assert self.profile.location == '', 'Should return original location field data.'
+
+        self.profile.location = 'Queens, N.Y.'
+        self.profile.save()
+
+        assert self.profile.location == 'Queens, N.Y.', 'Should return newly saved data to location field.'
