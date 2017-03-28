@@ -2,8 +2,10 @@
 {%load staticfiles%}
 {% load crispy_forms_tags %}
 
-{%block user_title%}Ibhuku | Profile{%endblock user_title%}
+{%block user_title%}Ibhuku | Profile {{profile.user.username}}{%endblock user_title%}
 
 {%block user_content%}
-	
+	<h1>Welcome {{profile.user.username}},</h1>
+	<h2>This is your page.</h2>
+	<a href="{%url 'profiles:dashboard' profile.user_id %}">Update Profile</a>
 {%endblock user_content%}
