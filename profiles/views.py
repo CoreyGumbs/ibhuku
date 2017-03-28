@@ -7,6 +7,9 @@ from users.models import User
 # Create your views here.
 
 
-def profile_dashboard(self, pk=None):
-    user = pk
-    return HttpResponse('hello' + user)
+def profile_dashboard(request, pk=None):
+    profile = Profile.objects.select_related('user').get(pk=pk)
+    context = {
+        'profile': profile,
+    }
+    return render(request, 'profiles/profile_dashboard.html', context)
