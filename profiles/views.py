@@ -13,3 +13,7 @@ def profile_dashboard(request, pk=None):
         'profile': profile,
     }
     return render(request, 'profiles/profile_dashboard.html', context)
+
+
+def profile_update(request, pk=None):
+    return HttpResponse('Profile Update')
