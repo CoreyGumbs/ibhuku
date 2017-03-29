@@ -18,7 +18,9 @@ def profile_dashboard(request, pk=None):
 
 def profile_update(request, pk=None):
     form = ProfileUpdateForm()
+    profile = Profile.objects.select_related('user').get(pk=pk)
     context = {
         'form': form,
+        'profile': profile,
     }
     return render(request, 'profiles/profile_update.html', context)

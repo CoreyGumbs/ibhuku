@@ -53,6 +53,17 @@ class TestProfileUpdateView:
         """
         response = client.get(
             reverse('profiles:update', kwargs={'pk': self.user.id}))
+
         assert response.templates[0].name == 'profiles/profile_update.html'
         assert 'Ibhuku | Update Profile' in response.content.decode('utf8')
         assert 'form' in response.context
+
+    def test_profile_update_view_returns_correct_profile(self, client):
+        """
+        Test profile_update returns correct profile.
+        """
+        response = client.get(
+            reverse('profiles:update', kwargs={'pk': self.user.id}))
+
+        assert response.context[
+            'profile'].user.first_name == self.user.first_name
