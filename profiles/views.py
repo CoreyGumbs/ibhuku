@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from profiles.models import Profile
+from profiles.forms import ProfileUpdateForm
 from users.models import User
 
 # Create your views here.
@@ -16,4 +17,8 @@ def profile_dashboard(request, pk=None):
 
 
 def profile_update(request, pk=None):
-    return HttpResponse('Profile Update')
+    form = ProfileUpdateForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'profiles/profile_update.html', context)

@@ -49,6 +49,8 @@ class ProfileUpdateForm(ModelForm):
                           active=True, css_class='col-md-6')),
                 Div(Field('location', placeholder='Enter City/Town/State',
                           active=True, css_class='col-md-6')),
+                Div(FormActions(Submit('submit', 'Submit',
+                                       css_class='btn btn-success'),), css_class='col-md-6'),
                 css_class='col-md-6',
 
             ),

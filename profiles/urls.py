@@ -5,5 +5,5 @@ from profiles import views
 
 urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/$', views.profile_dashboard, name='dashboard'),
-    url(r'^(?P<pk>[0-9]+)/update/$', views.profile_update, name='update'),
+    url(r'^update/(?P<pk>[0-9]+)/$', views.profile_update, name='update'),
 ]
