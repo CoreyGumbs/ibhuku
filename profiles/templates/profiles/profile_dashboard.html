@@ -7,5 +7,6 @@
 {%block user_content%}
 	<h1>Welcome {{profile.user.username}},</h1>
 	<h2>This is your page.</h2>
-	<a href="{%url 'profiles:dashboard' profile.user_id %}">Update Profile</a>
+	<a href="{%url 'profiles:edit' profile.user_id %}"><button class='btn btn-default'>Edit Profile</button></a>
+	<a href="{%url 'profiles:edit' profile.user_id %}"><button class='btn btn-default'>Settings</button></a>
 {%endblock user_content%}

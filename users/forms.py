@@ -51,7 +51,7 @@ class UserRegistrationForm(ModelForm):
                           active=True), css_class='col-md-6'),
                 Div(Field('acct_type', active=True), css_class='col-md-12'),
                 Div(FormActions(Submit('submit', 'Submit',
-                                       css_class='btn btn-success btn-lg btn-block'),), css_class='col-md-12'),
+                                       css_class='btn btn-success btn-lg btn-block')), css_class='col-md-12'),
                 Div(Field('toc', active=True), css_class='col-md-12'),
                 css_class='col-md-12', style='margin-top:50px;',
             ),

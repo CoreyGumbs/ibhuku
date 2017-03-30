@@ -32,18 +32,18 @@ class TestProfileUpdateView:
 
     def test_profile_update_view_page_status(self, client):
         response = client.get(
-            reverse('profiles:update', kwargs={'pk': self.user.id}))
+            reverse('profiles:edit', kwargs={'pk': self.user.id}))
 
         assert response.status_code == 200
-        assert response.resolver_match.url_name == 'update'
-        assert response.resolver_match.view_name == 'profiles:update'
+        assert response.resolver_match.url_name == 'edit'
+        assert response.resolver_match.view_name == 'profiles:edit'
 
     def test_profile_update_kwargs(self, client):
         """
         Test of profile_update kwarg(s).
         """
         response = client.get(
-            reverse('profiles:update', kwargs={'pk': self.user.id}))
+            reverse('profiles:edit', kwargs={'pk': self.user.id}))
 
         assert response.resolver_match.kwargs == {'pk': str(self.user.id)}
 
@@ -52,7 +52,7 @@ class TestProfileUpdateView:
         Test profile_update view template context, content, and rendering.
         """
         response = client.get(
-            reverse('profiles:update', kwargs={'pk': self.user.id}))
+            reverse('profiles:edit', kwargs={'pk': self.user.id}))
 
         assert response.templates[0].name == 'profiles/profile_update.html'
         assert 'Ibhuku | Update Profile' in response.content.decode('utf8')
@@ -63,7 +63,7 @@ class TestProfileUpdateView:
         Test profile_update returns correct profile.
         """
         response = client.get(
-            reverse('profiles:update', kwargs={'pk': self.user.id}))
+            reverse('profiles:edit', kwargs={'pk': self.user.id}))
 
         assert response.context[
             'profile'].user.first_name == self.user.first_name

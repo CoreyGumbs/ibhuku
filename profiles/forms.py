@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
@@ -14,19 +14,12 @@ from users.models import User
 
 
 class ProfileUpdateForm(ModelForm):
-    bio = forms.CharField()
+    bio = forms.CharField(required=False, widget=forms.Textarea(
+        attrs={'rows': 10, 'cols': 20, 'style': 'resize:none', 'max_length': 140}))
 
     class Meta:
         model = Profile
-        fields = ('bio', 'location',)
-        widgets = {
-            'bio': forms.Textarea(attrs={
-                'rows': 10,
-                'columns': 20,
-                'style': 'resize:none;',
-                'max_length': 140,
-            })
-        }
+        fields = ['bio', 'location']
 
     def clean_bio(self):
         bio = self.cleaned_data['bio']
@@ -46,12 +39,11 @@ class ProfileUpdateForm(ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(Field('bio', placeholder='Add a bio.',
-                          active=True, css_class='col-md-6')),
+                          active=True, css_class='col-md-12', style='margin: 2px 0 10px 0;')),
                 Div(Field('location', placeholder='Enter City/Town/State',
-                          active=True, css_class='col-md-6')),
+                          active=True, css_class='col-md-12', style='margin: 2px 0 10px 0;')),
                 Div(FormActions(Submit('submit', 'Submit',
-                                       css_class='btn btn-success'),), css_class='col-md-6'),
-                css_class='col-md-6',
-
+                                       css_class='btn btn-success')), css_class='col-md-12', style='margin-top:10px;'),
+                css_class='col-md-12', style='margin-top:50px;',
             ),
         )

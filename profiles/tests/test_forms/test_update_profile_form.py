@@ -23,7 +23,7 @@ class TestUpdateProfileForm:
         self.user = UserFactory()
         self.profile = Profile.objects.get(user_id=self.user.id)
         self.form = ProfileUpdateForm()
-        self.bio_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean in augue a arcu aliquet laoreet nec sed purus. Nullam rhoncus massa sed enim faucibus, id venenatis felis pulvinar. Aliquam a tellus sagittis, pulvinar metus et, aliquam libero. Nunc id metus id dui varius vulputate. Ut sed tortor felis. In quis dignissim risus. Fusce bibendum ullamcorper est, ac rutrum enim. Cras ac urna convallis, fringilla tortor ut, mattis enim. In sodales mattis dolor, vel aliquet augue tempus sed. Mauris at augue quis tortor maximus faucibus. Sed molestie venenatis turpis molestie euismod. Pellentesque dictum sagittis erat eu facilisis'
+        self.bio_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec mi elementum, vehicula ipsum ac, eleifend magna. Suspendisse vitae aliquet nisl. Nam in lacus viverra, tempor odio eget, tempus ligula. Nullam nec est a enim elementum varius. Praesent libero felis, rutrum id mollis ultricies, imperdiet id nisl. Vestibulum fringilla egestas felis, et facilisis tellus lobortis eu. Donec tempor iaculis diam ac sagittis. Morbi at risus et dui euismod suscipit sed et dui.'
 
     def test_profile_update_form_is_not_bound(self):
         """

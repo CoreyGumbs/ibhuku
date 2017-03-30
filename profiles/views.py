@@ -17,8 +17,9 @@ def profile_dashboard(request, pk=None):
 
 
 def profile_update(request, pk=None):
-    form = ProfileUpdateForm()
+        # Need to make each user update field their own form for saving.
     profile = Profile.objects.select_related('user').get(pk=pk)
+    form = ProfileUpdateForm()
     context = {
         'form': form,
         'profile': profile,
