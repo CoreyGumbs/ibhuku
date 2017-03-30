@@ -11,12 +11,17 @@ class Profile(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio = models.CharField(_('bio'), max_length=140, blank=True)
     location = models.CharField(_('location'), max_length=255, blank=True)
+    url_name = models.CharField(
+        _('url_name'), max_length=100, blank=True, unique=True)
     email_confirmed = models.BooleanField(_('confirmed'), default=False)
 
     class Meta:
         db_table = 'profile'
         verbose_name = _('profile')
         verbose_name_plural = _('user_profiles')
+
+    def user_url_name(self):
+        return '{0}{1}'.format('@', self.url_name)
 
     def __unicode__(self):
         return self.user.username

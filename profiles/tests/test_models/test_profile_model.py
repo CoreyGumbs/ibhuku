@@ -82,4 +82,24 @@ class TestProfileModel:
         assert self.profile.email_confirmed == True, 'Should return value of True.'
 
     def test_profile_user_reverse_relations(self):
-        assert self.profile.user.get_full_name() == 'Testy7McTesty7'
+        assert self.profile.user.get_full_name(
+        ) == 'Testy7McTesty7', 'Should return full name from User model method.'
+
+    def test_profile_url_name_saves(self):
+        """
+        Test url_name field.
+        """
+        assert self.profile.url_name == '', 'Should return blank.'
+
+        self.profile.url_name = 'yippiman'
+        self.profile.save()
+
+        assert self.profile.url_name == 'yippiman', 'Should return newly saved data'
+
+    def test_user_url_name_method(self):
+        """
+        Test profile user_url_name method.
+        """
+        self.profile.url_name = self.user.username
+        self.profile.save()
+        assert self.profile.user_url_name() == '@Testy9McT'
