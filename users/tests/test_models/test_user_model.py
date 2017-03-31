@@ -26,7 +26,6 @@ class TestUserModel:
             first_name='John', last_name='Doe', email='DoeBoy123@testing.com')
         self.users = User.objects.all()
         self.profile = Profile.objects.create(user_id=self.user1.id)
-        self.profile2 = Profile.objects.create(user_id=self.user2.id)
 
     # Test of User Model created instances
     def test_user1_instance_created(self):
@@ -49,9 +48,9 @@ class TestUserModel:
         Test the user model's get_full_name() method.
         """
         assert self.user1.get_full_name(
-        ) == 'Testy4McTesty4', 'Should return full_name method value.'
+        ) == 'Testy4 McTesty4', 'Should return full_name method value.'
         assert self.user2.get_full_name(
-        ) == 'JohnDoe', 'Should return full_name method value.'
+        ) == 'John Doe', 'Should return full_name method value.'
 
     def test_user_get_short_name_method(self):
         """

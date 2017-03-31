@@ -59,6 +59,7 @@ def confirm_activation_link(request, uidb64=None, token=None, token_generator=de
         validlink = True
         user.is_active = True
         user.profile.email_confirmed = True
+        user.profile.url_name = '{0}'.format(user.username)
         user.save()
     else:
         validlink = False

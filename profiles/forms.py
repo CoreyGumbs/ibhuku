@@ -6,7 +6,7 @@ from django.forms import ModelForm, Textarea
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Field, Submit, Button, Reset, Div
+from crispy_forms.layout import Layout, Fieldset, Field, Submit, Button, Reset, Div, HTML
 from crispy_forms.bootstrap import FormActions, PrependedText
 
 from profiles.models import Profile
@@ -15,11 +15,11 @@ from users.models import User
 
 class ProfileUpdateForm(ModelForm):
     bio = forms.CharField(required=False, widget=forms.Textarea(
-        attrs={'rows': 10, 'cols': 20, 'style': 'resize:none', 'max_length': 140}))
+        attrs={'id': 'bio_field', 'rows': 5, 'style': 'resize: none', 'maxlength': 140}))
 
     class Meta:
         model = Profile
-        fields = ['bio', 'location']
+        fields = ['bio', 'location', 'current_occupation', 'url_name']
 
     def clean_bio(self):
         bio = self.cleaned_data['bio']
@@ -33,17 +33,25 @@ class ProfileUpdateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
         self.helper.form_id = 'updateProfile'
         self.helper.form_method = 'post'
         self.helper.error_text_inline = True
         self.helper.layout = Layout(
             Div(
                 Div(Field('bio', placeholder='Add a bio.',
-                          active=True, css_class='col-md-12', style='margin: 2px 0 10px 0;')),
+                          active=True, css_class='col-md-12')),
+                Div(HTML('''
+                    <span id="bio_character_feedback">140</span>'''),
+                    style='width: 190px; margin:0 0 5px 120px; color: #b6b6b6; padding:0; text-align: right; float:right; clear: both;',
+                    css_class='col-xs-12'),
+                Div(PrependedText('url_name', 'ibhuku.com/', placeholder='')),
                 Div(Field('location', placeholder='Enter City/Town/State',
-                          active=True, css_class='col-md-12', style='margin: 2px 0 10px 0;')),
+                          active=True, css_class='col-md-12')),
+                Div(Field('current_occupation', placeholder='Enter Current Occupation',
+                          active=True, css_class='col-md-12')),
                 Div(FormActions(Submit('submit', 'Submit',
-                                       css_class='btn btn-success')), css_class='col-md-12', style='margin-top:10px;'),
-                css_class='col-md-12', style='margin-top:50px;',
+                                       css_class='btn btn-success')), style='padding:0;', css_class='col-md-12'),
+                css_class='col-md-12', style='padding:0',
             ),
         )

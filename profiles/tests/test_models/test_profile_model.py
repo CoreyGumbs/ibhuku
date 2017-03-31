@@ -83,7 +83,7 @@ class TestProfileModel:
 
     def test_profile_user_reverse_relations(self):
         assert self.profile.user.get_full_name(
-        ) == 'Testy7McTesty7', 'Should return full name from User model method.'
+        ) == 'Testy7 McTesty7', 'Should return full name from User model method.'
 
     def test_profile_url_name_saves(self):
         """
