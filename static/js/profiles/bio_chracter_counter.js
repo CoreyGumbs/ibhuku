@@ -1,6 +1,8 @@
+// Character Counter for profile bio text area box
+
 $(document).ready(function(){
 
-	var maxLength = 140;
+	var maxLength = 150;
 
 	$('textarea').keyup(function(){
 		var length =  $(this).val().length;

@@ -5,6 +5,7 @@ import pytest
 import factory
 import factory.django
 
+
 from profiles.models import Profile
 from profiles.tests.factories import UserFactory
 

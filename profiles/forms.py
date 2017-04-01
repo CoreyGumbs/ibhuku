@@ -15,7 +15,7 @@ from users.models import User
 
 class ProfileUpdateForm(ModelForm):
     bio = forms.CharField(required=False, widget=forms.Textarea(
-        attrs={'id': 'bio_field', 'rows': 5, 'style': 'resize: none', 'maxlength': 140}))
+        attrs={'id': 'bio_field', 'rows': 5, 'style': 'resize: none', 'maxlength': 550}))
 
     class Meta:
         model = Profile
@@ -24,9 +24,9 @@ class ProfileUpdateForm(ModelForm):
     def clean_bio(self):
         bio = self.cleaned_data['bio']
         if bio:
-            if len(bio) > 140:
+            if len(bio) > 150:
                 raise forms.ValidationError(
-                    _('You have exceeded the maximum length of 140 characters.'), code='profile_bio_long')
+                    _('The maximum length of characters is 150.'), code='profile_bio_long')
 
         return bio
 
@@ -42,7 +42,7 @@ class ProfileUpdateForm(ModelForm):
                 Div(Field('bio', placeholder='Add a bio.',
                           active=True, css_class='col-md-12')),
                 Div(HTML('''
-                    <span id="bio_character_feedback">140</span>'''),
+                    <span id="bio_character_feedback">150</span>'''),
                     style='width: 190px; margin:0 0 5px 120px; color: #b6b6b6; padding:0; text-align: right; float:right; clear: both;',
                     css_class='col-xs-12'),
                 Div(PrependedText('url_name', 'ibhuku.com/', placeholder='')),

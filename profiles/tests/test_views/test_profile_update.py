@@ -67,3 +67,12 @@ class TestProfileUpdateView:
 
         assert response.context[
             'profile'].user.first_name == self.user.first_name
+
+    def test_profile_update_saves_data(self, client):
+        """
+        Test
+        """
+        response = client.post(
+            '/profile/edit/5/', {'bio': 'This is a test', 'location': 'New York', 'url_name': self.user.username})
+
+        assert response.context['profile'].url_name == 'Testy4McT'
