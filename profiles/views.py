@@ -18,7 +18,14 @@ def profile_dashboard(request, pk=None):
 
 def profile_update(request, pk=None):
     profile = Profile.objects.select_related('user').get(pk=pk)
-    form = ProfileUpdateForm(instance=profile)
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=profile)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.save()
+    else:
+        form = ProfileUpdateForm(instance=profile)
+
     context = {
         'form': form,
         'profile': profile,

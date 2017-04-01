@@ -68,11 +68,14 @@ class TestProfileUpdateView:
         assert response.context[
             'profile'].user.first_name == self.user.first_name
 
-    def test_profile_update_saves_data(self, client):
+    def test_profile_update_POST_and_save(self, client):
         """
-        Test
+        Test profile update view request.POST and form save.
         """
         response = client.post(
             '/profile/edit/5/', {'bio': 'This is a test', 'location': 'New York', 'url_name': self.user.username})
 
+        my_profile = Profile.objects.select_related('user').get(user_id=5)
+
         assert response.context['profile'].url_name == 'Testy4McT'
+        assert my_profile.url_name == response.context['profile'].url_name
