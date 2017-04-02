@@ -25,15 +25,16 @@ class TestStripUrlName:
         test url_name input to strip_url_name_punctuation method.
         Test will fail/False if the authorized punctuation in method is called.
         """
-        unauthorized_punc = [x for x in string.punctuation]
-
+        # selects random punctuation characters from string.punctuation and
+        # adds them to string.
         text = ' Testy_ McTesty%@  ' + \
-            str(random.choice(unauthorized_punc)) + \
-            str(random.choice(unauthorized_punc))
+            str(random.choice(string.punctuation)) + \
+            str(random.choice(string.punctuation))
 
+        # removes whitespace
         url_name = ''.join(text.split())
 
-        assert str(unauthorized_punc) not in strip_url_name_punctuation(
+        assert text not in strip_url_name_punctuation(
             url_name), 'Should return newly created string without unauthorized punctuation'
 
         assert 'Testy_McTesty' == strip_url_name_punctuation(
