@@ -3,7 +3,7 @@
 import string
 
 from django import forms
-from django.forms import ModelForm, Textarea
+from django.forms import ModelForm, Textarea, TextInput
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
@@ -22,7 +22,7 @@ class ProfileUpdateForm(ModelForm):
         model = Profile
         fields = ['bio', 'location', 'current_occupation', 'url_name']
         widget = {
-            'url_name'
+            'url_name': TextInput(attrs={'maxlength': 15}),
         }
 
     def clean_bio(self):
@@ -36,16 +36,16 @@ class ProfileUpdateForm(ModelForm):
 
     def clean_url_name(self):
         url_name = ''.join(self.cleaned_data['url_name'].split())
-        translator = str.maketrans('', '', string.punctuation)
-        url = url_name.translate(translator)
+        # symbol = [c for c in url_name if c in string.punctuation]
+        # translator = str.maketrans('_', '-', string.punctuation)
+        # url = url_name.translate(translator)
 
         if url_name:
             if len(url_name) > 15:
                 raise forms.ValidationError(
                     _('The maximum length of characters is 15.'),
                     code='profile_url_long')
-
-        return url
+        return url_name
 
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
