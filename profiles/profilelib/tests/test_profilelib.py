@@ -20,17 +20,11 @@ class TestStripUrlName:
     Test of strip_url_name_punctuation method.
     """
 
-    def setup(self):
-        """
-        Sets up test fixtures using Factory Boy instances. See factories.py module for more information.
-        """
-        self.user = UserFactory()
-        self.profile = Profile.objects.get(user_id=self.user.id)
-        self.form = ProfileUpdateForm()
-        self.current_occupation = 'Teacher'
-        self.location = 'New York, N.Y.'
-
     def test_url_name_unauthorized_punctuation(self, client):
+        """
+        test url_name input to strip_url_name_punctuation method.
+        Test will fail/False if the authorized punctuation in method is called.
+        """
         unauthorized_punc = [x for x in string.punctuation]
 
         text = ' Testy_ McTesty%@  ' + \
@@ -40,6 +34,7 @@ class TestStripUrlName:
         url_name = ''.join(text.split())
 
         assert str(unauthorized_punc) not in strip_url_name_punctuation(
-            url_name)
+            url_name), 'Should return newly created string without unauthorized punctuation'
 
-        assert 'Testy_McTesty' == strip_url_name_punctuation(url_name)
+        assert 'Testy_McTesty' == strip_url_name_punctuation(
+            url_name), 'Should return data from method call without whitespace and wrong punctuation.'
