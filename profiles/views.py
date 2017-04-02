@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.contrib import messages
 
 from profiles.models import Profile
 from profiles.forms import ProfileUpdateForm

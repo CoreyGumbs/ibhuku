@@ -49,15 +49,30 @@ class TestUpdateProfileForm:
         """
         Test form.is_valid() method.
         """
-        form = ProfileUpdateForm(data={'bio': 'Test Text.'})
+        form = ProfileUpdateForm(
+            data={'bio': 'Test Text.', 'url_name': 'testy is testing'})
         assert form.is_valid() == True
 
     def test_profile_update_form_field_errors(self):
         """
         Test form field errors and validation.
         """
-        form = ProfileUpdateForm(data={'bio': self.bio_text})
+        form = ProfileUpdateForm(
+            data={'bio': self.bio_text, 'url_name': 'This is the profile url parameter that is long#2!@'})
         assert form.has_error(
             'bio', code='profile_bio_long') == True, 'Returns True if form field has an error.'
         assert form.errors == {
-            'bio': ['You have exceeded the maximum length of 140 characters.']}, 'Returns kwargs of form field and error where error is reported.'
+            'bio': ['The maximum length of characters is 140.'],
+            'url_name': ['The maximum length of characters is 15.']}, 'Returns kwargs of form field and error where error is reported.'
+
+    def test_profile_update_url_name_string_clean_up(self):
+        """
+        Test the removal of any punctuation and white space from url_name field.
+        """
+        form = ProfileUpdateForm(
+            data={'bio': self.bio_text, 'url_name': 'This is t$327!#@'})
+        form.is_valid()
+        assert '$.!#@' not in form.clean_url_name(
+        ), 'Should return value without punctuation.'
+        assert 'This is t327' not in form.clean_url_name(
+        ), 'Should return string with no white space.'

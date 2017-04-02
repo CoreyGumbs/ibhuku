@@ -7,6 +7,16 @@
 {%block user_content%}
 	<h1>Welcome {{profile.user.username}},</h1>
 	<h2>This is your page.</h2>
-	<a href="{%url 'profiles:edit' profile.user_id %}"><button class='btn btn-default'>Edit Profile</button></a>
+	<hr>
+		<ul>
+			<li><h4>{{profile.location}}</h4></li>
+			<li><h4>{{profile.current_occupation}}</h4></li>
+		</ul>
+	<hr>
+		<ul>
+			<li>{{profile.bio}}</li>
+			<li>http://www.ibhuku.com/{{profile.url_name}}</li>
+		</ul>
+	<hr>
 	<a href="{%url 'profiles:edit' profile.user_id %}"><button class='btn btn-default'>Settings</button></a>
 {%endblock user_content%}

@@ -10,9 +10,9 @@ class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio = models.CharField(_('bio'), max_length=140, blank=True)
-    location = models.CharField(_('location'), max_length=255, blank=True)
+    location = models.CharField(_('location'), max_length=140, blank=True)
     url_name = models.CharField(
-        _('profile URL'), max_length=100, blank=True, unique=True)
+        _('profile URL'), max_length=150, blank=True, unique=True)
     email_confirmed = models.BooleanField(_('confirmed'), default=False)
     current_occupation = models.CharField(
         _('occupation'), max_length=255, blank=True)
