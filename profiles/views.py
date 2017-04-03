@@ -29,7 +29,7 @@ def profile_update(request, pk=None):
             return HttpResponseRedirect(reverse('profiles:edit', kwargs={'pk': pk}))
         else:
             messages.warning(
-                request, 'There was an error. Please check again.')
+                request, 'There was an error with your submission.')
     else:
         form = ProfileUpdateForm(instance=profile)
 

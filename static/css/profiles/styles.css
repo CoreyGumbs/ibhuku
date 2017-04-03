@@ -2,6 +2,7 @@
 .profile_message{
 	padding: 0;
 	display:  none;
+	list-style-type: None; 
 }
 
 .profile_message .success{
