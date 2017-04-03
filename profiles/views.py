@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib import messages
 
@@ -24,6 +25,11 @@ def profile_update(request, pk=None):
         if form.is_valid():
             profile = form.save(commit=False)
             profile.save()
+            messages.success(request, 'Update Successful')
+            return HttpResponseRedirect(reverse('profiles:edit', kwargs={'pk': pk}))
+        else:
+            messages.warning(
+                request, 'There was an error. Please check again.')
     else:
         form = ProfileUpdateForm(instance=profile)
 

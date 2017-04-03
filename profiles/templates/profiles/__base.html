@@ -8,13 +8,28 @@
 	</title>
 	{%block stylesheets%}
 		{%include 'bootstrap_css/bootstrap3.html'%}
+		<link rel="stylesheet" href="{% static 'css/profiles/styles.css' %}">
 	{%endblock stylesheets%}
 	{%block user_javascript%}{%endblock user_javascript%}
 </head>
 <body>
+	<div class="row">
+		<div class="col-md-12">
+			{% if messages %}
+				<ul class="messages profile_message">
+			    	{% for message in messages %}
+			      		<li class="{{ message.tags }}">{{ message }}</li>
+			    	{% endfor %}
+			 	</ul>
+			{% endif %}
+		</div>
+	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				{%block dashboard_nav%}
+				{%endblock dashboard_nav%}
+			</div>
 			<div class="col-md-6">
 				{%block user_content%}
 				{%endblock user_content%}

@@ -63,15 +63,5 @@ class TestUpdateProfileForm:
             data={'bio': self.bio_text, 'url_name': 'This is the profile url parameter that is _-long#2!@'})
         assert form.has_error(
             'bio', code='profile_bio_long') == True, 'Returns True if form field has an error.'
-        assert form.errors == {
-            'bio': ['The maximum length of characters is 140.'],
-            'url_name': ['The maximum length of characters is 15.']}, 'Returns kwargs of form field and error where error is reported.'
-
-    def test_profile_update_url_name_string_clean_up(self):
-        """
-        Test the removal of any punctuation and white space from url_name field.
-        """
-        form = ProfileUpdateForm(
-            data={'bio': self.bio_text, 'url_name': 'This is$@! t_327!#@'})
-        form.is_valid()
-        print(form.clean)
+        assert form.errors == {'bio': ['The maximum length of characters is 140.'], 'url_name': ['The maximum length of characters is 15.']
+                               }, 'Returns kwargs of form field and error where error is reported.'

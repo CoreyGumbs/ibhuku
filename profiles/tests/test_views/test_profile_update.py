@@ -67,15 +67,23 @@ class TestProfileUpdateView:
 
         assert response.context[
             'profile'].user.first_name == self.user.first_name
+        assert response.context['profile'].location == ''
+        assert response.context['profile'].url_name == ''
 
     def test_profile_update_POST_and_save(self, client):
         """
         Test profile update view request.POST and form save.
         """
         response = client.post(
-            '/profile/edit/5/', {'bio': 'This is a test', 'location': 'New York', 'url_name': self.user.username})
+            '/profile/edit/5/', {'bio': 'This is a test', 'location': 'New York', 'url_name': '!Test@ McTest-77'})
 
         my_profile = Profile.objects.select_related('user').get(user_id=5)
 
-        assert response.context['profile'].url_name == 'Testy4McT'
-        assert my_profile.url_name == response.context['profile'].url_name
+        response = client.get(reverse('profiles:edit', kwargs={'pk': 5}))
+
+        assert response.context[
+            'profile'].url_name == 'TestMcTest-77', 'Returns cleaned url_name parameter.'
+        assert my_profile.url_name == response.context[
+            'profile'].url_name, 'Returns saved url_name parameter.'
+        assert response.context[
+            'profile'].location == 'New York', 'Returns saved location parameter.'
