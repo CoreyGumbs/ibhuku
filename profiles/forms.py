@@ -80,3 +80,17 @@ class UserUpdateForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'username']
+
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_id = 'updateUser'
+        self.helper.form_method = 'post'
+        self.helper.error_text_inline = True
+        self.helper.layout = Layout(
+            Div(
+                Div(Field('first_name', placeholder='First name.',
+                          active=True, css_class='col-md-12')),
+            ),
+        )
