@@ -12,7 +12,7 @@ from crispy_forms.layout import Layout, Fieldset, Field, Submit, Button, Reset, 
 from crispy_forms.bootstrap import FormActions, PrependedText
 
 from profiles.models import Profile
-from profiles.profilelib.strip_url import strip_url_name_punctuation
+from profiles.profilelib.strip_url import strip_punctuation
 from users.models import User
 
 
@@ -38,7 +38,7 @@ class ProfileUpdateForm(ModelForm):
 
     def clean_url_name(self):
         url_name = ''.join(self.cleaned_data['url_name'].split())
-        url = strip_url_name_punctuation(url_name)
+        url = strip_punctuation(url_name)
 
         if url_name:
             if len(url_name) > 15:
@@ -80,6 +80,17 @@ class UserUpdateForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'username']
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        new_username = strip_punctuation(username)
+
+        if username:
+            if len(username) > 15:
+                raise forms.ValidationError(
+                    _('The maximum length of characters is 15.'), code='username_len_error')
+
+        return new_username
 
     def __init__(self, *args, **kwargs):
         super(UserUpdateForm, self).__init__(*args, **kwargs)

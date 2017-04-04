@@ -26,7 +26,7 @@ class TestUpdateUserAccount:
         self.form = ProfileUpdateForm()
         self.user_update = UserUpdateForm()
 
-    def test_user_update_form_bound(self, client):
+    def test_user_update_form_bound(self):
         """
         Test user update form is_bound method.
         """
@@ -35,7 +35,7 @@ class TestUpdateUserAccount:
         form = UserUpdateForm({})
         assert form.is_bound == True, 'Returns True if form bound.'
 
-    def test_user_update_form_is_valid(self, client):
+    def test_user_update_form_is_valid(self):
         """
         Test user update form is_valid() method.
         """
@@ -46,10 +46,22 @@ class TestUpdateUserAccount:
 
         assert form.is_valid() == True, 'Returns True if form valid.'
 
-    def test_user_update_form_values(self, client):
+    def test_user_update_form_values(self):
         """
+        Test passing of forms values.
         """
         form = UserUpdateForm(data={'first_name': self.user.first_name, 'last_name': self.user.last_name,
                                     'email': 'testy@gmail.com', 'username': self.user.username})
-        assert form['first_name'].value() == 'Testy'
+        assert form['first_name'].value() == 'Testy2'
         assert form['username'].value() == self.user.username
+
+    def test_user_update_form_field_errors(self):
+        """
+        Test of user update form field errors.
+        """
+        form = UserUpdateForm(data={'first_name': 'Testy', 'last_name': 'McTesty',
+                                    'email': 'testy@gmail.com', 'username': 'TestyMcTest13@1!drterterter'})
+
+        assert form.has_error('username') == True
+        assert form.errors == {'username': [
+            'The maximum length of characters is 15.']}
