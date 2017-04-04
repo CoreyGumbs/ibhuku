@@ -52,8 +52,10 @@ class TestUpdateUserAccount:
         """
         form = UserUpdateForm(data={'first_name': self.user.first_name, 'last_name': self.user.last_name,
                                     'email': 'testy@gmail.com', 'username': self.user.username})
-        assert form['first_name'].value() == 'Testy2'
-        assert form['username'].value() == self.user.username
+        assert form['first_name'].value(
+        ) == 'Testy2', 'Returns the value of first_name field.'
+        assert form['username'].value(
+        ) == self.user.username, 'Returns the value of the username field.'
 
     def test_user_update_form_field_errors(self):
         """
@@ -62,6 +64,17 @@ class TestUpdateUserAccount:
         form = UserUpdateForm(data={'first_name': 'Testy', 'last_name': 'McTesty',
                                     'email': 'testy@gmail.com', 'username': 'TestyMcTest13@1!drterterter'})
 
-        assert form.has_error('username') == True
+        assert form.has_error(
+            'username', code='username_len_error') == True, 'Should return if there is a username field error.'
         assert form.errors == {'username': [
-            'The maximum length of characters is 15.']}
+            'The maximum length of characters is 15.']}, 'Returns the error message(s).'
+
+    def test_user_update_form_clean(self):
+        """
+        Test of user update form username field clean().
+        Checks for length validation and returns username without added punctuations.
+        """
+        form = UserUpdateForm(data={'first_name': 'Testy', 'last_name': 'McTesty',
+                                    'email': 'testy@gmail.com', 'username': 'Testy!@345'})
+        form.is_valid()
+        assert form.clean_username() == 'Testy345', 'Should return cleaned_data.'
