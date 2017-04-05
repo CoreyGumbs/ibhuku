@@ -76,6 +76,8 @@ class ProfileUpdateForm(ModelForm):
 
 
 class UserUpdateForm(ModelForm):
+    first_name = forms.CharField(required=False)
+    email = forms.EmailField(required=False)
 
     class Meta:
         model = User
@@ -101,7 +103,16 @@ class UserUpdateForm(ModelForm):
         self.helper.error_text_inline = True
         self.helper.layout = Layout(
             Div(
-                Div(Field('first_name', placeholder='First name.',
+                Div(Field('first_name', placeholder='First name',
+                          active=True, css_class='col-md-6')),
+                Div(Field('last_name', placeholder='Last name',
+                          active=True, css_class='col-md-6')),
+                Div(Field('email', placeholder='Email',
                           active=True, css_class='col-md-12')),
+                Div(Field('username', placeholder='Username',
+                          active=True, css_class='col-md-12')),
+                Div(FormActions(Submit('submit', 'Submit',
+                                       css_class='btn btn-success', css_id='updateSubmit')), style='padding:0;', css_class='col-md-12'),
+                css_class='col-md-12', style='padding:0',
             ),
         )

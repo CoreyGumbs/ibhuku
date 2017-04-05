@@ -65,3 +65,33 @@ class TestUserUpdate:
         assert 'form' in response.context, 'Returns True if form context is found.'
         assert '</form>' in response.content.decode(
             'utf8'), 'Returns True if html tag rendered in content.'
+
+    def test_user_update_view(self, client):
+        """
+        Test user_update view returns correct profile.
+        """
+
+        response = client.get(reverse('profiles:update', kwargs={
+                              'pk': self.user.id, 'username': self.user.username}))
+
+        assert response.context[
+            'profile'].user.first_name == self.user.first_name
+        assert response.context['profile'].user.email == self.user.email
+        assert response.context['profile'].user.username == self.user.username
+
+    def test_user_update_save_and_post(self, client):
+        """
+        Test the post/save of new data in user update view.
+        """
+        response = client.post(reverse('profiles:update', kwargs={
+            'pk': self.user.id, 'username': self.user.username}), {'first_name': 'John', 'last_name': 'Doe', 'email': 'johndoe@test.com', 'username': 'JohnDoe1977#@!'})
+
+        new_user = Profile.objects.select_related('user').get(pk=self.user.id)
+
+        response = client.get(reverse('profiles:update', kwargs={
+                              'pk': self.user.id, 'username': self.user.username}))
+
+        assert response.context['profile'].user.username == 'JohnDoe1977'
+        assert new_user.user.first_name == response.context[
+            'profile'].user.first_name
+        assert new_user.user.email == response.context['profile'].user.email

@@ -41,8 +41,17 @@ def profile_update(request, pk=None, username=None):
 
 
 def user_update(request, pk=None, username=None):
+    user = User.objects.get(pk=pk)
     profile = Profile.objects.select_related('user').get(pk=pk)
-    form = UserUpdateForm()
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=profile.user)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.save()
+            messages.success(request, 'Update Successful')
+            return HttpResponseRedirect(reverse('profiles:update', kwargs={'pk': pk, 'username': username}))
+    else:
+        form = UserUpdateForm(instance=profile.user)
     context = {
         'form': form,
         'profile': profile,
