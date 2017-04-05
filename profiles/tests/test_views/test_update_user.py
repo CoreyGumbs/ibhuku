@@ -47,8 +47,9 @@ class TestUserUpdate:
         """
         response = client.get(reverse('profiles:update', kwargs={
                               'pk': self.user.id, 'username': self.user.username}))
+
         assert response.resolver_match.kwargs == {
-            'pk': str(self.user.id), 'username': self.user.username}
+            'pk': str(self.user.id), 'username': self.user.username}, 'Returns kwargs passed in url.'
 
     def test_user_view_rendering(self, client):
         """
@@ -57,4 +58,10 @@ class TestUserUpdate:
         response = client.get(reverse('profiles:update', kwargs={
                               'pk': self.user.id, 'username': self.user.username}))
 
-        assert response.templates[0].name == 'profiles/user_update.html'
+        assert response.templates[
+            0].name == 'profiles/user_update.html', 'Returns url/path of view template.'
+        assert 'Ibhuku | Update Account' in response.content.decode(
+            'utf8'), 'Returns True if title rendered in html.'
+        assert 'form' in response.context, 'Returns True if form context is found.'
+        assert '</form>' in response.content.decode(
+            'utf8'), 'Returns True if html tag rendered in content.'
