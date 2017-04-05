@@ -34,7 +34,7 @@ class TestProfileDashboard:
         Test of profile dashboard view functionality.
         """
         response = client.get(
-            reverse('profiles:dashboard', kwargs={'pk': self.user.id}))
+            reverse('profiles:dashboard', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
         assert response.status_code == 200, 'Returns 200 if page found.'
 
@@ -43,7 +43,7 @@ class TestProfileDashboard:
         Test profile dashboard function name parameters. 
         """
         response = client.get(
-            reverse('profiles:dashboard', kwargs={'pk': self.user.id}))
+            reverse('profiles:dashboard', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
         assert response.resolver_match.func.__name__ == 'profile_dashboard', 'Returns the view function name.'
         assert response.resolver_match.view_name == 'profiles:dashboard', 'Returns view name.'
@@ -54,7 +54,7 @@ class TestProfileDashboard:
         Test of profile dashboard template and rendering.
         """
         response = client.get(
-            reverse('profiles:dashboard', kwargs={'pk': self.user.id}))
+            reverse('profiles:dashboard', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
         assert response.templates[0].name == 'profiles/profile_dashboard.html'
         assert 'Ibhuku | Profile' in response.content.decode('utf8')
@@ -65,13 +65,14 @@ class TestProfileDashboard:
         Test of profile dashboard url kwargs.
         """
         response = client.get(
-            reverse('profiles:dashboard', kwargs={'pk': self.user.id}))
+            reverse('profiles:dashboard', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
-        assert response.resolver_match.kwargs == {'pk': '4'}
+        assert response.resolver_match.kwargs == {
+            'pk': '4', 'username': 'Testy3McT'}
 
     def test_profile_dashboard_retrieves_correct_user(self, client):
         response = client.get(
-            reverse('profiles:dashboard', kwargs={'pk': self.user.id}))
+            reverse('profiles:dashboard', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
         assert response.context[
             'profile'].user.first_name == self.user.first_name

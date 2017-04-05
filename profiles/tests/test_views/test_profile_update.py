@@ -31,8 +31,11 @@ class TestProfileUpdateView:
             'user').get(user_id=self.user.id)
 
     def test_profile_update_view_page_status(self, client):
+        """
+        Test profile update view status.
+        """
         response = client.get(
-            reverse('profiles:edit', kwargs={'pk': self.user.id}))
+            reverse('profiles:edit', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
         assert response.status_code == 200
         assert response.resolver_match.url_name == 'edit'
@@ -43,16 +46,17 @@ class TestProfileUpdateView:
         Test of profile_update kwarg(s).
         """
         response = client.get(
-            reverse('profiles:edit', kwargs={'pk': self.user.id}))
+            reverse('profiles:edit', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
-        assert response.resolver_match.kwargs == {'pk': str(self.user.id)}
+        assert response.resolver_match.kwargs == {
+            'pk': str(self.user.id), 'username': self.user.username}
 
     def test_profile_update_view_rendering(self, client):
         """
         Test profile_update view template context, content, and rendering.
         """
         response = client.get(
-            reverse('profiles:edit', kwargs={'pk': self.user.id}))
+            reverse('profiles:edit', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
         assert response.templates[0].name == 'profiles/profile_update.html'
         assert 'Ibhuku | Update Profile' in response.content.decode('utf8')
@@ -63,7 +67,7 @@ class TestProfileUpdateView:
         Test profile_update returns correct profile.
         """
         response = client.get(
-            reverse('profiles:edit', kwargs={'pk': self.user.id}))
+            reverse('profiles:edit', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
         assert response.context[
             'profile'].user.first_name == self.user.first_name
@@ -74,12 +78,14 @@ class TestProfileUpdateView:
         """
         Test profile update view request.POST and form save.
         """
-        response = client.post(
-            '/profile/edit/5/', {'bio': 'This is a test', 'location': 'New York', 'url_name': '!Test@ McTest-77'})
+        response = client.post(reverse('profiles:edit', kwargs={'pk': self.user.id, 'username': self.user.username}), {
+                               'bio': 'Tsfsdfsddf', 'location': 'New York', 'url_name': '!Test@ McTest-77'})
 
-        my_profile = Profile.objects.select_related('user').get(user_id=5)
+        my_profile = Profile.objects.select_related(
+            'user').get(pk=self.user.id)
 
-        response = client.get(reverse('profiles:edit', kwargs={'pk': 5}))
+        response = client.get(reverse('profiles:edit', kwargs={
+                              'pk': self.user.id, 'username': self.user.username}))
 
         assert response.context[
             'profile'].url_name == 'TestMcTest-77', 'Returns cleaned url_name parameter.'

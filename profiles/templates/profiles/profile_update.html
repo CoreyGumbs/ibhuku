@@ -12,10 +12,10 @@
 			<a href="#" class="list-group-item active">
 				<h5 class="list-group-item-heading">Settings</h5>
 			</a>
-			<button type='button' class='list-group-item'><a href="{%url 'profiles:dashboard' profile.user_id %}">Dashboard</a></button>
-			<button type='button' class='list-group-item'><a href="{%url 'profiles:edit' profile.user_id %}">Profile</a></button>
-			<button type='button' class='list-group-item'><a href="{%url 'profiles:edit' profile.user_id %}">Account</a></button>
-			<button type='button' class='list-group-item'><a href="{%url 'profiles:edit' profile.user_id %}">Edit Profile</a></button>
+			<button type='button' class='list-group-item'><a href="{%url 'profiles:dashboard' profile.user_id profile.user.username %}">Dashboard</a></button>
+			<button type='button' class='list-group-item'><a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">Profile</a></button>
+			<button type='button' class='list-group-item'><a href="{%url 'profiles:update' profile.user_id profile.user.username %}">Account</a></button>
+			<button type='button' class='list-group-item'><a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">Edit Profile</a></button>
 		</div>
 	</div>
 	<div class="col-md-8">

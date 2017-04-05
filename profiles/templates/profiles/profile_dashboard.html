@@ -18,5 +18,5 @@
 			<li>http://www.ibhuku.com/{{profile.url_name}}</li>
 		</ul>
 	<hr>
-	<a href="{%url 'profiles:edit' profile.user_id %}"><button class='btn btn-default'>Settings</button></a>
+	<a href="{%url 'profiles:edit' profile.user_id profile.user.username %}"><button class='btn btn-default'>Settings</button></a>
 {%endblock user_content%}
