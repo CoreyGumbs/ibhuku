@@ -38,5 +38,14 @@ class TestUserUpdate:
             reverse('profiles:update', kwargs={'pk': self.user.id, 'username': '-JohnDoe_1977'}))
 
         assert response.status_code == 200, 'Returns 200 if view status True.'
-        assert response.resolver_match.url_name == 'update'
-        assert response.resolver_match.view_name == 'profiles:update'
+        assert response.resolver_match.url_name == 'update', 'Returns url name.'
+        assert response.resolver_match.view_name == 'profiles:update', 'Returns view name.'
+
+    def test_user_update_view_kwargs(self, client):
+        """
+        Test the passing of view/url kwargs.
+        """
+        response = client.get(reverse('profiles:update', kwargs={
+                              'pk': self.user.id, 'username': self.user.username}))
+        assert response.resolver_match.kwargs == {
+            'pk': '2', 'username': 'Testy1McT'}

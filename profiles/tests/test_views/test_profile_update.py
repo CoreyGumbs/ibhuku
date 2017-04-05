@@ -78,12 +78,15 @@ class TestProfileUpdateView:
         """
         Test profile update view request.POST and form save.
         """
+        # initial response post of profile data.
         response = client.post(reverse('profiles:edit', kwargs={'pk': self.user.id, 'username': self.user.username}), {
                                'bio': 'Tsfsdfsddf', 'location': 'New York', 'url_name': '!Test@ McTest-77'})
 
+        # search for current profile.
         my_profile = Profile.objects.select_related(
             'user').get(pk=self.user.id)
 
+        # get request to retrieve newly saved data.
         response = client.get(reverse('profiles:edit', kwargs={
                               'pk': self.user.id, 'username': self.user.username}))
 
