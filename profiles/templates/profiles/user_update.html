@@ -2,7 +2,7 @@
 {%load staticfiles%}
 {% load crispy_forms_tags %}
 
-{%block user_title%}Ibhuku | Update Profile{%endblock user_title%}
+{%block user_title%}Ibhuku | Update Account{%endblock user_title%}
 
 {%block dashboard_nav%}
 {%endblock dashboard_nav%}
@@ -14,13 +14,13 @@
 			</a>
 			<button type='button' class='list-group-item'><a href="{%url 'profiles:dashboard' profile.user_id profile.user.username %}">Dashboard</a></button>
 			<button type='button' class='list-group-item'><a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">Profile</a></button>
-			<button type='button' class='list-group-item'><a href="{%url 'profiles:update' profile.user_id profile.user.username %}">Account</a></button>
-			<button type='button' class='list-group-item list-group-item-success'><a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">Edit Profile</a></button>
+			<button type='button' class='list-group-item list-group-item-success'><a href="{%url 'profiles:update' profile.user_id profile.user.username %}">Account</a></button>
+			<button type='button' class='list-group-item'><a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">Edit Profile</a></button>
 		</div>
 	</div>
 	<div class="col-md-8">
 		<h3>{{profile.user.get_full_name}}</h3>
-		{% crispy form form.helper %}
+		
 	</div>
 {%endblock user_content%}
 {%block javascript%}

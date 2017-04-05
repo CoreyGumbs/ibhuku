@@ -41,4 +41,8 @@ def profile_update(request, pk=None, username=None):
 
 
 def user_update(request, pk=None, username=None):
-    return HttpResponse(username)
+    profile = Profile.objects.select_related('user').get(pk=pk)
+    context = {
+        'profile': profile,
+    }
+    return render(request, 'profiles/user_update.html', context)

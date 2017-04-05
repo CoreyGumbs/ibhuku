@@ -48,4 +48,13 @@ class TestUserUpdate:
         response = client.get(reverse('profiles:update', kwargs={
                               'pk': self.user.id, 'username': self.user.username}))
         assert response.resolver_match.kwargs == {
-            'pk': '2', 'username': 'Testy1McT'}
+            'pk': str(self.user.id), 'username': self.user.username}
+
+    def test_user_view_rendering(self, client):
+        """
+        Test user_update view template context, content, and rendering.
+        """
+        response = client.get(reverse('profiles:update', kwargs={
+                              'pk': self.user.id, 'username': self.user.username}))
+
+        assert response.templates[0].name == 'profiles/user_update.html'
