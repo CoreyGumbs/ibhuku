@@ -55,8 +55,18 @@ class TestProfileAvatarModel:
         """
         assert self.avatar.__str__() == 'media/generic/default.jpg', 'Returns str method data.'
 
-    def test_avatar_saves(self):
+    def test_avatar_model_saves(self):
+        """
+        Test if ProfileAvatar saves new data in ImageField.
+        """
         self.avatar.avatar = '{0}{1}'.format(settings.MEDIA_URL, 'me.jpg')
         self.avatar.save()
 
         assert self.avatar.avatar == '/media/me.jpg', 'Should return new image path.'
+
+    def test_avatar_reverse_relations(self):
+        """
+        Test the foreign key reverse relations of ProfileAvatar.
+        """
+        assert self.avatar.profile.email_confirmed == False, 'Returns False if email_confirmed of Profile model is False.'
+        assert self.avatar.profile.user.last_name == 'McTesty4', 'Returns last_name field of User model.'
