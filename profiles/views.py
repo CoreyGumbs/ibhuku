@@ -50,6 +50,9 @@ def user_update(request, pk=None, username=None):
             profile.save()
             messages.success(request, 'Update Successful')
             return HttpResponseRedirect(reverse('profiles:update', kwargs={'pk': pk, 'username': username}))
+        else:
+            messages.warning(
+                request, 'There was an error with your submission.')
     else:
         form = UserUpdateForm(instance=profile.user)
     context = {
