@@ -55,4 +55,4 @@ class ProfileAvatar(models.Model):
         return self.avatar
 
     def __str__(self):
-        return self.avatar
+        return str(self.avatar)

@@ -54,3 +54,9 @@ class TestProfileAvatarModel:
         Test of __str__ method.
         """
         assert self.avatar.__str__() == 'media/generic/default.jpg', 'Returns str method data.'
+
+    def test_avatar_saves(self):
+        self.avatar.avatar = '{0}{1}'.format(settings.MEDIA_URL, 'me.jpg')
+        self.avatar.save()
+
+        assert self.avatar.avatar == '/media/me.jpg', 'Should return new image path.'
