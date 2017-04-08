@@ -42,10 +42,17 @@ class Profile(models.Model):
 class ProfileAvatar(models.Model):
     profile = models.OneToOneField(
         Profile, on_delete=models.CASCADE, primary_key=True)
-    avatar = models.ImageField(upload_to=user_directory_path)
+    avatar = models.ImageField(
+        upload_to=user_directory_path, default='media/generic/default.jpg')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'avatars'
         verbose_name = _('avatars')
         verbose_name_plural = _('profile_avatars')
+
+    def __unicode__(self):
+        return self.avatar
+
+    def __str__(self):
+        return self.avatar

@@ -26,7 +26,7 @@ class TestProfileAvatarModel:
         self.user = UserFactory()
         self.profile = Profile.objects.get(user_id=self.user.id)
         self.avatar = ProfileAvatar.objects.create(
-            profile_id=self.profile.id, avatar='{0}{1}'.format(settings.MEDIA_URL, 'testy.jpg'))
+            profile_id=self.profile.id)
 
     def test_avatar_created(self):
         """
@@ -35,9 +35,22 @@ class TestProfileAvatarModel:
         assert ProfileAvatar.objects.all().count(
         ) == 1, 'Returns avatar objects count. Should = 1'
 
-    def test_avatar_data(self):
+    def test_avatar_created_data(self):
         """
         Test created avatar data.
         """
-        assert self.avatar.profile.id == 2
-        assert self.avatar.avatar == '/media/'
+        assert self.avatar.profile.id == 2, 'Returns created avatar intance id #.'
+        assert self.avatar.avatar == 'media/generic/default.jpg', 'Returns avatar default file path.'
+
+    def test_avatar_unicode_method(self):
+        """
+        Test of __unicode__ method.
+        """
+        assert self.avatar.__unicode__(
+        ) == 'media/generic/default.jpg', 'Returns unicode method data.'
+
+    def test_avatar_unicode_method(self):
+        """
+        Test of __str__ method.
+        """
+        assert self.avatar.__str__() == 'media/generic/default.jpg', 'Returns str method data.'
