@@ -11,7 +11,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Submit, Button, Reset, Div, HTML
 from crispy_forms.bootstrap import FormActions, PrependedText
 
-from profiles.models import Profile
+from profiles.models import Profile, ProfileAvatar
 from profiles.profilelib.strip_url import strip_punctuation
 from users.models import User
 
@@ -115,4 +115,34 @@ class UserUpdateForm(ModelForm):
                                        css_class='btn btn-success', css_id='updateSubmit')), style='padding:0;', css_class='col-md-12'),
                 css_class='col-md-12', style='padding:0',
             ),
+        )
+
+
+class AvatarUploadForm(ModelForm):
+
+    class Meta:
+        model = ProfileAvatar
+        fields = ['avatar']
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data['avatar']
+
+        if avatar.endswith('.jpg'):
+            return avatar
+        elif avatar.endswith('.png'):
+            return avatar
+        else:
+            raise ValidationError(
+                _('Incorrect format. Image must be a .jpg or .png'), code='avatar_format_error')
+
+    def __init__(self, *args, **kwargs):
+        super(AvatarUploadForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'forms-inline'
+        self.helper.form_id = 'avatarUpload'
+        self.helper.error_text_inline = True
+        self.helper.layout = Layout(
+            Div(Div(Field('avatar', placeholder='Upload Profile',
+                          active=True, css_class='col-md-6')),
+                ),
         )

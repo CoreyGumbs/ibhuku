@@ -44,7 +44,7 @@ class ProfileAvatar(models.Model):
         Profile, on_delete=models.CASCADE, primary_key=True)
     avatar = models.ImageField(
         upload_to=user_directory_path, default='media/generic/default.jpg')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    upload_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'avatars'
