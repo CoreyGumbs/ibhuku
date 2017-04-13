@@ -83,4 +83,4 @@ class TestAvatarUploadForm:
         assert form.has_error(
             'avatar', code='wrong_file_format') == True, 'Should return True if form has error on field.'
         assert form.errors == {'avatar': [
-            'Unsupported file format. Please upload JPG or PNG file.']}, 'Returns field error message.'
+            'Unsupported file format. Please upload .jpg or .png file.']}, 'Returns field error message.'
