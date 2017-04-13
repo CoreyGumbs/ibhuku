@@ -126,11 +126,11 @@ class AvatarUploadForm(ModelForm):
 
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
-        if avatar.name.endswith(('.jpg', '.png')):
+        if avatar.name.endswith(('.jpg', '.png',)):
             return avatar
         else:
             raise forms.ValidationError(
-                _('Unsupported file format. Please upload JPG or PNG file.'))
+                _('Unsupported file format. Please upload JPG or PNG file.'), code='wrong_file_format')
 
     def __init__(self, *args, **kwargs):
         super(AvatarUploadForm, self).__init__(*args, **kwargs)

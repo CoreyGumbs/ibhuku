@@ -42,7 +42,7 @@ class TestAvatarUploadForm:
 
         self.form = AvatarUploadForm(self.data, self.file_data)
 
-    def test_avatar_update_is_bound_method(self):
+    def test_avatar_upload_is_bound_method(self):
         """
         Test form's is_bound() method.
         """
@@ -50,7 +50,7 @@ class TestAvatarUploadForm:
         form = AvatarUploadForm()
         assert form.is_bound == False, 'Should return False if form is not bound.'
 
-    def test_avatar_update_is_valid_method(self):
+    def test_avatar_upload_is_valid_method(self):
         """
         Test form's is_valid() method.
         """
@@ -59,10 +59,28 @@ class TestAvatarUploadForm:
         form = AvatarUploadForm()
         assert form.is_valid() == False, 'Should return False if form is not valid.'
 
-    def test_avatar_update_clean_method(self):
+    def test_avatar_upload_clean_method(self):
         """
         Test avatar upload field clean method.
         """
         self.form.is_valid()
         assert self.form.clean_avatar(
         ).name == 'test.jpg', 'Should return name of uploaded image file.'
+
+    def test_avatar_upload_form_errors(self):
+        """
+        Test form errors.
+        """
+        image = SimpleUploadedFile(name='test.gif', content=open(
+            'profiles/tests/test_images/test.gif', 'rb').read())
+
+        file_data = {'avatar': image}
+
+        data = {'profile_id': self.profile.id, 'avatar': image}
+
+        form = AvatarUploadForm(data, file_data)
+
+        assert form.has_error(
+            'avatar', code='wrong_file_format') == True, 'Should return True if form has error on field.'
+        assert form.errors == {'avatar': [
+            'Unsupported file format. Please upload JPG or PNG file.']}, 'Returns field error message.'
