@@ -4,6 +4,10 @@ import tempfile
 import pytest
 import factory
 import factory.django
+import os
+from PIL import Image
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from users.models import User
 from profiles.models import Profile, ProfileAvatar
@@ -23,20 +27,21 @@ class TestAvatarUploadForm:
         """
         self.user = UserFactory()
         self.profile = Profile.objects.get(user_id=self.user.id)
-        images = {
-            'jpg': tempfile.NamedTemporaryFile(suffix='.jpg').name,
-            'png': tempfile.NamedTemporaryFile(suffix='.png').name,
-            'gif': tempfile.NamedTemporaryFile(suffix='.gif').name,
-        }
-
-        ProfileAvatar.objects.create(
-            profile_id=self.profile.id, avatar=images['jpg'])
-
         self.avatar = ProfileAvatar.objects.select_related(
             'profile').get(profile_id=self.profile.id)
 
-        self.form = AvatarUploadForm(
-            data={'avatar': images['jpg']})
+        self.image = SimpleUploadedFile(name='test.jpg', content=open(
+            'profiles/tests/test_images/test.jpg', 'rb').read())
+
+        self.file_data = {
+            'avatar': self.image,
+        }
+        self.data = {
+            'profile_id': self.profile.id,
+            'avatar': self.image,
+        }
+
+        self.form = AvatarUploadForm(self.data, self.file_data)
 
     def test_avatar_update_is_bound_method(self):
         """
@@ -54,3 +59,11 @@ class TestAvatarUploadForm:
         ) == True, 'Should return True if form is valid. Check form data kwargs.'
         form = AvatarUploadForm()
         assert form.is_valid() == False, 'Should return False if form is not valid.'
+
+    def test_avatar_update_clean_method(self):
+        """
+        Test avatar upload field clean method.
+        """
+        self.form.is_valid()
+        assert self.form.clean_avatar(
+        ).name == 'test.jpg', 'Should return name of uploaded image file.'

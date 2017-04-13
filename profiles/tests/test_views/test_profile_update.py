@@ -8,7 +8,7 @@ import factory.django
 from django.core.urlresolvers import reverse, resolve
 
 from profiles.models import Profile
-from profiles.forms import ProfileUpdateForm
+from profiles.forms import ProfileUpdateForm, AvatarUploadForm
 from profiles.tests.factories import UserFactory
 
 from users.models import User

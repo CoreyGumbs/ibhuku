@@ -20,6 +20,7 @@
 	</div>
 	<div class="col-md-8">
 		<h3>{{profile.user.get_full_name}}</h3>
+		<img src="{{avatar.avatar.url}}" alt="{{profile.user.username}} profile picture" width=300 height=300>
 		{% crispy form form.helper %}
 	</div>
 {%endblock user_content%}

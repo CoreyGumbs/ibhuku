@@ -3,8 +3,8 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib import messages
 
-from profiles.models import Profile
-from profiles.forms import ProfileUpdateForm, UserUpdateForm
+from profiles.models import Profile, ProfileAvatar
+from profiles.forms import ProfileUpdateForm, UserUpdateForm, AvatarUploadForm
 from users.models import User
 
 # Create your views here.
@@ -20,8 +20,12 @@ def profile_dashboard(request, pk=None, username=None):
 
 def profile_update(request, pk=None, username=None):
     profile = Profile.objects.select_related('user').get(pk=pk)
+    avatar = ProfileAvatar.objects.select_related(
+        'profile').get(profile_id=profile.id)
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST, instance=profile)
+        av_form = AvatarUploadForm(
+            request.POST, request.FILES, instance=profile)
         if form.is_valid():
             profile = form.save(commit=False)
             profile.save()
@@ -34,6 +38,7 @@ def profile_update(request, pk=None, username=None):
         form = ProfileUpdateForm(instance=profile)
 
     context = {
+        'avatar': avatar,
         'form': form,
         'profile': profile,
     }

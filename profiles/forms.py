@@ -126,14 +126,11 @@ class AvatarUploadForm(ModelForm):
 
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
-
-        if avatar.endswith('.jpg'):
-            return avatar
-        elif avatar.endswith('.png'):
+        if avatar.name.endswith(('.jpg', '.png')):
             return avatar
         else:
-            raise ValidationError(
-                _('Incorrect format. Image must be a .jpg or .png'), code='avatar_format_error')
+            raise forms.ValidationError(
+                _('Unsupported file format. Please upload JPG or PNG file.'))
 
     def __init__(self, *args, **kwargs):
         super(AvatarUploadForm, self).__init__(*args, **kwargs)
@@ -144,5 +141,8 @@ class AvatarUploadForm(ModelForm):
         self.helper.layout = Layout(
             Div(Div(Field('avatar', placeholder='Upload Profile',
                           active=True, css_class='col-md-6')),
+                Div(FormActions(Submit('submit', 'Submit',
+                                       css_class='btn btn-success', css_id='updateSubmit')), style='padding:0;', css_class='col-md-12'),
+                css_class='col-md-12', style='padding:0',
                 ),
         )
