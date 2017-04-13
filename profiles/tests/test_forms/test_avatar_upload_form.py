@@ -4,7 +4,6 @@ import tempfile
 import pytest
 import factory
 import factory.django
-import os
 from PIL import Image
 
 from django.core.files.uploadedfile import SimpleUploadedFile

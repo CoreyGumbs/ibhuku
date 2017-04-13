@@ -24,8 +24,6 @@ def profile_update(request, pk=None, username=None):
         'profile').get(profile_id=profile.id)
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST, instance=profile)
-        av_form = AvatarUploadForm(
-            request.POST, request.FILES, instance=profile)
         if form.is_valid():
             profile = form.save(commit=False)
             profile.save()
