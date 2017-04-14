@@ -64,8 +64,22 @@ class TestAvatarUploadForm:
         Test avatar upload field clean method.
         """
         self.form.is_valid()
+
         assert self.form.clean_avatar(
         ).name == 'test.jpg', 'Should return name of uploaded image file.'
+
+        # test .png file format on clean_avatar() method.
+        image = SimpleUploadedFile(name='test.png', content=open(
+            'profiles/tests/test_images/test.png', 'rb').read())
+
+        file_data = {'avatar': image}
+
+        data = {'profile_id': self.profile.id, 'avatar': image}
+
+        form = AvatarUploadForm(data, file_data)
+        form.is_valid()
+
+        assert form.clean_avatar().name == 'test.png', 'Should return name of uploaded image file.'
 
     def test_avatar_upload_form_errors(self):
         """

@@ -26,8 +26,11 @@ def profile_update(request, pk=None, username=None):
     avatar = ProfileAvatar.objects.select_related(
         'profile').get(profile_id=profile.id)
     if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, instance=profile)
-        if form.is_valid():
+        form = ProfileUpdateForm(
+            request.POST, instance=profile, prefix='prof_up')
+        av_form = AvatarUploadForm(
+            request.POST, instance=profile, prefix='av_up')
+        if form.is_valid() or av_form.is_valid():
             profile = form.save(commit=False)
             profile.save()
             messages.success(request, 'Update Successful')
@@ -37,11 +40,13 @@ def profile_update(request, pk=None, username=None):
                 request, 'There was an error with your submission.')
     else:
         form = ProfileUpdateForm(instance=profile)
+        av_form = AvatarUploadForm(instance=profile)
 
     context = {
         'avatar': avatar,
         'form': form,
         'profile': profile,
+        'av_form': av_form,
     }
     return render(request, 'profiles/profile_update.html', context)
 

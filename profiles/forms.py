@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 import string
+from PIL import Image
 
 from django import forms
 from django.core.urlresolvers import reverse
@@ -126,11 +127,16 @@ class AvatarUploadForm(ModelForm):
 
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
-        if avatar.name.endswith(('.jpg', '.png',)):
+
+        av_image = Image.open(avatar)
+        av_image.seek(0)
+
+        if getattr(av_image, 'format') in ('JPEG', 'PNG',):
             return avatar
         else:
             raise forms.ValidationError(
-                _('Unsupported file format. Please upload .jpg or .png file.'), code='wrong_file_format')
+                _('Unsupported file format. Please upload .jpg or .png file.'),
+                code='wrong_file_format')
 
     def __init__(self, *args, **kwargs):
         super(AvatarUploadForm, self).__init__(*args, **kwargs)

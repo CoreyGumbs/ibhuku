@@ -9,7 +9,25 @@
 {%block user_content%}	
 	<div class="col-md-4">
 		<div style='margin-top: 20px;'>
-			<img src="{{avatar.avatar.url}}" class="img-responsive img-thumbnail" alt="{{profile.user.username}} profile picture">
+			<div class="modal fade" tabindex="-1" id="avatarModal" role="dialog">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Update Avatar</h4>
+						</div>
+						<div class="modal-body">
+						<img src="{{avatar.avatar.url}}" alt="{{profile.user.username}} profile picture">
+						{% crispy av_form av_form.helper%}
+						</div>
+						<div class="modal-footer">
+	
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" data-toggle="modal" data-target="#avatarModal">
+			<img src="{{avatar.avatar.url}}" class="img-responsive img-thumbnail" alt="{{profile.user.username}} profile picture"></a>
 		</div>
 		<div class='list-group' style='margin-top: 10px;'>
 			<a href="#" class="list-group-item active">
