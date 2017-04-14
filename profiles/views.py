@@ -12,8 +12,11 @@ from users.models import User
 
 def profile_dashboard(request, pk=None, username=None):
     profile = Profile.objects.select_related('user').get(pk=pk)
+    avatar = ProfileAvatar.objects.select_related(
+        'profile').get(profile_id=profile.id)
     context = {
         'profile': profile,
+        'avatar': avatar,
     }
     return render(request, 'profiles/profile_dashboard.html', context)
 

@@ -5,18 +5,30 @@
 {%block user_title%}Ibhuku | Profile {{profile.user.username}}{%endblock user_title%}
 
 {%block user_content%}
-	<h1>Welcome {{profile.user.username}},</h1>
-	<h2>This is your page.</h2>
-	<hr>
+	<div class="col-md-12">
+		<div class="col-md-3">
+			<img src="{{avatar.avatar.url}}" alt="" width=100 height=100>
+		</div>
+		<div class="col-md-9">
+			<h3>Welcome {{profile.user.username}},</h3>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<hr>
 		<ul>
 			<li><h4>{{profile.location}}</h4></li>
 			<li><h4>{{profile.current_occupation}}</h4></li>
 		</ul>
-	<hr>
+		<hr>
+	</div>
+	
+	<div class="col-md-12">
 		<ul>
-			<li>{{profile.bio}}</li>
+			<li><p class='well well-lg'>{{profile.bio}}</p></li>
 			<li> <h4><span class="label label-primary"><span class="glyphicon glyphicon-globe glyphicon-align-left" aria-hidden="true"></span> http://www.ibhuku.com/{{profile.url_name}}</span></h4></li>
 		</ul>
-	<hr>
+		<hr>
+	</div>
+	
 	<a href="{%url 'profiles:edit' profile.user_id profile.user.username %}"><button class='btn btn-default'>Settings</button></a>
 {%endblock user_content%}
