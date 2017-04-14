@@ -129,7 +129,6 @@ class AvatarUploadForm(ModelForm):
         avatar = self.cleaned_data['avatar']
 
         av_image = Image.open(avatar)
-        av_image.seek(0)
 
         if getattr(av_image, 'format') in ('JPEG', 'PNG',):
             return avatar

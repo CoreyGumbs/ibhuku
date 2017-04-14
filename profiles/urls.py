@@ -10,4 +10,6 @@ urlpatterns = [
         views.profile_update, name='edit'),
     url(r'^update/(?P<pk>[0-9]+)/(?P<username>[-\w\d_]+)/$',
         views.user_update, name='update'),
+    url(r'^upload/avatar/(?P<pk>[0-9]+)/(?P<username>)[-\w\d_]+/$',
+        views.avatar_upload, name='av-upload'),
 ]

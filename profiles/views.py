@@ -71,3 +71,7 @@ def user_update(request, pk=None, username=None):
         'profile': profile,
     }
     return render(request, 'profiles/user_update.html', context)
+
+
+def avatar_upload(request, pk=None, username=None):
+    return HttpResponse('test')

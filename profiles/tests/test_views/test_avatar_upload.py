@@ -6,6 +6,7 @@ import factory
 import factory.django
 
 from django.core.urlresolvers import reverse, resolve
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from users.models import User
 from profiles.models import Profile, ProfileAvatar
@@ -46,4 +47,9 @@ class TestAvatarUpload:
         """
         Test Avatar Upload View.
         """
-        response = client.get(reverse('profiles:'))
+        response = client.get(reverse(
+            'profiles:av-upload', kwargs={'pk': self.user.id, 'username': self.user.username}))
+
+        assert response.status_code == 200
+        assert response.resolver_match.url_name == 'av-upload'
+        assert response.resolver_match.view_name == 'profiles:av-upload'
