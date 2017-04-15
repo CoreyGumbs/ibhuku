@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib import messages
 
@@ -73,5 +74,13 @@ def user_update(request, pk=None, username=None):
     return render(request, 'profiles/user_update.html', context)
 
 
-def avatar_upload(request, pk, username):
-    return HttpResponse('test')
+def avatar_upload(request, pk=None, username=None):
+    profile = Profile.objects.select_related('user').get(pk=pk)
+    try:
+        avatar = ProfileAvatar.objects.select_related(
+            'profile').get(profile_id=profile.id)
+        if request.method == 'POST':
+            print('works')
+    except ObjectDoesNotExist:
+        pass
+    return HttpResponseRedirect(reverse('profiles:edit', kwargs={'pk': pk, 'username': username}))

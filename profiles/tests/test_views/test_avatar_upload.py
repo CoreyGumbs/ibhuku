@@ -37,7 +37,7 @@ class TestAvatarUpload:
         response = client.get(reverse(
             'profiles:av-upload', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
-        assert response.status_code == 200
+        assert response.status_code == 302, 'Returns 302 on page redirect'
         assert response.resolver_match.url_name == 'av-upload'
         assert response.resolver_match.view_name == 'profiles:av-upload'
 
