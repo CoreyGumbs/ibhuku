@@ -142,6 +142,9 @@ class AvatarUploadForm(ModelForm):
         self.helper = FormHelper()
         self.helper.form_class = 'forms-inline'
         self.helper.form_id = 'avatarUpload'
+        self.helper.form_method = 'post'
+        self.helper.form_action = reverse(
+            'profiles:av-upload', kwargs={'pk': self.instance.pk, 'username': self.instance.user.username})
         self.helper.error_text_inline = True
         self.helper.layout = Layout(
             Div(Div(Field('avatar', placeholder='Upload Profile',

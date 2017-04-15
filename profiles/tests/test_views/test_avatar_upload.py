@@ -30,19 +30,6 @@ class TestAvatarUpload:
         self.avatar = ProfileAvatar.objects.select_related(
             'profile').get(profile_id=self.profile.id)
 
-        self.image = SimpleUploadedFile(name='test.jpg', content=open(
-            'profiles/tests/test_images/test.jpg', 'rb').read())
-
-        self.file_data = {
-            'avatar': self.image,
-        }
-        self.data = {
-            'profile_id': self.profile.id,
-            'avatar': self.image,
-        }
-
-        self.form = AvatarUploadForm(self.data, self.file_data)
-
     def test_avatar_upload_view(self, client):
         """
         Test Avatar Upload View.
@@ -53,3 +40,12 @@ class TestAvatarUpload:
         assert response.status_code == 200
         assert response.resolver_match.url_name == 'av-upload'
         assert response.resolver_match.view_name == 'profiles:av-upload'
+
+    def test_avatar_upload_parameter_kwargs(self, client):
+        """
+        Test avatar upload kwargs.
+        """
+        response = client.get(reverse(
+            'profiles:av-upload', kwargs={'pk': self.user.id, 'username': self.profile.user.username}))
+        assert response.resolver_match.kwargs == {
+            'pk': '2', 'username': 'Testy1McT'}
