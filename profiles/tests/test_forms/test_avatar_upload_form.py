@@ -40,14 +40,15 @@ class TestAvatarUploadForm:
             'avatar': self.image,
         }
 
-        self.form = AvatarUploadForm(self.data, self.file_data)
+        self.form = AvatarUploadForm(
+            self.data, self.file_data, instance=self.profile)
 
     def test_avatar_upload_is_bound_method(self):
         """
         Test form's is_bound() method.
         """
         assert self.form.is_bound == True, 'Should return True if form is bound.'
-        form = AvatarUploadForm()
+        form = AvatarUploadForm(instance=self.profile)
         assert form.is_bound == False, 'Should return False if form is not bound.'
 
     def test_avatar_upload_is_valid_method(self):
@@ -56,7 +57,7 @@ class TestAvatarUploadForm:
         """
         assert self.form.is_valid(
         ) == True, 'Should return True if form is valid. Check form data kwargs.'
-        form = AvatarUploadForm()
+        form = AvatarUploadForm(instance=self.profile)
         assert form.is_valid() == False, 'Should return False if form is not valid.'
 
     def test_avatar_upload_clean_method(self):
@@ -76,7 +77,7 @@ class TestAvatarUploadForm:
 
         data = {'profile_id': self.profile.id, 'avatar': image}
 
-        form = AvatarUploadForm(data, file_data)
+        form = AvatarUploadForm(data, file_data, instance=self.profile)
         form.is_valid()
 
         assert form.clean_avatar().name == 'test.png', 'Should return name of uploaded image file.'
@@ -92,9 +93,9 @@ class TestAvatarUploadForm:
 
         data = {'profile_id': self.profile.id, 'avatar': image}
 
-        form = AvatarUploadForm(data, file_data)
+        form = AvatarUploadForm(data, file_data, instance=self.profile)
 
         assert form.has_error(
             'avatar', code='wrong_file_format') == True, 'Should return True if form has error on field.'
         assert form.errors == {'avatar': [
-            'Unsupported file format. Please upload .jpg or .png file.']}, 'Returns field error message.'
+            'Only .jpg or .png file formats are supported.']}, 'Returns field error message.'

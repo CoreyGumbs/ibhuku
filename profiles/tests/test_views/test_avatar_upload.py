@@ -30,6 +30,9 @@ class TestAvatarUpload:
         self.avatar = ProfileAvatar.objects.select_related(
             'profile').get(profile_id=self.profile.id)
 
+        self.image = SimpleUploadedFile(name='test.jpg', content=open(
+            'profiles/tests/test_images/test.jpg', 'rb').read())
+
     def test_avatar_upload_view(self, client):
         """
         Test Avatar Upload View.

@@ -30,8 +30,8 @@ def profile_update(request, pk=None, username=None):
         form = ProfileUpdateForm(
             request.POST, instance=profile, prefix='prof_up')
         av_form = AvatarUploadForm(
-            request.POST, instance=profile, prefix='av_up')
-        if form.is_valid() or av_form.is_valid():
+            request.POST, request.FILES, instance=profile, prefix='av_up')
+        if form.is_valid() and av_form.is_valid():
             profile = form.save(commit=False)
             profile.save()
             messages.success(request, 'Update Successful')
@@ -40,8 +40,8 @@ def profile_update(request, pk=None, username=None):
             messages.warning(
                 request, 'There was an error with your submission.')
     else:
-        form = ProfileUpdateForm(instance=profile)
-        av_form = AvatarUploadForm(instance=profile)
+        form = ProfileUpdateForm(instance=profile, prefix='prof_up1')
+        av_form = AvatarUploadForm(instance=profile, prefix='av_up1')
 
     context = {
         'avatar': avatar,
@@ -76,11 +76,20 @@ def user_update(request, pk=None, username=None):
 
 def avatar_upload(request, pk=None, username=None):
     profile = Profile.objects.select_related('user').get(pk=pk)
+    print(request.POST.get('avatar'))
     try:
         avatar = ProfileAvatar.objects.select_related(
             'profile').get(profile_id=profile.id)
+        print(avatar)
         if request.method == 'POST':
-            print('works')
-    except ObjectDoesNotExist:
+            if request.FILES.get('avatar') != None:
+                avatar.avatar = request.FILES.get('avatar')
+                avatar.save()
+                messages.success(
+                    request, 'Your profile phote was updated successfully.')
+            else:
+                messages.warning(
+                    request, 'There was an error with your upload. Please try again.')
+    except (ObjectDoesNotExist, ValueError) as e:
         pass
     return HttpResponseRedirect(reverse('profiles:edit', kwargs={'pk': pk, 'username': username}))

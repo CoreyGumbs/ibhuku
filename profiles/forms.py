@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 import string
-from PIL import Image
+from PIL import Image, ImageOps
 
 from django import forms
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.images import ImageFile
 from django.forms import ModelForm, Textarea, TextInput
 from django.utils.translation import ugettext_lazy as _
 
@@ -126,16 +128,20 @@ class AvatarUploadForm(ModelForm):
         fields = ['avatar']
 
     def clean_avatar(self):
-        avatar = self.cleaned_data['avatar']
+        image = self.cleaned_data['avatar']
+        new_img = Image.open(image)
 
-        av_image = Image.open(avatar)
-
-        if getattr(av_image, 'format') in ('JPEG', 'PNG',):
-            return avatar
-        else:
+        if getattr(new_img, 'format') not in ['JPEG', 'JPG', 'PNG']:
             raise forms.ValidationError(
-                _('Unsupported file format. Please upload .jpg or .png file.'),
-                code='wrong_file_format')
+                _('Only .jpg or .png file formats are supported.'), code='wrong_file_format')
+
+        # add this to post save signal on model
+        # if new_img.mode not in ('L', 'RGB'):
+        #     new_img = new_img.convert('RGB')
+
+        # new_img = ImageOps.fit(new_img, (200, 200), Image.LANCZOS)
+        # new_img.save('profile.jpg', new_img.format)
+        return image
 
     def __init__(self, *args, **kwargs):
         super(AvatarUploadForm, self).__init__(*args, **kwargs)

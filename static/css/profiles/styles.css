@@ -24,3 +24,7 @@
 	color: #fff;
 	background-color: #d9534f;
 }
+
+img {
+	max-width: 100%;
+}
