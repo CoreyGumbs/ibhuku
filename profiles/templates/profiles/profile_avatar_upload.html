@@ -2,7 +2,7 @@
 {%load staticfiles%}
 {% load crispy_forms_tags %}
 
-{%block user_title%}Ibhuku | Update Profile{%endblock user_title%}
+{%block user_title%}Ibhuku | Upload Profile Picture{%endblock user_title%}
 
 {%block dashboard_nav%}
 {%endblock dashboard_nav%}
@@ -12,7 +12,6 @@
 	</div>
 	<div class="col-md-8">
 		<h3>{{profile.user.get_full_name}}</h3>
-		{% crispy form form.helper %}
 	</div>
 {%endblock user_content%}
 {%block javascript%}

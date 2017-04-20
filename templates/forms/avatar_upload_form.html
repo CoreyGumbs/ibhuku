@@ -11,7 +11,7 @@
 				</div>
 				<div class="modal-body">
 					<img src="{{avatar.avatar.url}}" class='img-responsive' alt="{{profile.user.username}} profile picture">
-					{% crispy av_form av_form.helper%}
+					{% crispy form form.helper%}
 				</div>
 				<div class="modal-footer">
 
@@ -20,5 +20,5 @@
 		</div>
 	</div>
 <a href="#" data-toggle="modal" data-target="#avatarModal">
-<img src="{{avatar.avatar.url}}" class="img-responsive img-thumbnail" alt="{{profile.user.username}} profile picture"></a>
+<img src="{{avatar.avatar.url}}" class="img-responsive" alt="{{profile.user.username}} profile picture"></a>
 </div>

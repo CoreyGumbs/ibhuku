@@ -99,3 +99,13 @@ class TestAvatarUploadForm:
             'avatar', code='wrong_file_format') == True, 'Should return True if form has error on field.'
         assert form.errors == {'avatar': [
             'Only .jpg or .png file formats are supported.']}, 'Returns field error message.'
+
+    def test_avatar_save_(self):
+        image = SimpleUploadedFile(name='new_test.jpg', content=open(
+            'profiles/tests/test_images/test.jpg', 'rb').read())
+
+        file_data = {'avatar': image}
+
+        data = {'profile_id': self.profile.id, 'avatar': image}
+
+        form = AvatarUploadForm(data, file_data, instance=self.profile)

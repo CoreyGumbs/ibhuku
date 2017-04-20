@@ -40,7 +40,7 @@ class TestAvatarUpload:
         response = client.get(reverse(
             'profiles:av-upload', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
-        assert response.status_code == 302, 'Returns 302 on page redirect'
+        assert response.status_code == 200, 'Returns 200'
         assert response.resolver_match.url_name == 'av-upload'
         assert response.resolver_match.view_name == 'profiles:av-upload'
 
@@ -52,3 +52,16 @@ class TestAvatarUpload:
             'profiles:av-upload', kwargs={'pk': self.user.id, 'username': self.profile.user.username}))
         assert response.resolver_match.kwargs == {
             'pk': '2', 'username': 'Testy1McT'}
+
+    def test_avatar_upload_template_renders(self, client):
+        """
+        Test of profile dashboard template and rendering.
+        """
+        response = client.get(reverse(
+            'profiles:av-upload', kwargs={'pk': self.user.id, 'username': self.user.username}))
+
+        assert response.templates[
+            0].name == 'profiles/profile_avatar_upload.html'
+        assert 'Ibhuku | Upload Profile Picture' in response.content.decode(
+            'utf8')
+        assert response.context['profile'] == self.profile
