@@ -1,12 +1,10 @@
 {%load staticfiles%}
-{% load crispy_forms_tags %}
 
 <div class='list-group' style='margin-top: 10px;'>
-			<a href="#" class="list-group-item active">
-				<h5 class="list-group-item-heading">Settings</h5>
-			</a>
-			<button type='button' class='list-group-item'><a href="{%url 'profiles:dashboard' profile.user_id profile.user.username %}">Dashboard</a></button>
-			<button type='button' class='list-group-item'><a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">Profile</a></button>
-			<button type='button' class='list-group-item'><a href="{%url 'profiles:av-upload' profile.user_id profile.user.username %}">Avatar</a></button>
-			<button type='button' class='list-group-item'><a href="{%url 'profiles:update' profile.user_id profile.user.username %}">Account</a></button>
-		</div>
+	<a href="#" class="list-group-item active">
+		<h5 class="list-group-item-heading">Settings</h5>
+	</a>
+	<button type='button' class='list-group-item'><a href="{%url 'profiles:dashboard' profile.user_id profile.user.username %}">Dashboard</a></button>
+	<button type='button' class='list-group-item'><a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">Profile</a></button>
+	<button type='button' class='list-group-item'><a href="{%url 'profiles:update' profile.user_id profile.user.username %}">Account</a></button>
+</div>

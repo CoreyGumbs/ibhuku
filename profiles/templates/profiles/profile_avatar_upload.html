@@ -12,6 +12,10 @@
 	</div>
 	<div class="col-md-8">
 		<h3>{{profile.user.get_full_name}}</h3>
+		<hr>
+		<img src="{{avatar.avatar.url}}" class='img-responsive' alt="{{profile.user.username}} profile picture">
+		{% crispy form form.helper%}
+		<hr>	
 	</div>
 {%endblock user_content%}
 {%block javascript%}

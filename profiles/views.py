@@ -15,12 +15,10 @@ def profile_dashboard(request, pk=None, username=None):
     profile = Profile.objects.select_related('user').get(pk=pk)
     avatar = ProfileAvatar.objects.select_related(
         'profile').get(profile_id=profile.id)
-    form = AvatarUploadForm(instance=profile)
 
     context = {
         'profile': profile,
         'avatar': avatar,
-        'form':  form,
     }
     return render(request, 'profiles/profile_dashboard.html', context)
 
@@ -33,6 +31,8 @@ def profile_update(request, pk=None, username=None):
     if request.method == 'POST':
         form = ProfileUpdateForm(
             request.POST, instance=profile)
+        av_form = AvatarUploadForm(
+            request.POST, request.FILES, instance=profile)
         if form.is_valid():
             profile = form.save(commit=False)
             profile.save()
@@ -43,10 +43,12 @@ def profile_update(request, pk=None, username=None):
                 request, 'There was an error with your submission.')
     else:
         form = ProfileUpdateForm(instance=profile)
+        av_form = AvatarUploadForm(instance=profile)
 
     context = {
         'avatar': avatar,
         'form': form,
+        'av_form': av_form,
         'profile': profile,
     }
     return render(request, 'profiles/profile_update.html', context)
@@ -77,9 +79,9 @@ def user_update(request, pk=None, username=None):
 def avatar_upload(request, pk=None, username=None):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.select_related('user').get(pk=pk)
-
-    context = {
-        'profile': profile,
-        'user': user,
-    }
-    return render(request, 'profiles/profile_avatar_upload.html', context)
+    avatar = ProfileAvatar.objects.select_related(
+        'profile').get(profile_id=profile.id)
+    if request.method == 'POST':
+        avatar.avatar = request.FILES['avatar']
+        avatar.save()
+    return HttpResponseRedirect(reverse('profiles:edit', kwargs={'pk': pk, 'username': username}))

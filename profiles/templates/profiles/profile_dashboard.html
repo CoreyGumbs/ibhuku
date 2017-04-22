@@ -7,7 +7,7 @@
 {%block user_content%}
 	<div class="col-md-12">
 		<div class="col-md-4">
-			{%include 'forms/avatar_upload_form.html'%}
+			<img src="{{avatar.avatar.url}}" class='img-responsive' alt="{{profile.user.username}} profile picture">
 		</div>
 		<div class="col-md-8">
 			<h3>Welcome {{profile.user.username}},</h3>

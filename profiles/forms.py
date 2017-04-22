@@ -134,6 +134,7 @@ class AvatarUploadForm(ModelForm):
         if getattr(new_img, 'format') not in ['JPEG', 'JPG', 'PNG']:
             raise forms.ValidationError(
                 _('Only .jpg or .png file formats are supported.'), code='wrong_file_format')
+
         return image
 
     def __init__(self, *args, **kwargs):
@@ -142,8 +143,8 @@ class AvatarUploadForm(ModelForm):
         self.helper.form_class = 'forms-inline'
         self.helper.form_id = 'avatarUpload'
         self.helper.form_method = 'post'
-        # self.helper.form_action = reverse(
-        #     'profiles:av-upload', kwargs={'pk': self.instance.pk, 'username': self.instance.user.username})
+        self.helper.form_action = reverse(
+            'profiles:av-upload', kwargs={'pk': self.instance.pk, 'username': self.instance.user.username})
         self.helper.error_text_inline = True
         self.helper.layout = Layout(
             Div(Div(Field('avatar', placeholder='Upload Profile',

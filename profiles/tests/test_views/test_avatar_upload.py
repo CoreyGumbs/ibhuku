@@ -7,6 +7,7 @@ import factory.django
 
 from django.core.urlresolvers import reverse, resolve
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import override_settings
 
 from users.models import User
 from profiles.models import Profile, ProfileAvatar
@@ -40,7 +41,7 @@ class TestAvatarUpload:
         response = client.get(reverse(
             'profiles:av-upload', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
-        assert response.status_code == 200, 'Returns 200'
+        assert response.status_code == 302, 'Returns 302'
         assert response.resolver_match.url_name == 'av-upload'
         assert response.resolver_match.view_name == 'profiles:av-upload'
 
@@ -53,15 +54,15 @@ class TestAvatarUpload:
         assert response.resolver_match.kwargs == {
             'pk': '2', 'username': 'Testy1McT'}
 
-    def test_avatar_upload_template_renders(self, client):
+    @override_settings(MEDIA_ROOT='/tmp/django_test')
+    def test_avatar_upload_image_saves(self, client):
         """
-        Test of profile dashboard template and rendering.
+        Test of profile image upload saves to model.
         """
-        response = client.get(reverse(
-            'profiles:av-upload', kwargs={'pk': self.user.id, 'username': self.user.username}))
+        response = client.post(reverse('profiles:av-upload', kwargs={
+            'pk': self.user.id, 'username': self.user.username}), {'avatar': self.image}, follow=True)
 
-        assert response.templates[
-            0].name == 'profiles/profile_avatar_upload.html'
-        assert 'Ibhuku | Upload Profile Picture' in response.content.decode(
-            'utf8')
-        assert response.context['profile'] == self.profile
+        avatar = ProfileAvatar.objects.select_related(
+            'profile').get(profile_id=self.user.id)
+
+        assert avatar.avatar.path == '/tmp/django_test/user_Testy2McT_3/avatar/test_urIy3ja.jpg', 'Should return file path with new file name.'
