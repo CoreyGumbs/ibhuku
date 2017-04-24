@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
@@ -82,6 +84,11 @@ def avatar_upload(request, pk=None, username=None):
     avatar = ProfileAvatar.objects.select_related(
         'profile').get(profile_id=profile.id)
     if request.method == 'POST':
-        avatar.avatar = request.FILES['avatar']
-        avatar.save()
+        if request.FILES:
+            avatar.avatar = request.FILES['avatar']
+            avatar.save()
+            messages.success(request, 'Update Successful')
+        else:
+            messages.warning(
+                request, 'There was an error with your submission.')
     return HttpResponseRedirect(reverse('profiles:edit', kwargs={'pk': pk, 'username': username}))

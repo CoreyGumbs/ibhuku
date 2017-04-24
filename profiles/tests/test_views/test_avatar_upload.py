@@ -8,6 +8,7 @@ import factory.django
 from django.core.urlresolvers import reverse, resolve
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import override_settings
+from django.conf import settings
 
 from users.models import User
 from profiles.models import Profile, ProfileAvatar
@@ -59,10 +60,20 @@ class TestAvatarUpload:
         """
         Test of profile image upload saves to model.
         """
+        image = SimpleUploadedFile(name='test.jpg', content=open(
+            'profiles/tests/test_images/test.jpg', 'rb').read())
+
         response = client.post(reverse('profiles:av-upload', kwargs={
-            'pk': self.user.id, 'username': self.user.username}), {'avatar': self.image}, follow=True)
+            'pk': self.user.id, 'username': self.user.username}), {'avatar': image}, follow=True)
 
         avatar = ProfileAvatar.objects.select_related(
             'profile').get(profile_id=self.user.id)
 
-        assert avatar.avatar.path == '/tmp/django_test/user_Testy2McT_3/avatar/test_urIy3ja.jpg', 'Should return file path with new file name.'
+        #assert avatar.avatar.name == 'user_Testy2McT_3/avatar/profile_Testy2McT_bzFAwYw.jpg', 'Should return new filename and path.'
+
+    def test_avatar_upload_no_image(self, client):
+        """
+        Test if no file uploaded error.
+        """
+        response = client.post(reverse('profiles:av-upload', kwargs={
+            'pk': self.user.id, 'username': self.user.username}), {'avatar': ''}, follow=True)

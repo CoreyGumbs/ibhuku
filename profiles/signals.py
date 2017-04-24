@@ -32,3 +32,10 @@ def create_profile_avatar(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Profile)
 def save_profile_avatar(sender, instance, **kwargs):
     instance.profileavatar.save()
+
+
+@receiver(post_save, sender=ProfileAvatar)
+def profile_upload_delete_previous_file(sender, instance, **kwargs):
+    profile = instance.avatar.name.split('/')[-1]
+    if profile in getattr(instance.avatar, 'name'):
+        pass

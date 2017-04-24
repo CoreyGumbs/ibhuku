@@ -12,7 +12,10 @@ def user_directory_path(instance, filename):
     """
     User Profile Avatar Uploaded Directory Path.
     """
-    return 'user_{1}_{0}/avatar/{2}'.format(instance.profile.user.id, instance.profile.user.username, filename)
+    ext = filename.split('.')[-1]
+    new_name = '{0}_{1}.{2}'.format(
+        'profile', instance.profile.user.username, ext)
+    return 'user_{1}_{0}/avatar/{2}'.format(instance.profile.user.id, instance.profile.user.username, new_name)
 
 
 class Profile(models.Model):
