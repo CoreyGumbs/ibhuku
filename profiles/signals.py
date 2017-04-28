@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+import os
+
 from PIL import Image, ImageOps
 from io import StringIO, BytesIO
 
+from django.db.models import ImageField
+from django.apps import apps
 from django.conf import settings
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from django.core.files.storage import Storage
+from django.core.files.uploadedfile import UploadedFile
 
 from users.models import User
 from profiles.models import Profile, ProfileAvatar
@@ -34,8 +40,6 @@ def save_profile_avatar(sender, instance, **kwargs):
     instance.profileavatar.save()
 
 
-@receiver(post_save, sender=ProfileAvatar)
+@receiver(pre_save, sender=ProfileAvatar)
 def profile_upload_delete_previous_file(sender, instance, **kwargs):
-    profile = instance.avatar.name.split('/')[-1]
-    if profile in getattr(instance.avatar, 'name'):
-        pass
+    pass

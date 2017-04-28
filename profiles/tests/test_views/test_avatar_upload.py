@@ -69,11 +69,4 @@ class TestAvatarUpload:
         avatar = ProfileAvatar.objects.select_related(
             'profile').get(profile_id=self.user.id)
 
-        #assert avatar.avatar.name == 'user_Testy2McT_3/avatar/profile_Testy2McT_bzFAwYw.jpg', 'Should return new filename and path.'
-
-    def test_avatar_upload_no_image(self, client):
-        """
-        Test if no file uploaded error.
-        """
-        response = client.post(reverse('profiles:av-upload', kwargs={
-            'pk': self.user.id, 'username': self.user.username}), {'avatar': ''}, follow=True)
+        assert avatar.avatar.name == 'user_Testy2McT_3/avatar/profile_Testy2McT_bzFAwYw.jpg', 'Should return new filename and path.'
