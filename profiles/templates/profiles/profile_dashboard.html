@@ -7,11 +7,21 @@
 {%block user_content%}
 	<div class="col-md-12">
 		<div class="col-md-4">
-			<img src="{{avatar.avatar.url}}" class='img-responsive' alt="{{profile.user.username}} profile picture">
+			<a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">
+				<img src="{{avatar.avatar.url}}" class='img-responsive' alt="{{profile.user.username}} profile picture">
+			</a>
 		</div>
 		<div class="col-md-8">
 			<h3>Welcome {{profile.user.username}},</h3>
 		</div>
+	</div>
+		<div class="col-md-12">
+		<div class="btn-group" role="group">
+			<button  type='button' class='btn btn-default' aria-label='settings'><a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">Settings</a></button>
+			<button type="button" class="btn btn-default" aria-label='left'>Left</button>
+  			<button type="button" class="btn btn-default" aria-label='middle'>Middle</button>
+  			<button type="button" class="btn btn-default" aria-label='right'>Right</button>
+			</div>
 	</div>
 	<div class="col-md-12">
 		<hr>
@@ -24,11 +34,19 @@
 	
 	<div class="col-md-12">
 		<ul>
-			<li><p class='well well-lg'>{{profile.bio}}</p></li>
-			<li> <h4><span class="label label-primary"><span class="glyphicon glyphicon-globe glyphicon-align-left" aria-hidden="true"></span> http://www.ibhuku.com/{{profile.url_name}}</span></h4></li>
+			<li>
+				<p class='well well-lg'>{{profile.bio}}</p>
+			</li>
+			<li> 
+				<h4>
+					<span class="label label-primary">
+						<span class="glyphicon glyphicon-globe glyphicon-align-left" aria-hidden="true"></span> 
+							http://www.ibhuku.com/{{profile.url_name}}
+						</span>
+				</h4>
+			</li>
 		</ul>
 		<hr>
 	</div>
-	
-	<a href="{%url 'profiles:edit' profile.user_id profile.user.username %}"><button class='btn btn-default'>Settings</button></a>
+
 {%endblock user_content%}

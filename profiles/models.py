@@ -1,8 +1,11 @@
 import os
+from PIL import Image, ImageOps
+from io import StringIO, BytesIO
 
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.core.files.base import ContentFile
 
 
 # Create your models here.
@@ -61,3 +64,20 @@ class ProfileAvatar(models.Model):
 
     def __str__(self):
         return str(self.avatar)
+
+    def save(self, *args, **kwargs):
+        ext = self.avatar.name.split('.')[-1]
+        image = Image.open(self.avatar)
+        image_resize = ImageOps.fit(image, (300, 300), Image.LANCZOS)
+
+        image_resize_io = BytesIO()
+        if ext in ['jpg', 'jpeg']:
+            image_resize.save(image_resize_io, format='JPEG')
+        elif ext in ['png']:
+            image_resize.save(image_resize_io, format='PNG')
+
+        temp_name = self.avatar.name
+
+        self.avatar.save(temp_name, content=ContentFile(
+            image_resize_io.getvalue()), save=False)
+        super(ProfileAvatar, self).save(*args, **kwargs)

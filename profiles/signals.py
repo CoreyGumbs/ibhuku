@@ -11,8 +11,8 @@ from django.apps import apps
 from django.conf import settings
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from django.core.files.storage import Storage
-from django.core.files.uploadedfile import UploadedFile
+from django.core.files.base import ContentFile
+
 
 from users.models import User
 from profiles.models import Profile, ProfileAvatar
@@ -38,8 +38,3 @@ def create_profile_avatar(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Profile)
 def save_profile_avatar(sender, instance, **kwargs):
     instance.profileavatar.save()
-
-
-@receiver(pre_save, sender=ProfileAvatar)
-def profile_upload_delete_previous_file(sender, instance, **kwargs):
-    pass
