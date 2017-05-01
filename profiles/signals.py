@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-import os
-
 from PIL import Image, ImageOps
 from io import StringIO, BytesIO
 
@@ -37,11 +35,17 @@ def create_profile_avatar(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Profile)
 def save_profile_avatar(sender, instance, **kwargs):
+    '''
+    Saves newly created Profile Avatar when Profile is created.
+    '''
     instance.profileavatar.save()
 
 
 @receiver(pre_save, sender=ProfileAvatar)
 def profile_image_resize(sender, instance, **kwargs):
+    '''
+    Resizes profile image/avatar and saves it.
+    '''
     ext = instance.avatar.name.split('.')[-1]
     image = Image.open(instance.avatar)
     image_resize = ImageOps.fit(image, (300, 300), Image.LANCZOS)

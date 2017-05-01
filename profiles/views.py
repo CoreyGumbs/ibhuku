@@ -83,7 +83,9 @@ def avatar_upload(request, pk=None, username=None):
     profile = Profile.objects.select_related('user').get(pk=pk)
     avatar = ProfileAvatar.objects.select_related(
         'profile').get(profile_id=profile.id)
+
     if request.method == 'POST':
+        avatar.avatar.delete(save=False)
         if request.FILES:
             avatar.avatar = request.FILES['avatar']
             avatar.save()
