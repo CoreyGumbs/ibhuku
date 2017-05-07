@@ -31,17 +31,19 @@ def save_user_profile(sender, instance, **kwargs):
 def create_profile_avatar(sender, instance, created, **kwargs):
     if created:
         ProfileAvatar.objects.create(profile=instance)
+        #print('profile avatar created')
 
 
-@receiver(post_save, sender=Profile)
+@receiver(post_save, sender=Profile, dispatch_uid="my_unique_identifier")
 def save_profile_avatar(sender, instance, **kwargs):
     '''
     Saves newly created Profile Avatar when Profile is created.
     '''
-    instance.profileavatar.save()
+    if kwargs['created'] is True:
+        instance.profileavatar.save()
 
 
-@receiver(pre_save, sender=ProfileAvatar)
+@receiver(pre_save, sender=ProfileAvatar, dispatch_uid='profile_avatar_resize')
 def profile_image_resize(sender, instance, **kwargs):
     '''
     Resizes profile image/avatar and saves it.

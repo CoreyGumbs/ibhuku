@@ -78,19 +78,23 @@ def user_update(request, pk=None, username=None):
     return render(request, 'profiles/user_update.html', context)
 
 
-def avatar_upload(request, pk=None, username=None):
+def avatar_upload(request, pk, username):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.select_related('user').get(pk=pk)
     avatar = ProfileAvatar.objects.select_related(
         'profile').get(profile_id=profile.id)
+    try:
+        if request.FILES['avatar']:
+            if avatar.avatar.name != 'generic/default.jpg':
+                avatar.avatar.delete(save=False)
 
-    if request.method == 'POST':
-        avatar.avatar.delete(save=False)
-        if request.FILES:
             avatar.avatar = request.FILES['avatar']
             avatar.save()
             messages.success(request, 'Update Successful')
         else:
             messages.warning(
                 request, 'There was an error with your submission.')
+    except:
+        messages.warning(request, 'There was an error with your submission.')
+
     return HttpResponseRedirect(reverse('profiles:edit', kwargs={'pk': pk, 'username': username}))

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from django.db.models.signals import post_save
 
 import factory
 from faker import Faker

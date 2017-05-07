@@ -3,12 +3,11 @@ from PIL import Image, ImageOps
 from io import StringIO, BytesIO
 
 from django.db import models
+from django.db.models.signals import post_save, pre_save
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.files.base import ContentFile
 
-
-# Create your models here.
 
 # user image/avatar directory path
 def user_directory_path(instance, filename):
@@ -18,7 +17,7 @@ def user_directory_path(instance, filename):
     ext = filename.split('.')[-1]
     new_name = '{0}_{1}.{2}'.format(
         'profile', instance.profile.user.username, ext)
-    return 'user_{1}_{0}/avatar/{2}'.format(instance.profile.user.id, instance.profile.user.username, new_name)
+    return 'user_{0}_profile/avatar/{1}'.format(instance.profile.user.id, new_name)
 
 
 class Profile(models.Model):
