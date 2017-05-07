@@ -6,12 +6,17 @@
 
 {%block user_content%}
 	<div class="col-md-12">
-		<div class="col-md-4">
+		<div class="col-sm-5">
 			<a href="{%url 'profiles:edit' profile.user_id profile.user.username %}">
-				<img src="{{avatar.avatar.url}}" class='img-responsive' alt="{{profile.user.username}} profile picture">
+				<div class="img-container">
+						<img src="{{avatar.avatar.url}}" class='img-responsive image' alt="{{profile.user.username}} profile picture">
+					<div class="upload_overlay">
+						<div class="text">Upload Picture</div>
+					</div>
+				</div>
 			</a>
 		</div>
-		<div class="col-md-8">
+		<div class="col-md-7">
 			<h3>Welcome {{profile.user.username}},</h3>
 		</div>
 	</div>
