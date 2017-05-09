@@ -11,8 +11,6 @@ from users.userslib.confirm_email import confirm_account_link, already_confirmed
 
 from users.forms import UserRegistrationForm, ResendActivationLinkForm
 from users.models import User
-from profiles.models import Profile
-# Create your views here.
 
 
 def create_user_acccount(request):

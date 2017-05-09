@@ -21,7 +21,8 @@ from users.models import User
 
 class ProfileUpdateForm(ModelForm):
     bio = forms.CharField(required=False, widget=forms.Textarea(
-        attrs={'id': 'bio_field', 'rows': 5, 'style': 'resize: none', 'maxlength': 140}))
+        attrs={'id': 'bio_field', 'rows': 5, 'style': 'resize: none',
+               'maxlength': 140}))
 
     class Meta:
         model = Profile
@@ -46,7 +47,8 @@ class ProfileUpdateForm(ModelForm):
         if url_name:
             if len(url_name) > 15:
                 raise forms.ValidationError(
-                    _('The maximum length of characters is 15.'), code='url_name_punc_error')
+                    _('The maximum length of characters is 15.'),
+                    code='url_name_punc_error')
 
         return url
 
@@ -133,7 +135,8 @@ class AvatarUploadForm(ModelForm):
 
         if getattr(new_img, 'format') not in ['JPEG', 'JPG', 'PNG']:
             raise forms.ValidationError(
-                _('Only .jpg or .png file formats are supported.'), code='wrong_file_format')
+                _('Only .jpg or .png file formats are supported.'),
+                code='wrong_file_format')
 
         return image
 

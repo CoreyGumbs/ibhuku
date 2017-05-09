@@ -1,9 +1,8 @@
 import os
 from PIL import Image, ImageOps
-from io import StringIO, BytesIO
+from io import BytesIO
 
 from django.db import models
-from django.db.models.signals import post_save, pre_save
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.files.base import ContentFile
@@ -48,7 +47,7 @@ class Profile(models.Model):
 
 class ProfileAvatar(models.Model):
     profile = models.OneToOneField(
-        Profile, on_delete=models.CASCADE, primary_key=True)
+        Profile, on_delete=models.CASCADE)
     avatar = models.ImageField(
         upload_to=user_directory_path, default='generic/default.jpg')
     upload_date = models.DateTimeField(auto_now_add=True)
@@ -63,3 +62,32 @@ class ProfileAvatar(models.Model):
 
     def __str__(self):
         return str(self.avatar)
+
+    def save(self, *args, **kwargs):
+        ext = self.avatar.name.split('.')[-1]
+        image = Image.open(self.avatar)
+        image_resize = ImageOps.fit(image, (300, 300), Image.LANCZOS)
+
+        image_resize_io = BytesIO()
+        if ext in ['jpg', 'jpeg']:
+            image_resize.save(image_resize_io, format='JPEG')
+        elif ext in ['png']:
+            image_resize.save(image_resize_io, format='PNG')
+
+        temp_name = self.avatar.name
+        self.avatar.save(temp_name, content=ContentFile(
+            image_resize_io.getvalue()), save=False)
+        super(ProfileAvatar, self).save(*args, **kwargs)
+
+
+class ProfileSocial(models.Model):
+    profile = models.OneToOneField(
+        Profile, on_delete=models.CASCADE)
+    facebook = models.URLField(_('facebook'), max_length=255, blank=True)
+    twitter = models.URLField(_('twitter'), max_length=255, blank=True)
+    google = models.URLField(_('google'), max_length=255, blank=True)
+
+    class Meta:
+        db_table = 'profile_social_links'
+        verbose_name = _('social_link')
+        verbose_name_plural = _('social_links')

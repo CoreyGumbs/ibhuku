@@ -13,52 +13,33 @@ from django.core.files.base import ContentFile
 
 
 from users.models import User
-from profiles.models import Profile, ProfileAvatar
+from profiles.models import Profile, ProfileAvatar, ProfileSocial
 
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL, dispatch_uid="profile_create")
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL, dispatch_uid="profile_save")
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
-@receiver(post_save, sender=Profile)
+@receiver(post_save, sender=Profile, dispatch_uid="profile_social_create")
+def create_profile_social(sender, instance, created, **kwargs):
+    if created:
+        ProfileSocial.objects.create(profile=instance)
+
+
+@receiver(post_save, sender=Profile, dispatch_uid="profile_social_save")
+def save_profile_social(sender, instance, **kwargs):
+    if kwargs['created']:
+        instance.profilesocial.save()
+
+
+@receiver(post_save, sender=Profile, dispatch_uid="profile_avatar_create")
 def create_profile_avatar(sender, instance, created, **kwargs):
     if created:
         ProfileAvatar.objects.create(profile=instance)
-        #print('profile avatar created')
-
-
-@receiver(post_save, sender=Profile, dispatch_uid="my_unique_identifier")
-def save_profile_avatar(sender, instance, **kwargs):
-    '''
-    Saves newly created Profile Avatar when Profile is created.
-    '''
-    if kwargs['created'] is True:
-        instance.profileavatar.save()
-
-
-@receiver(pre_save, sender=ProfileAvatar, dispatch_uid='profile_avatar_resize')
-def profile_image_resize(sender, instance, **kwargs):
-    '''
-    Resizes profile image/avatar and saves it.
-    '''
-    ext = instance.avatar.name.split('.')[-1]
-    image = Image.open(instance.avatar)
-    image_resize = ImageOps.fit(image, (300, 300), Image.LANCZOS)
-
-    image_resize_io = BytesIO()
-    if ext in ['jpg', 'jpeg']:
-        image_resize.save(image_resize_io, format='JPEG')
-    elif ext in ['png']:
-        image_resize.save(image_resize_io, format='PNG')
-
-    temp_name = instance.avatar.name
-
-    instance.avatar.save(temp_name, content=ContentFile(
-        image_resize_io.getvalue()), save=False)

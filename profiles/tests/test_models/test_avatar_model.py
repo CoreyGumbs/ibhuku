@@ -39,7 +39,7 @@ class TestProfileAvatarModel:
         """
         Test created avatar data.
         """
-        assert self.avatar.profile.id == 2, 'Returns created avatar intance id #.'
+        assert self.avatar.profile.id == 2, 'Returns created avatar instance id #.'
         assert self.avatar.avatar == 'media/generic/default.jpg', 'Returns avatar default file path.'
 
     def test_avatar_unicode_method(self):

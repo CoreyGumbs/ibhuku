@@ -21,10 +21,10 @@ from profiles.views import profile_dashboard, user_update
 class TestAvatarUploadPageImageUpload:
     '''
     Test of profile avatar upload.
-    Some of the test will fail due to signal saving the file multiple times during tests.
-    There is an issue with dispatch_uid allowing signals to duplicate during tests.  
+    Create generic/ directory in tmp directory and add test image. 
+    Test will fail with out a tmp/django_test/generic/test_image.jpg directory.
     '''
-
+    @override_settings(MEDIA_ROOT='/tmp/django_test/')
     def setup(self):
         """
         Sets up test fixtures using Factory Boy instances. See factories.py module for more information.
@@ -33,8 +33,6 @@ class TestAvatarUploadPageImageUpload:
         self.profile = Profile.objects.get(user_id=self.user.id)
         self.avatar = ProfileAvatar.objects.select_related(
             'profile').get(profile_id=self.profile.id)
-        self.image = SimpleUploadedFile(name='test.jpg', content=open(
-            'profiles/tests/test_images/test.jpg', 'rb').read())
 
     @override_settings(MEDIA_ROOT='/tmp/django_test/')
     def test_avatar_upload_view(self, client):
@@ -80,4 +78,5 @@ class TestAvatarUploadPageImageUpload:
 
         avatar = ProfileAvatar.objects.select_related(
             'profile').get(profile_id=self.user.id)
+        assert '/tmp/django_test/user_3_profile/avatar/' in avatar.avatar.path, 'Should return path of uploaded file.'
         assert avatar.avatar.name == 'user_3_profile/avatar/profile_Testy2McT.jpg', 'Should returnnew filename and path.'
