@@ -22,7 +22,7 @@ class UserRegistrationForm(ModelForm):
     acct_type = forms.ChoiceField(label='I Am:', required=True, widget=forms.Select(
         attrs={'value': 'IND'}), choices=ACCOUNT_TYPE)
     toc = forms.BooleanField(
-        label='I agree to the < a href="#" > terms and conditions < /a > of Ibuku.com', required=True)
+        label='I agree to the <a href="#">terms and conditions</a> of Ibuku.com', required=True)
 
     class Meta:
         model = User

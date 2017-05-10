@@ -91,3 +91,9 @@ class ProfileSocial(models.Model):
         db_table = 'profile_social_links'
         verbose_name = _('social_link')
         verbose_name_plural = _('social_links')
+
+    def __unicode__(self):
+        return self.profile.user.username
+
+    def __str__(self):
+        return self.profile.user.username

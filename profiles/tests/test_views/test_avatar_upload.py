@@ -79,4 +79,4 @@ class TestAvatarUploadPageImageUpload:
         avatar = ProfileAvatar.objects.select_related(
             'profile').get(profile_id=self.user.id)
         assert '/tmp/django_test/user_3_profile/avatar/' in avatar.avatar.path, 'Should return path of uploaded file.'
-        assert avatar.avatar.name == 'user_3_profile/avatar/profile_Testy2McT.jpg', 'Should returnnew filename and path.'
+        assert avatar.avatar.name == 'user_3_profile/avatar/profile_Testy2McT.jpg', 'Should return new filename and path.'
