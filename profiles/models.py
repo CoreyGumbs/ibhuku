@@ -83,15 +83,13 @@ class ProfileAvatar(models.Model):
 class ProfileSocial(models.Model):
     profile = models.OneToOneField(
         Profile, on_delete=models.CASCADE)
-    facebook = models.URLField(_('facebook'), max_length=255, blank=True)
-    twitter = models.URLField(_('twitter'), max_length=255, blank=True)
-    google = models.URLField(_('google'), max_length=255, blank=True)
-    linkedin = models.URLField(_('linkedin'), max_length=255, blank=True)
-    quora = models.URLField(_('quora'), max_length=255, blank=True)
-    academia = models.URLField(_('academia'), max_length=255, blank=True)
-    pintrest = models.URLField(_('pintrest'), max_length=255, blank=True)
-    website = models.URLField(_('website'), max_length=255, blank=True)
-    instagram = models.URLField(_('instagram'), max_length=255, blank=True)
+    facebook = models.URLField(_('facebook'), max_length=2000, blank=True)
+    twitter = models.URLField(_('twitter'), max_length=2000, blank=True)
+    google = models.URLField(_('google'), max_length=2000, blank=True)
+    linkedin = models.URLField(_('linkedin'), max_length=2000, blank=True)
+    instagram = models.URLField(_('instagram'), max_length=2000, blank=True)
+    pintrest = models.URLField(_('pintrest'), max_length=2000, blank=True)
+    website = models.URLField(_('website'), max_length=2000, blank=True)
 
     class Meta:
         db_table = 'profile_social_links'

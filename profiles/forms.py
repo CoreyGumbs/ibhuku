@@ -14,7 +14,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Submit, Button, Reset, Div, HTML
 from crispy_forms.bootstrap import FormActions, PrependedText
 
-from profiles.models import Profile, ProfileAvatar
+from profiles.models import Profile, ProfileAvatar, ProfileSocial
 from profiles.profilelib.strip_url import strip_punctuation
 from users.models import User
 
@@ -157,3 +157,11 @@ class AvatarUploadForm(ModelForm):
                 css_class='col-md-12', style='padding:0',
                 ),
         )
+
+
+class ProfileSocialMediaForm(ModelForm):
+
+    class Meta:
+        model = ProfileSocial
+        fields = ['facebook', 'twitter', 'instagram',
+                  'google', 'linkedin', 'pintrest', 'website']

@@ -51,4 +51,4 @@ class TestSocialProfilesModel:
     def test_model_saves_new_data(self):
         self.social.facebook = 'http://www.facebook.com'
         self.social.save()
-        assert self.social.facebook == 'facebook.com'
+        assert self.social.facebook == 'http://www.facebook.com'
