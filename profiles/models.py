@@ -16,7 +16,7 @@ def user_directory_path(instance, filename):
     ext = filename.split('.')[-1]
     new_name = '{0}_{1}.{2}'.format(
         'profile', instance.profile.user.username, ext)
-    return 'user_{0}_profile/avatar/{1}'.format(instance.profile.user.id, new_name)
+    return 'users/user_{0}_profile/avatar/{1}'.format(instance.profile.user.id, new_name)
 
 
 class Profile(models.Model):

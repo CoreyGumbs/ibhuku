@@ -163,5 +163,4 @@ class ProfileSocialMediaForm(ModelForm):
 
     class Meta:
         model = ProfileSocial
-        fields = ['facebook', 'twitter', 'instagram',
-                  'google', 'linkedin', 'pintrest', 'website']
+        fields = ['facebook']
