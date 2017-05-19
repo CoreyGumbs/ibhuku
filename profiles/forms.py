@@ -165,3 +165,19 @@ class ProfileSocialMediaForm(ModelForm):
         model = ProfileSocial
         fields = ['facebook', 'twitter', 'google', 'instagram',
                   'linkedin', 'pintrest', 'website']
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileSocialMediaForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'forms-inline'
+        self.helper.form_id = 'profileSocialMedia'
+        self.helper.form_method = 'post'
+        self.helper.error_text_inline = True
+        self.helper.layout = Layout(
+            Div(Div(Field('facebook', placeholder='Facebook',
+                          active=True, css_class='col-md-6')),
+                Div(FormActions(Submit('submit', 'Submit',
+                                       css_class='btn btn-success', css_id='updateSubmit')), style='padding:0;', css_class='col-md-12'),
+                css_class='col-md-12', style='padding:0',
+                ),
+        )

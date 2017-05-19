@@ -1,0 +1,21 @@
+{% extends "profiles/__base.html" %}
+{%load staticfiles%}
+{% load crispy_forms_tags %}
+
+{%block user_title%}Ibhuku | Social Media{%endblock user_title%}
+
+{%block dashboard_nav%}
+{%endblock dashboard_nav%}
+{%block user_content%}	
+	<div class="col-md-4">
+		{%include 'forms/avatar_upload_form.html'%}
+		{%include 'profiles/profile_nav.html'%}
+	</div>
+	<div class="col-md-8">
+		<h3>{{profile.user.get_full_name}}</h3>
+		{% crispy form form.helper %}
+	</div>
+{%endblock user_content%}
+{%block javascript%}
+<script type="text/javascript" src="{% static 'js/profiles/profiles.js' %}"></script>
+{%endblock javascript%}

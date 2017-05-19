@@ -31,6 +31,7 @@ class TestSocialLinksForm:
             'facebook': 'http://www.facebook.com',
             'twitter': 'http://www.twitter.com',
             'google': 'http://www.google.com',
+            'linkedin': 'http://www.linkedin.com',
             'instagram': 'http://www.instagram.com',
             'pintrest': 'http://www.pintrest.com',
             'website': 'http://www.coreygumbs.com',
@@ -73,3 +74,20 @@ class TestSocialLinksForm:
             'facebook') == True, 'Should return True if there is an error'
         assert form.errors == {'facebook': [
             'Enter a valid URL.']}, 'Should return field error message'
+
+    def test_social_media_form_clean_method(self, client):
+        """
+        Test clean method.
+        """
+        form = ProfileSocialMediaForm(
+            data=self.data)
+        form.is_valid()
+        assert form.clean() == {
+            'facebook': 'http://www.facebook.com',
+            'twitter': 'http://www.twitter.com',
+            'google': 'http://www.google.com',
+            'linkedin': 'http://www.linkedin.com',
+            'instagram': 'http://www.instagram.com',
+            'pintrest': 'http://www.pintrest.com',
+            'website': 'http://www.coreygumbs.com',
+        }, 'Returns cleaned data dict.'
