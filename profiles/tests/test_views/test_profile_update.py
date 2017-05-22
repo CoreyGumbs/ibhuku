@@ -37,9 +37,9 @@ class TestProfileUpdateView:
         response = client.get(
             reverse('profiles:edit', kwargs={'pk': self.user.id, 'username': self.user.username}))
 
-        assert response.status_code == 200
-        assert response.resolver_match.url_name == 'edit'
-        assert response.resolver_match.view_name == 'profiles:edit'
+        assert response.status_code == 200, 'Returns 200 if page found.'
+        assert response.resolver_match.url_name == 'edit', 'Returns url name of view.'
+        assert response.resolver_match.view_name == 'profiles:edit', 'Returns view url namespace of view.'
 
     def test_profile_update_kwargs(self, client):
         """

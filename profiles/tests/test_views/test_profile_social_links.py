@@ -6,11 +6,13 @@ import factory
 import factory.django
 
 from django.test import override_settings
+from django.core.urlresolvers import reverse, resolve
 
 from users.models import User
 from profiles.models import Profile, ProfileAvatar, ProfileSocial
 from profiles.forms import ProfileSocialMediaForm
 from profiles.tests.factories import UserFactory
+from profiles.views import social_media_links
 
 
 @pytest.mark.django_db
@@ -41,4 +43,9 @@ class TestProfileSocialLinksView:
         """
         Test if social_media_links view exists.
         """
-        pass
+        response = client.get(reverse('profiles:socials', kwargs={
+                              'pk': self.user.id, 'username': self.user.username}))
+
+        assert response.status_code == 200, 'Returns 200 if there is an http response from view/url'
+        assert response.resolver_match.url_name == 'socials'
+        assert response.resolver_match.view_name == 'profiles:socials'
