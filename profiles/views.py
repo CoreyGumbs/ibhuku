@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib import messages
 
 from profiles.models import Profile, ProfileAvatar, ProfileSocial
-from profiles.forms import ProfileUpdateForm, UserUpdateForm, AvatarUploadForm
+from profiles.forms import ProfileUpdateForm, UserUpdateForm, AvatarUploadForm, ProfileSocialMediaForm
 from users.models import User
 
 # Create your views here.
@@ -59,8 +59,12 @@ def profile_update(request, pk=None, username=None):
 def user_update(request, pk=None, username=None):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.select_related('user').get(pk=pk)
+    avatar = ProfileAvatar.objects.select_related(
+        'profile').get(profile_id=profile.id)
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=profile.user)
+        av_form = AvatarUploadForm(
+            request.POST, request.FILES, instance=profile)
         if form.is_valid():
             profile = form.save(commit=False)
             profile.save()
@@ -71,8 +75,11 @@ def user_update(request, pk=None, username=None):
                 request, 'There was an error with your submission.')
     else:
         form = UserUpdateForm(instance=profile.user)
+        av_form = AvatarUploadForm(instance=profile)
     context = {
+        'avatar': avatar,
         'form': form,
+        'av_form': av_form,
         'profile': profile,
     }
     return render(request, 'profiles/user_update.html', context)
@@ -103,11 +110,30 @@ def avatar_upload(request, pk, username):
 def social_media_links(request, pk, username):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.select_related('user').get(pk=pk)
+    avatar = ProfileAvatar.objects.select_related(
+        'profile').get(profile_id=profile.id)
     social_links = ProfileSocial.objects.select_related(
         'profile').get(profile_id=profile.id)
+    if request.method == 'POST':
+        form = ProfileSocialMediaForm(request.POST, instance=social_links)
+        av_form = AvatarUploadForm(
+            request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            messages.success(request, 'Update Successful')
+            return HttpResponseRedirect(reverse('profiles:socials', kwargs={'pk': pk, 'username': username}))
+        else:
+            messages.warning(
+                request, 'There was an error with your submission.')
+    else:
+        form = ProfileSocialMediaForm(instance=social_links)
+        av_form = AvatarUploadForm(instance=profile)
+
     context = {
         'user': user,
         'profile': profile,
+        'avatar': avatar,
+        'av_form': av_form,
+        'form': form,
         'social': social_links,
     }
     return render(request, 'profiles/profile_social_media_links.html', context)

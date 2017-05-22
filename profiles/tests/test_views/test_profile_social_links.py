@@ -71,3 +71,6 @@ class TestProfileSocialLinksView:
                               'pk': self.user.id, 'username': self.user.username}))
         assert response.templates[
             0].name == 'profiles/profile_social_media_links.html', 'Returns view rendered template name.'
+        assert 'Ibhuku | Social Media' in response.content.decode('utf8')
+        assert response.context[
+            'user'].username == self.user.username, 'Returns the user name of passed context variable.'

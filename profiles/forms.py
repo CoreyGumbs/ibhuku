@@ -117,7 +117,7 @@ class UserUpdateForm(ModelForm):
                 Div(Field('username', placeholder='Username',
                           active=True, css_class='col-md-12')),
                 Div(FormActions(Submit('submit', 'Submit',
-                                       css_class='btn btn-success', css_id='updateSubmit')), style='padding:0;', css_class='col-md-12'),
+                                       css_class='btn btn-success', css_id='updateSubmit')), style='padding:0;', css_class='col-md-2'),
                 css_class='col-md-12', style='padding:0',
             ),
         )
@@ -172,12 +172,54 @@ class ProfileSocialMediaForm(ModelForm):
         self.helper.form_class = 'forms-inline'
         self.helper.form_id = 'profileSocialMedia'
         self.helper.form_method = 'post'
+        self.helper.form_show_labels = False
         self.helper.error_text_inline = True
         self.helper.layout = Layout(
-            Div(Div(Field('facebook', placeholder='Facebook',
-                          active=True, css_class='col-md-6')),
-                Div(FormActions(Submit('submit', 'Submit',
-                                       css_class='btn btn-success', css_id='updateSubmit')), style='padding:0;', css_class='col-md-12'),
-                css_class='col-md-12', style='padding:0',
+            Div(
+                Div(
+                    Div(HTML(
+                        '<i class="fa fa-facebook-square fa-3x" aria-hidden="true"></i>'), css_class='col-md-2'),
+                    Div(Field('facebook', placeholder='Facebook',
+                              active=True), css_class='col-md-10', style='margin-top: 4px'),
                 ),
+                Div(
+                    Div(HTML(
+                        '<i class="fa fa-twitter-square fa-3x" aria-hidden="true"></i>'), css_class='col-md-2'),
+                    Div(Field('twitter', placeholder='Twitter',
+                              active=True), css_class='col-md-10', style='margin-top: 4px'),
+                ),
+                Div(
+                    Div(HTML(
+                        '<i class="fa fa-google-plus-square fa-3x" aria-hidden="true"></i>'), css_class='col-md-2'),
+                    Div(Field('google', placeholder='Google +',
+                              active=True), css_class='col-md-10', style='margin-top: 4px'),
+                ),
+                Div(
+                    Div(HTML(
+                        '<i class="fa fa-linkedin-square fa-3x" aria-hidden="true"></i>'), css_class='col-md-2'),
+                    Div(Field('linkedin', placeholder='LinkedIn',
+                              active=True), css_class='col-md-10', style='margin-top: 4px'),
+                ),
+                Div(
+                    Div(HTML(
+                        '<i class="fa fa-pinterest-square fa-3x" aria-hidden="true"></i>'), css_class='col-md-2'),
+                    Div(Field('pintrest', placeholder='Pintrest',
+                              active=True), css_class='col-md-10', style='margin-top: 4px'),
+                ),
+                Div(
+                    Div(HTML(
+                        '<i class="fa fa-instagram fa-3x" aria-hidden="true"></i>'), css_class='col-md-2'),
+                    Div(Field('instagram', placeholder='Instagram',
+                              active=True), css_class='col-md-10', style='margin-top: 4px'),
+                ),
+                Div(
+                    Div(HTML(
+                        '<i class="fa fa-home fa-3x" aria-hidden="true"></i>'), css_class='col-md-2'),
+                    Div(Field('website', placeholder='Personal Website',
+                              active=True), css_class='col-md-10', style='margin-top: 4px'),
+                ),
+                Div(FormActions(Submit('submit', 'Submit',
+                                       css_class='btn btn-success', css_id='updateSubmit')), style='padding:0; float: right;', css_class='col-md-3'),
+                css_class='col-md-12', style='padding:0;',
+            ),
         )
