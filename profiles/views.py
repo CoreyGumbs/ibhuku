@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib import messages
 
-from profiles.models import Profile, ProfileAvatar
+from profiles.models import Profile, ProfileAvatar, ProfileSocial
 from profiles.forms import ProfileUpdateForm, UserUpdateForm, AvatarUploadForm
 from users.models import User
 
@@ -98,3 +98,10 @@ def avatar_upload(request, pk, username):
         messages.warning(request, 'There was an error with your submission.')
 
     return HttpResponseRedirect(reverse('profiles:edit', kwargs={'pk': pk, 'username': username}))
+
+
+def social_media_links(request, pk, username):
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.select_related('user').get(pk=pk)
+    social_links = ProfileSocial.objects.select_related(
+        'profile').get(profile_id=profile.id)
