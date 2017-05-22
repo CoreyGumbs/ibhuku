@@ -47,5 +47,27 @@ class TestProfileSocialLinksView:
                               'pk': self.user.id, 'username': self.user.username}))
 
         assert response.status_code == 200, 'Returns 200 if there is an http response from view/url'
-        assert response.resolver_match.url_name == 'socials'
-        assert response.resolver_match.view_name == 'profiles:socials'
+        assert response.resolver_match.func.__name__ == 'social_media_links', 'Returns view function name.'
+        assert response.resolver_match.url_name == 'socials', 'Return the named UrlPattern'
+        assert response.resolver_match.view_name == 'profiles:socials', 'Returns the url namespace for view'
+
+    def test_social_media_link_url(self, client):
+        """
+        Test the view url and parameters.
+        """
+        response = client.get(
+            reverse('profiles:socials', kwargs={'pk': self.user.id, 'username': self.user.username}))
+
+        assert response.resolver_match.kwargs == {
+            'pk': str(self.user.id), 'username': self.user.username}, 'Returns the passed view kwargs from url.'
+        assert response.request[
+            'PATH_INFO'] == '/profile/settings/user/social-media/2/Testy1McT', 'Returns the URL path of the request.'
+
+    def test_social_media_link_renders(self, client):
+        """
+        Test social_media_links view renders template and template context.
+        """
+        response = client.get(reverse('profiles:socials', kwargs={
+                              'pk': self.user.id, 'username': self.user.username}))
+        assert response.templates[
+            0].name == 'profiles/profile_social_media_links.html', 'Returns view rendered template name.'

@@ -105,4 +105,9 @@ def social_media_links(request, pk, username):
     profile = Profile.objects.select_related('user').get(pk=pk)
     social_links = ProfileSocial.objects.select_related(
         'profile').get(profile_id=profile.id)
-    return HttpResponse('this is the social media page.')
+    context = {
+        'user': user,
+        'profile': profile,
+        'social': social_links,
+    }
+    return render(request, 'profiles/profile_social_media_links.html', context)
