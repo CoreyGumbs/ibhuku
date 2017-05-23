@@ -119,6 +119,8 @@ def social_media_links(request, pk, username):
         av_form = AvatarUploadForm(
             request.POST, request.FILES, instance=profile)
         if form.is_valid():
+            social = form.save(commit=False)
+            social.save()
             messages.success(request, 'Update Successful')
             return HttpResponseRedirect(reverse('profiles:socials', kwargs={'pk': pk, 'username': username}))
         else:

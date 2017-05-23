@@ -74,3 +74,22 @@ class TestProfileSocialLinksView:
         assert 'Ibhuku | Social Media' in response.content.decode('utf8')
         assert response.context[
             'user'].username == self.user.username, 'Returns the user name of passed context variable.'
+
+    def test_social_media_links_POST_and_saves(self, client):
+        """
+        Test social_media_links view saves new data.
+        """
+        data_post = client.post(reverse('profiles:socials', kwargs={
+            'pk': self.user.id, 'username': self.user.username}), {'facebook': self.data.get('facebook'), 'website': self.data.get('website')})
+
+        social = ProfileSocial.objects.select_related(
+            'profile').get(profile_id=self.profile.id)
+
+        assert social.facebook == self.data.get('facebook')
+        assert social.website == self.data.get('website')
+
+        response = client.get(reverse('profiles:socials', kwargs={
+                              'pk': self.user.id, 'username': self.user.username}))
+
+        assert response.context['social'].facebook == self.data.get('facebook')
+        assert response.context['social'].website == self.data.get('website')
